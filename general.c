@@ -7,6 +7,7 @@
 //         \/      \/     \/      \/                \/      \/     \/
 //----------------------------------------------------------------------------------------
 // -- Includes -- {{{
+// --- Libs --- //
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -15,6 +16,9 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+// --- Files --- //
+#include "parsing.h"
 // }}}
 // -- Defines -- {{{
 #define EXIT_STATUS 0
@@ -177,39 +181,6 @@ void exec_piped(char** args, char** piped) { // piped sys cmd is exec
 }
 // }}}
 // -- Parsing -- {{{
-void parse_args(char* in, char** args) {
-    for (int i = 0; i < MAXLIST; i++) {
-        args[i] = strsep(&in, " ");
-        if(args[i] == NULL)
-            break;
-        if(strlen(args[i]) == 0)
-            i--;
-    }
-}
-
-int parse_pipes(char* in, char** piped) {
-    for (int i = 0; i < 2; i++) {
-        piped[i] = strsep(&in ,"|");
-        if (piped[i] == NULL)
-            break;
-    }
-
-    if (piped[1] == NULL)
-        return 0;
-    else
-        return 1;
-}
-
-int parse_semi(char* in, char** cmds) {
-    int i;
-    for (i = 0; i < MAXLIST; i++) {      
-        cmds[i] = strsep(&in ,";");         
-        if (cmds[i] == NULL)                
-            break;                          
-    }
-    return i;
-}
-
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     char* piped[2];
     int pipeCheck = 0, multiCmd = 0;
