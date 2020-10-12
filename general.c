@@ -61,7 +61,7 @@ int prompt (char* in) {
         return 1;
 }
 // }}}
-// -- Parsing -- {{{
+// -- Exec Flag -- {{{
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     char* piped[2];
     int pipeCheck = 0, multiCmd = 0;

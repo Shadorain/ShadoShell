@@ -1,0 +1,49 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
+BDIR	Makefile	/^BDIR=\/usr\/local$/;"	m
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-lreadline #-I. -g$/;"	m
+EXIT_STATUS	gen2.c	/^#define EXIT_STATUS /;"	d	file:
+EXIT_STATUS	general.c	/^#define EXIT_STATUS /;"	d	file:
+MAXCHAR	gen2.c	/^#define MAXCHAR /;"	d	file:
+MAXCHAR	general.c	/^#define MAXCHAR /;"	d	file:
+MAXLIST	exec.c	/^#define MAXLIST /;"	d	file:
+MAXLIST	gen2.c	/^#define MAXLIST /;"	d	file:
+MAXLIST	general.c	/^#define MAXLIST /;"	d	file:
+MAXLIST	parsing.c	/^#define MAXLIST /;"	d	file:
+OBJ	Makefile	/^OBJ=general.o parsing.o exec.o builtins.o$/;"	m
+ShadoShell	README.md	/^# ShadoShell$/;"	c
+builtin_handler	builtins.c	/^int builtin_handler(char** args) {$/;"	f	typeref:typename:int
+builtin_handler	gen2.c	/^int builtin_handler(char** args) {$/;"	f	typeref:typename:int
+clean	Makefile	/^clean:$/;"	t
+clear	gen2.c	/^#define clear(/;"	d	file:
+clear	general.c	/^#define clear(/;"	d	file:
+delobj	Makefile	/^delobj:$/;"	t
+exec_args	exec.c	/^void exec_args(char** args) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
+exec_args	gen2.c	/^void exec_args(char** args) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
+exec_piped	exec.c	/^void exec_piped(char** args, char** piped) { \/\/ piped sys cmd is exec$/;"	f	typeref:typename:void
+exec_piped	gen2.c	/^void exec_piped(char** args, char** piped) { \/\/ piped sys cmd is exec$/;"	f	typeref:typename:void
+exec_semi	exec.c	/^void exec_semi(char** args, char** cmds) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
+get_exec_flag	gen2.c	/^int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {$/;"	f	typeref:typename:int
+get_exec_flag	general.c	/^int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {$/;"	f	typeref:typename:int
+init_sh	gen2.c	/^void init_sh () {$/;"	f	typeref:typename:void
+init_sh	general.c	/^void init_sh () {$/;"	f	typeref:typename:void
+install	Makefile	/^install:$/;"	t
+main	gen2.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
+main	general.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
+parse_args	gen2.c	/^void parse_args(char* in, char** args) {$/;"	f	typeref:typename:void
+parse_args	parsing.c	/^void parse_args(char* in, char** args) {$/;"	f	typeref:typename:void
+parse_pipes	gen2.c	/^int parse_pipes(char* in, char** piped) {$/;"	f	typeref:typename:int
+parse_pipes	parsing.c	/^int parse_pipes(char* in, char** piped) {$/;"	f	typeref:typename:int
+parse_semi	parsing.c	/^int parse_semi(char* in, char** cmds) {$/;"	f	typeref:typename:int
+prompt	gen2.c	/^int prompt (char* in) {$/;"	f	typeref:typename:int
+prompt	general.c	/^int prompt (char* in) {$/;"	f	typeref:typename:int
+shadosh	Makefile	/^shadosh: $(OBJ)$/;"	t
+uninstall	Makefile	/^uninstall:$/;"	t
+usage	gen2.c	/^void usage () {$/;"	f	typeref:typename:void
