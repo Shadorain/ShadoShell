@@ -101,22 +101,6 @@ int builtin_handler(char** args) {
 }
 // }}}
 // -- Exec -- {{{
-void exec_semi(char** args, char** cmds) { // Exec sys cmd
-    /* pid_t pid = fork(); // Fork child */
-
-    /* if (p1 == -1) { */
-    /*     printf("Failed forking child...\n"); */
-    /*     return; */
-    /* } else if (p1 == 0) { */
-    /*     if (execvp(args[0], args) < 0) */
-    /*         printf("Couldn't execute command...\n"); */
-    /*     exit(0); */
-    /* } else { */
-    /*     wait(NULL); // waits for child to terminate */
-    /*     return; */
-    /* } */
-}
-
 void exec_args(char** args) { // Exec sys cmd
     pid_t pid = fork(); // Fork child
 
@@ -200,29 +184,12 @@ int parse_pipes(char* in, char** piped) {
         return 1;
 }
 
-int parse_semi(char* in, char** cmds) {
-    int i;
-    for (i = 0; i < MAXLIST; i++) {      
-        cmds[i] = strsep(&in ,";");         
-        if (cmds[i] == NULL)                
-            break;                          
-    }
-    return i;
-}
-
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     char* piped[2];
     int pipeCheck = 0, multiCmd = 0;
 
     pipeCheck = parse_pipes(in, piped);
-    multiCmd = parse_semi(in, cmds);
 
-    if (multiCmd > 0)
-        for (int i = 0; i < multiCmd; i++) {
-            parse_args(cmds[i], cmds);
-            printf("CMD #%d: %s\n", i, cmds[i]);
-        }
-    
     if (pipeCheck) {
         parse_args(piped[0], args);
         parse_args(piped[1], pipe);
