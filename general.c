@@ -69,17 +69,17 @@ int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     multiCmd = parse_semi(in, cmds);
     pipeCheck = parse_pipes(in, piped);
 
-    printf("CMD #1: %s\n", cmds[0]);
-    printf("CMD #2: %s\n", cmds[1]);
-    printf("CMD #3: %s\n", cmds[2]);
-    printf("MULTICMD: %d\n",multiCmd);
+    /* printf("CMD #1: %s\n", cmds[0]); */
+    /* printf("CMD #2: %s\n", cmds[1]); */
+    /* printf("CMD #3: %s\n", cmds[2]); */
     if (multiCmd > 0)
-        for (int i = 0; i < multiCmd; i++) {
-            parse_args(cmds[i], cmds);
+        for (int i = 0; i < MAXLIST; i++) {
+            printf("MULTICMD: %d, i:%d\n",multiCmd,i);
             printf("CMD #%d: %s\n", i, cmds[i]);
+            parse_args(cmds[i], cmds);
+            if(cmds[i] == NULL)
+                break;
         }
-
-    printf("MULTICMD 2: %d\n",multiCmd);
 
     if (pipeCheck) {
         parse_args(piped[0], args);
