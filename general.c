@@ -102,19 +102,19 @@ int builtin_handler(char** args) {
 // }}}
 // -- Exec -- {{{
 void exec_semi(char** args, char** cmds) { // Exec sys cmd
-    pid_t pid = fork(); // Fork child
+    /* pid_t pid = fork(); // Fork child */
 
-    if (pid == -1) {
-        printf("Failed forking child...\n");
-        return;
-    } else if (pid == 0) {
-        if (execvp(args[0], args) < 0)
-            printf("Couldn't execute command...\n");
-        exit(0);
-    } else {
-        wait(NULL); // waits for child to terminate
-        return;
-    }
+    /* if (p1 == -1) { */
+    /*     printf("Failed forking child...\n"); */
+    /*     return; */
+    /* } else if (p1 == 0) { */
+    /*     if (execvp(args[0], args) < 0) */
+    /*         printf("Couldn't execute command...\n"); */
+    /*     exit(0); */
+    /* } else { */
+    /*     wait(NULL); // waits for child to terminate */
+    /*     return; */
+    /* } */
 }
 
 void exec_args(char** args) { // Exec sys cmd
@@ -201,16 +201,13 @@ int parse_pipes(char* in, char** piped) {
 }
 
 int parse_semi(char* in, char** cmds) {
-    for (int i = 0; i < 2; i++) {
-        cmds[i] = strsep(&in ,";");
-        if (cmds[i] == NULL)
-            break;
+    int i;
+    for (i = 0; i < MAXLIST; i++) {      
+        cmds[i] = strsep(&in ,";");         
+        if (cmds[i] == NULL)                
+            break;                          
     }
-
-    if (cmds[1] == NULL)
-        return 0;
-    else
-        return 1;
+    return i;
 }
 
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
@@ -220,19 +217,22 @@ int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     pipeCheck = parse_pipes(in, piped);
     multiCmd = parse_semi(in, cmds);
 
+    if (multiCmd > 0)
+        for (int i = 0; i < multiCmd; i++) {
+            parse_args(cmds[i], cmds);
+            printf("CMD #%d: %s\n", i, cmds[i]);
+        }
+    
     if (pipeCheck) {
         parse_args(piped[0], args);
         parse_args(piped[1], pipe);
-    } else if (multiCmd) {
-        parse_semi(cmds[0], cmds);
-        parse_semi(cmds[1], cmds);
     } else
         parse_args(in, args);
 
     if (builtin_handler(args))
         return 0;
     else
-        return 1 + pipeCheck + multiCmd;
+        return 1 + pipeCheck;
 }
 //}}}
 // -- Main -- {{{
@@ -250,8 +250,8 @@ int main () { // int argc, char* argv[]) {
             exec_args(args);
         if (flag == 2)
             exec_piped(args, piped);
-        if (flag == 3)
-            exec_semi(args, cmds);
+        /* if (flag == 3) */
+        /*     exec_semi(args, cmds); */
     }
     return EXIT_STATUS;
 }
