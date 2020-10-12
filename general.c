@@ -24,8 +24,8 @@
 // }}}
 // -- Defines -- {{{
 #define EXIT_STATUS 0
-#define MAXCHAR 1000 // Max chars
-#define MAXLIST 100 // Max cmds
+#define MAXCHAR 1024 // Max chars
+#define MAXLIST 1024 // Max cmds
 #define clear() printf("\033[H\033[J") // Clear shell via esc codes
 // }}}
 // -- Init Shell -- {{{
@@ -66,15 +66,21 @@ int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
     char* piped[2];
     int pipeCheck = 0, multiCmd = 0;
 
-    pipeCheck = parse_pipes(in, piped);
     multiCmd = parse_semi(in, cmds);
+    pipeCheck = parse_pipes(in, piped);
 
+    printf("CMD #1: %s\n", cmds[0]);
+    printf("CMD #2: %s\n", cmds[1]);
+    printf("CMD #3: %s\n", cmds[2]);
+    printf("MULTICMD: %d\n",multiCmd);
     if (multiCmd > 0)
         for (int i = 0; i < multiCmd; i++) {
             parse_args(cmds[i], cmds);
             printf("CMD #%d: %s\n", i, cmds[i]);
         }
-    
+
+    printf("MULTICMD 2: %d\n",multiCmd);
+
     if (pipeCheck) {
         parse_args(piped[0], args);
         parse_args(piped[1], pipe);

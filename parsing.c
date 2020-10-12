@@ -2,6 +2,7 @@
 // --- Header: parsing.h
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "parsing.h"
 
@@ -24,6 +25,7 @@ int parse_semi(char* in, char** cmds) {
         if (cmds[i] == NULL)                
             break;                          
     }
+    printf("TEST i: %d\n", i);
     return i;
 }
 
