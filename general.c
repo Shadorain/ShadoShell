@@ -107,7 +107,7 @@ int main () { // int argc, char* argv[]) {
         if (flag == 2)
             exec_piped(args, piped);
         if (flag == 3)
-            exec_semi(args, cmds);
+            exec_semi(args, parsedCmds);
     }
     return EXIT_STATUS;
 }
