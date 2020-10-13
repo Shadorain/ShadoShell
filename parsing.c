@@ -25,7 +25,7 @@ int parse_semi(char* in, char** cmds) {
         if (cmds[i] == NULL)                
             break;                          
     }
-    printf("TEST i: %d\n", i);
+    /* printf("TEST i: %d\n", i); */
     return i;
 }
 

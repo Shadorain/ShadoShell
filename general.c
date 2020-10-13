@@ -28,6 +28,9 @@
 #define MAXLIST 1024 // Max cmds
 #define clear() printf("\033[H\033[J") // Clear shell via esc codes
 // }}}
+// -- Globals -- {{{
+int multiCmd = 0;
+// }}}
 // -- Init Shell -- {{{
 void init_sh () {
     clear();
@@ -64,20 +67,10 @@ int prompt (char* in) {
 // -- Exec Flag -- {{{
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {
     char* piped[2];
-    int pipeCheck = 0, multiCmd = 0;
+    int pipeCheck = 0;
 
-    multiCmd = parse_semi(in, cmds);
-    pipeCheck = parse_pipes(in, piped);
-
-    if (multiCmd > 0)
-        for (int i = 0; i < multiCmd; i++) {
-            /* printf("MULTICMD: %d, i:%d\n",multiCmd,i); */
-            /* printf("CMD #%d: %s\n", i, cmds[i]); */
-            parse_args(cmds[i], parsedCmds);
-            printf("PARSED CMDS: %s\n",parsedCmds[i]);
-            if(cmds[i] == NULL)
-                break;
-        }
+    multiCmd = parse_semi(in, cmds); // Parses by ';' -> num of multi_cmds
+    pipeCheck = parse_pipes(in, piped); // Parses by '|' -> bool
 
     if (pipeCheck) {
         parse_args(piped[0], args);
@@ -106,8 +99,19 @@ int main () { // int argc, char* argv[]) {
             exec_args(args);
         if (flag == 2)
             exec_piped(args, piped);
-        if (flag == 3)
-            exec_semi(args, parsedCmds);
+        // Checks if there is more than 1 command
+        //  - If check: will parse separate cmds
+        if (multiCmd > 1)
+            for (int i = 1; i < multiCmd; i++) {
+                /* printf("MULTICMD: %d, i:%d\n",multiCmd,i); */
+                /* printf("CMD #%d: %s\n", i, cmds[i]); */
+                /* for (int j = 0; j < multiCmd; j++) */
+                /*     printf("PARSED CMDS #%d: %s\n",j,parsedCmds[j]); */
+                parse_args(cmds[i], parsedCmds);
+                exec_args(parsedCmds);
+                if(cmds[i] == NULL)
+                    break;
+            }
     }
     return EXIT_STATUS;
 }
