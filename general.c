@@ -62,21 +62,19 @@ int prompt (char* in) {
 }
 // }}}
 // -- Exec Flag -- {{{
-int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
+int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {
     char* piped[2];
     int pipeCheck = 0, multiCmd = 0;
 
     multiCmd = parse_semi(in, cmds);
     pipeCheck = parse_pipes(in, piped);
 
-    /* printf("CMD #1: %s\n", cmds[0]); */
-    /* printf("CMD #2: %s\n", cmds[1]); */
-    /* printf("CMD #3: %s\n", cmds[2]); */
     if (multiCmd > 0)
-        for (int i = 0; i < MAXLIST; i++) {
-            printf("MULTICMD: %d, i:%d\n",multiCmd,i);
-            printf("CMD #%d: %s\n", i, cmds[i]);
-            parse_args(cmds[i], cmds);
+        for (int i = 0; i < multiCmd; i++) {
+            /* printf("MULTICMD: %d, i:%d\n",multiCmd,i); */
+            /* printf("CMD #%d: %s\n", i, cmds[i]); */
+            parse_args(cmds[i], parsedCmds);
+            printf("PARSED CMDS: %s\n",parsedCmds[i]);
             if(cmds[i] == NULL)
                 break;
         }
@@ -96,20 +94,20 @@ int get_exec_flag(char* in, char** args, char** pipe, char** cmds) {
 // -- Main -- {{{
 int main () { // int argc, char* argv[]) {
     char inStr[MAXCHAR], *args[MAXLIST];
-    char* piped[MAXLIST], *cmds[MAXLIST];
+    char* piped[MAXLIST], *cmds[MAXLIST], *parsedCmds[MAXLIST];
     int flag = 0;
 
     init_sh();
     while (1) {
         if(prompt(inStr))
             continue;
-        flag = get_exec_flag(inStr, args, piped, cmds); // 0:builtin, 1:simple, 2:pipe
+        flag = get_exec_flag(inStr, args, piped, cmds, parsedCmds); // 0:builtin, 1:simple, 2:pipe
         if (flag == 1)
             exec_args(args);
         if (flag == 2)
             exec_piped(args, piped);
-        /* if (flag == 3) */
-        /*     exec_semi(args, cmds); */
+        if (flag == 3)
+            exec_semi(args, cmds);
     }
     return EXIT_STATUS;
 }

@@ -12,19 +12,19 @@
 #define MAXLIST 100 // Max cmds
 
 void exec_semi(char** args, char** cmds) { // Exec sys cmd
-    /* pid_t pid = fork(); // Fork child */
+    pid_t p1, p2 = fork(); // Fork child
 
-    /* if (p1 == -1) { */
-    /*     printf("Failed forking child...\n"); */
-    /*     return; */
-    /* } else if (p1 == 0) { */
-    /*     if (execvp(args[0], args) < 0) */
-    /*         printf("Couldn't execute command...\n"); */
-    /*     exit(0); */
-    /* } else { */
-    /*     wait(NULL); // waits for child to terminate */
-    /*     return; */
-    /* } */
+    if (p1 == -1) {
+        printf("Failed forking child...\n");
+        return;
+    } else if (p1 == 0) {
+        if (execvp(args[0], args) < 0)
+            printf("Couldn't execute command...\n");
+        exit(0);
+    } else {
+        wait(NULL); // waits for child to terminate
+        return;
+    }
 }
 
 void exec_args(char** args) { // Exec sys cmd
