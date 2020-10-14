@@ -108,7 +108,10 @@ int main () { // int argc, char* argv[]) {
                 /* for (int j = 0; j < multiCmd; j++) */
                 /*     printf("PARSED CMDS #%d: %s\n",j,parsedCmds[j]); */
                 parse_args(cmds[i], parsedCmds);
-                exec_args(parsedCmds);
+                if (builtin_handler(parsedCmds))
+                    exec_args(parsedCmds);
+                else
+                    exec_args(parsedCmds);
                 if(cmds[i] == NULL)
                     break;
             }
