@@ -21,6 +21,7 @@
 #include "parsing.h"
 #include "exec.h"
 #include "builtins.h"
+#include "types.h"
 // }}}
 // -- Defines -- {{{
 #define EXIT_STATUS 0
