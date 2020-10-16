@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "general.h"
+#include "shadosh.h"
 
 int builtin_handler(char** args) {
     int count = 4, checkArgs = 0;

@@ -2,7 +2,7 @@
 CC=gcc
 CFLAGS=-lreadline #-I. -g
 #DEPS=config.h
-OBJ=general.o parsing.o exec.o builtins.o
+OBJ=shadosh.o parsing.o exec.o builtins.o
 BDIR=/usr/local
 
 #%.o: %.c $(DEPS)

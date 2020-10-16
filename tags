@@ -9,12 +9,12 @@
 BDIR	Makefile	/^BDIR=\/usr\/local$/;"	m
 CC	Makefile	/^CC=gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-lreadline #-I. -g$/;"	m
-EXIT_STATUS	general.c	/^#define EXIT_STATUS /;"	d	file:
-MAXCHAR	general.c	/^#define MAXCHAR /;"	d	file:
+EXIT_STATUS	shadosh.c	/^#define EXIT_STATUS /;"	d	file:
+MAXCHAR	shadosh.c	/^#define MAXCHAR /;"	d	file:
 MAXLIST	exec.c	/^#define MAXLIST /;"	d	file:
-MAXLIST	general.c	/^#define MAXLIST /;"	d	file:
 MAXLIST	parsing.c	/^#define MAXLIST /;"	d	file:
-OBJ	Makefile	/^OBJ=general.o parsing.o exec.o builtins.o$/;"	m
+MAXLIST	shadosh.c	/^#define MAXLIST /;"	d	file:
+OBJ	Makefile	/^OBJ=shadosh.o parsing.o exec.o builtins.o$/;"	m
 ShadoShell	README.md	/^# ShadoShell$/;"	c
 UTILS_H	types.h	/^#define UTILS_H$/;"	d
 __anon078763300108	types.h	/^typedef struct {$/;"	s
@@ -22,25 +22,24 @@ __anon078763300208	types.h	/^typedef struct {$/;"	s
 args	types.h	/^  char* args[]; \/\/ args; must be NULL-terminated$/;"	m	struct:__anon078763300108	typeref:typename:char * []
 builtin_handler	builtins.c	/^int builtin_handler(char** args) {$/;"	f	typeref:typename:int
 clean	Makefile	/^clean:$/;"	t
-clear	general.c	/^#define clear(/;"	d	file:
+clear	shadosh.c	/^#define clear(/;"	d	file:
 cmd	types.h	/^  char* cmd; \/\/ First arg$/;"	m	struct:__anon078763300108	typeref:typename:char *
-cmd_struct	types.h	/^} cmd_struct;$/;"	t	typeref:struct:__anon078763300108
-cmds	types.h	/^  cmd_struct* cmds[];$/;"	m	struct:__anon078763300208	typeref:typename:cmd_struct * []
+cmd_t	types.h	/^} cmd_t;$/;"	t	typeref:struct:__anon078763300108
+cmds	types.h	/^  cmd_t* cmds[];$/;"	m	struct:__anon078763300208	typeref:typename:cmd_t * []
 delobj	Makefile	/^delobj:$/;"	t
 exec_args	exec.c	/^void exec_args(char** args) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
 exec_piped	exec.c	/^void exec_piped(char** args, char** piped) { \/\/ piped sys cmd is exec$/;"	f	typeref:typename:void
 exec_semi	exec.c	/^void exec_semi(char** args, char** cmds) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
-get_exec_flag	general.c	/^int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {$/;"	f	typeref:typename:int
-init_sh	general.c	/^void init_sh () {$/;"	f	typeref:typename:void
+get_exec_flag	shadosh.c	/^int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {$/;"	f	typeref:typename:int
+init_sh	shadosh.c	/^void init_sh () {$/;"	f	typeref:typename:void
 install	Makefile	/^install:$/;"	t
-main	general.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
-multiCmd	general.c	/^int multiCmd = 0;$/;"	v	typeref:typename:int
-n_cmds	types.h	/^  int n_cmds; \/\/ num of cmds$/;"	m	struct:__anon078763300208	typeref:typename:int
+main	shadosh.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
+n_cmds	types.h	/^  int n_cmds; \/\/ cmd count$/;"	m	struct:__anon078763300208	typeref:typename:int
 parse_args	parsing.c	/^void parse_args(char* in, char** args) {$/;"	f	typeref:typename:void
 parse_pipes	parsing.c	/^int parse_pipes(char* in, char** piped) {$/;"	f	typeref:typename:int
 parse_semi	parsing.c	/^int parse_semi(char* in, char** cmds) {$/;"	f	typeref:typename:int
-pipeline_struct	types.h	/^} pipeline_struct;$/;"	t	typeref:struct:__anon078763300208
-prompt	general.c	/^int prompt (char* in) {$/;"	f	typeref:typename:int
-redirect	types.h	/^  int redirect[2];$/;"	m	struct:__anon078763300108	typeref:typename:int[2]
+pipes_t	types.h	/^} pipes_t;$/;"	t	typeref:struct:__anon078763300208
+prompt	shadosh.c	/^int prompt (char* in) {$/;"	f	typeref:typename:int
+redir	types.h	/^  int redir[2];$/;"	m	struct:__anon078763300108	typeref:typename:int[2]
 shadosh	Makefile	/^shadosh: $(OBJ)$/;"	t
 uninstall	Makefile	/^uninstall:$/;"	t

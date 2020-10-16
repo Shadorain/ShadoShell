@@ -29,9 +29,6 @@
 #define MAXLIST 1024 // Max cmds
 #define clear() printf("\033[H\033[J") // Clear shell via esc codes
 // }}}
-// -- Globals -- {{{
-int multiCmd = 0;
-// }}}
 // -- Init Shell -- {{{
 void init_sh () {
     clear();
@@ -66,6 +63,7 @@ int prompt (char* in) {
 }
 // }}}
 // -- Exec Flag -- {{{
+int multiCmd=0;
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {
     char* piped[2];
     int pipeCheck = 0;
