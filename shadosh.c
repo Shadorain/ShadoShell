@@ -63,13 +63,12 @@ int prompt (char* in) {
 }
 // }}}
 // -- Exec Flag -- {{{
-int multiCmd=0;
 int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {
     char* piped[2];
     int pipeCheck = 0;
-
-    multiCmd = parse_semi(in, cmds); // Parses by ';' -> num of multi_cmds
-    pipeCheck = parse_pipes(in, piped); // Parses by '|' -> bool
+    
+    /* multiCmd = parse_semi(in); // Parses by ';' -> num of multi_cmds */
+    pipes_t* pipes = parse_pipes(in); // Parses by '|' -> bool
 
     if (pipeCheck) {
         parse_args(piped[0], args);

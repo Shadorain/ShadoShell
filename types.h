@@ -1,6 +1,6 @@
 // -- Header :: types.c -- //
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef TYPES_H
+#define TYPES_H
 
 typedef struct {
   char* cmd; // First arg

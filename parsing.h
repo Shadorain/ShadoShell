@@ -1,5 +1,11 @@
 // -- Header: parsing.c -- //
+#ifndef PARSING_H
+#define PARSING_H
 
-void parse_args(char* in, char** args);
-int parse_pipes(char* in, char** piped);
-int parse_semi(char* in, char** cmds);
+#include "types.h"
+
+cmd_t* parse_args(char* in);
+pipes_t* parse_pipes(char* in);
+/* pipes_t* parse_semi(char* in); */
+
+#endif

@@ -5,10 +5,12 @@
 #include <stdio.h>
 
 #include "parsing.h"
+#include "types.h"
 
 #define MAXLIST 100 // Max cmds
 
-void parse_args(char* in, char** args) {
+cmd_t* parse_args(char* in) {
+    char *copy = strndup(in, sizeof(&in));
     for (int i = 0; i < MAXLIST; i++) {
         args[i] = strsep(&in, " ");
         if(args[i] == NULL)
@@ -29,9 +31,11 @@ int parse_semi(char* in, char** cmds) {
     return i;
 }
 
-int parse_pipes(char* in, char** piped) {
+pipes_t* parse_pipes(char* in) {
+    pipes_t* pipe; // Struct
+    char *copy = strndup(in, sizeof(&in));
     for (int i = 0; i < 2; i++) {
-        piped[i] = strsep(&in ,"|");
+        pipe->args[i] = strsep(&in ,"|");
         if (piped[i] == NULL)
             break;
     }
@@ -41,4 +45,3 @@ int parse_pipes(char* in, char** piped) {
     else
         return 1;
 }
-
