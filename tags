@@ -7,39 +7,49 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
 BDIR	Makefile	/^BDIR=\/usr\/local$/;"	m
+BUILTINS_H	builtins.h	/^#define BUILTINS_H$/;"	d
 CC	Makefile	/^CC=gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-lreadline #-I. -g$/;"	m
+EXEC_H	exec.h	/^#define EXEC_H$/;"	d
 EXIT_STATUS	shadosh.c	/^#define EXIT_STATUS /;"	d	file:
 MAXCHAR	shadosh.c	/^#define MAXCHAR /;"	d	file:
 MAXLIST	exec.c	/^#define MAXLIST /;"	d	file:
 MAXLIST	parsing.c	/^#define MAXLIST /;"	d	file:
 MAXLIST	shadosh.c	/^#define MAXLIST /;"	d	file:
 OBJ	Makefile	/^OBJ=shadosh.o parsing.o exec.o builtins.o$/;"	m
+PARSING_H	parsing.h	/^#define PARSING_H$/;"	d
 ShadoShell	README.md	/^# ShadoShell$/;"	c
-UTILS_H	types.h	/^#define UTILS_H$/;"	d
+TOK_SEP	parsing.c	/^#define TOK_SEP /;"	d	file:
+TYPES_H	types.h	/^#define TYPES_H$/;"	d
 __anon078763300108	types.h	/^typedef struct {$/;"	s
 __anon078763300208	types.h	/^typedef struct {$/;"	s
 args	types.h	/^  char* args[]; \/\/ args; must be NULL-terminated$/;"	m	struct:__anon078763300108	typeref:typename:char * []
 builtin_handler	builtins.c	/^int builtin_handler(char** args) {$/;"	f	typeref:typename:int
+check_tok	parsing.c	/^char* check_tok(char** dup) {$/;"	f	typeref:typename:char *
 clean	Makefile	/^clean:$/;"	t
 clear	shadosh.c	/^#define clear(/;"	d	file:
-cmd	types.h	/^  char* cmd; \/\/ First arg$/;"	m	struct:__anon078763300108	typeref:typename:char *
+close_ALL_the_pipes	shadosh.c	/^void close_ALL_the_pipes(int n_pipes, int (*piped)[2]) {                $/;"	f	typeref:typename:void
+cmd_n	types.h	/^  int cmd_n; \/\/ cmd count$/;"	m	struct:__anon078763300208	typeref:typename:int
 cmd_t	types.h	/^} cmd_t;$/;"	t	typeref:struct:__anon078763300108
 cmds	types.h	/^  cmd_t* cmds[];$/;"	m	struct:__anon078763300208	typeref:typename:cmd_t * []
 delobj	Makefile	/^delobj:$/;"	t
 exec_args	exec.c	/^void exec_args(char** args) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
 exec_piped	exec.c	/^void exec_piped(char** args, char** piped) { \/\/ piped sys cmd is exec$/;"	f	typeref:typename:void
 exec_semi	exec.c	/^void exec_semi(char** args, char** cmds) { \/\/ Exec sys cmd$/;"	f	typeref:typename:void
+exec_with_redir	shadosh.c	/^int exec_with_redir(cmd_t* cmd, int pipe_n, int (*piped)[2]) {$/;"	f	typeref:typename:int
 get_exec_flag	shadosh.c	/^int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {$/;"	f	typeref:typename:int
 init_sh	shadosh.c	/^void init_sh () {$/;"	f	typeref:typename:void
 install	Makefile	/^install:$/;"	t
 main	shadosh.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
-n_cmds	types.h	/^  int n_cmds; \/\/ cmd count$/;"	m	struct:__anon078763300208	typeref:typename:int
-parse_args	parsing.c	/^void parse_args(char* in, char** args) {$/;"	f	typeref:typename:void
-parse_pipes	parsing.c	/^int parse_pipes(char* in, char** piped) {$/;"	f	typeref:typename:int
+main_cmd	types.h	/^  char* main_cmd; \/\/ First arg$/;"	m	struct:__anon078763300108	typeref:typename:char *
+parse_args	parsing.c	/^cmd_t* parse_args(char* in) {$/;"	f	typeref:typename:cmd_t *
+parse_pipes	parsing.c	/^pipes_t* parse_pipes(char* in) {$/;"	f	typeref:typename:pipes_t *
 parse_semi	parsing.c	/^int parse_semi(char* in, char** cmds) {$/;"	f	typeref:typename:int
 pipes_t	types.h	/^} pipes_t;$/;"	t	typeref:struct:__anon078763300208
+print_command	parsing.c	/^void print_command(cmd_t* cmd) {$/;"	f	typeref:typename:void
+print_pipeline	parsing.c	/^void print_pipeline(pipes_t* pipe) {$/;"	f	typeref:typename:void
 prompt	shadosh.c	/^int prompt (char* in) {$/;"	f	typeref:typename:int
 redir	types.h	/^  int redir[2];$/;"	m	struct:__anon078763300108	typeref:typename:int[2]
+run_with_redir	shadosh.c	/^pid_t run_with_redir(cmd_t* cmd, int pipe_n, int (*piped)[2]) {$/;"	f	typeref:typename:pid_t
 shadosh	Makefile	/^shadosh: $(OBJ)$/;"	t
 uninstall	Makefile	/^uninstall:$/;"	t
