@@ -67,6 +67,7 @@ pipes_t* parse_pipes(char* in) {
     return pipe_s;
 }
 
+// -- Print tests -- {{{
 void print_command(cmd_t* cmd_s) {
     char** arg = cmd_s->args;
     int i = 0;
@@ -76,7 +77,6 @@ void print_command(cmd_t* cmd_s) {
     for (i = 0, arg = cmd_s->args; *arg; ++arg, ++i)
       fprintf(stderr, " args[%d]: %s\n", i, *arg);
 }
-
 
 void print_pipeline(pipes_t* pipe_s) {
     cmd_t** cmd = pipe_s->cmds;
@@ -89,3 +89,4 @@ void print_pipeline(pipes_t* pipe_s) {
       print_command(cmd[i]);
     }
 }
+// }}}

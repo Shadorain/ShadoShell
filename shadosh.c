@@ -69,13 +69,7 @@ ssize_t prompt(const char* prompt, char* in){//, size_t *in_len) {
 }
 
 // }}}
-// -- Exec Flag -- {{{
-/* int get_exec_flag() { */
-    
-/*     /1* multiCmd = parse_semi(in); // Parses by ';' -> num of multi_cmds *1/ */
-
-/* } */
-
+// -- Fork -- {{{
 void close_pipes(int n_pipes, int (*piped)[2]) {                
     for (int i = 0; i < n_pipes; ++i) {                                   
         close(piped[i][0]);                                                 
@@ -102,29 +96,24 @@ pid_t fork_cmd(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
     }
     return 0;
 }                                                                         
-
 //}}}
 // -- Main -- {{{
 int main () { // int argc, char* argv[]) {
     char* piped[MAXLIST], *cmds[MAXLIST], *parsedCmds[MAXLIST];
-    /* char* in = NULL, *args[MAXLIST]; */
     char in[MAXLIST], *args[MAXLIST];
-    size_t in_len = 0;
-    int flag = 0;
 
     init_sh();
-    while (prompt(PROMPT,in)){//prompt(PROMPT, &in, &in_len) > 0) {
+    while (prompt(PROMPT,in)) {
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
-
         int pipe_n = pipe_s->cmd_n - 1;
-        print_pipeline(pipe_s);
-
         int (*piped)[2] = calloc(sizeof(int[2]), pipe_n);
 
-        for (int i = 1; i < pipe_s->cmd_n; ++i) {                               
-            pipe(piped[i-1]);                                                        
-            pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0];               
-            pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1];            
+        print_pipeline(pipe_s);
+
+        for (int i = 1; i < pipe_s->cmd_n; ++i) {
+            pipe(piped[i-1]);
+            pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0];
+            pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1];
         }
 
         for (int i = 0; i < pipe_s->cmd_n; ++i) {
@@ -137,32 +126,9 @@ int main () { // int argc, char* argv[]) {
         for (int i = 0; i < pipe_s->cmd_n; ++i) {
             wait(NULL);
         }
-        /* HIST_ENTRY *entry = history_get(where_history()); */
-        /* printf("%s\n", entry->line); */
     }
+
     return EXIT_STATUS;
 }
-
-        /* flag = get_exec_flag(inStr, args, piped, cmds, parsedCmds); // 0:builtin, 1:simple, 2:pipe */
-        /* if (flag == 1) */
-        /*     exec_args(args); */
-        /* if (flag == 2) */
-        /*     exec_piped(args, piped); */
-        // Checks if there is more than 1 command
-        //  - If check: will parse separate cmds
-        /* if (multiCmd > 1) */
-        /*     for (int i = 1; i < multiCmd; i++) { */
-        /*         /1* printf("MULTICMD: %d, i:%d\n",multiCmd,i); *1/ */
-        /*         /1* printf("CMD #%d: %s\n", i, cmds[i]); *1/ */
-        /*         /1* for (int j = 0; j < multiCmd; j++) *1/ */
-        /*         /1*     printf("PARSED CMDS #%d: %s\n",j,parsedCmds[j]); *1/ */
-        /*         parse_args(cmds[i], parsedCmds); */
-        /*         if (builtin_handler(parsedCmds)) */
-        /*             exec_args(parsedCmds); */
-        /*         else */
-        /*             exec_args(parsedCmds); */
-        /*         if(cmds[i] == NULL) */
-        /*             break; */
-        /*     } */
 // }}}
 //----------------------------------------------------------------------------------------
