@@ -37,32 +37,32 @@ cmd_t* parse_args(char* in) {
     return cmd_s;
 }
 
-/* int parse_semi(char* in, char** cmds) { */
-/*     int i; */
-/*     for (i = 0; i < MAXLIST; i++) { */      
-/*         cmds[i] = strsep(&in ,";"); */         
-/*         if (cmds[i] == NULL) */                
-/*             break; */                          
-/*     } */
-/*     /1* printf("TEST i: %d\n", i); *1/ */
-/*     return i; */
-/* } */
-
 pipes_t* parse_pipes(char* in) {
-    int cmd_n = 0, i=0;
+    int cmd_n = 0, multicmd_n = 0, i=0;
     char *cmds;
     pipes_t* pipe_s; // Struct
     char* dup = strndup(in, MAXLIST);
     
     for(char* c = dup; *c; c++) // Counts amount of pipes
         if (*c == '|') ++cmd_n;
+        else if (*c == ';') ++multicmd_n;
     ++cmd_n;
+    ++multicmd_n;
 
     pipe_s = calloc(sizeof(pipes_t) + cmd_n * sizeof(cmd_t*), 1);
+    pipe_s = calloc(sizeof(pipes_t) + multicmd_n * sizeof(cmd_t*), 1);
     pipe_s->cmd_n = cmd_n;
+    pipe_s->multicmd_n = multicmd_n;
+    printf("TEST: %d", multicmd_n);
 
-    while((cmds = strsep(&dup ,"|"))) // Parses the pipes
-        pipe_s->cmds[i++] = parse_args(cmds);
+    if (cmd_n > 1)
+        while((cmds = strsep(&dup ,"|"))) // Parses the pipes
+            pipe_s->cmds[i++] = parse_args(cmds);
+    else if (multicmd_n > 1)
+        while((cmds = strsep(&dup ,";"))) // Parses the semi
+            pipe_s->cmds[i++] = parse_args(cmds);
+    else
+        pipe_s->cmds[i] = parse_args(cmds);
 
     return pipe_s;
 }

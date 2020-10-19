@@ -126,6 +126,8 @@ int main () { // int argc, char* argv[]) {
         for (int i = 0; i < pipe_s->cmd_n; ++i) {
             wait(NULL);
         }
+        
+        free(pipe_s);
     }
 
     return EXIT_STATUS;
