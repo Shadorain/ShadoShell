@@ -6,6 +6,7 @@
 
 #include "parsing.h"
 #include "types.h"
+#include "builtins.h"
 
 #define MAXLIST 1024 // Max cmds
 #define TOK_SEP " \t\n\r"
@@ -29,6 +30,9 @@ cmd_t* parse_args(char* in) {
 
     cmd_s->main_cmd = cmd_s->args[0];
     cmd_s->redir[0] = cmd_s->redir[1] = -1;
+
+    if(builtin_handler(cmd_s->args))
+        cmd_s->builtin = 1;
 
     return cmd_s;
 }

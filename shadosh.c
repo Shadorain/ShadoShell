@@ -20,7 +20,7 @@
 // --- Files --- //
 #include "parsing.h"
 #include "exec.h"
-#include "builtins.h"
+/* #include "builtins.h" */
 #include "types.h"
 // }}}
 // -- Defines -- {{{
@@ -66,20 +66,13 @@ ssize_t prompt(const char* prompt, char** in, size_t *in_len) {
 
 // }}}
 // -- Exec Flag -- {{{
-int get_exec_flag(char* in, char** args, char** pipe, char** cmds, char** parsedCmds) {
-    char* piped[2];
-    int pipeCheck = 0;
+/* int get_exec_flag() { */
     
-    /* multiCmd = parse_semi(in); // Parses by ';' -> num of multi_cmds */
-    pipes_t* pipes = parse_pipes(in); // Parses by '|' -> bool
+/*     /1* multiCmd = parse_semi(in); // Parses by ';' -> num of multi_cmds *1/ */
 
-    if (builtin_handler(args))
-        return 0;
-    else
-        return 1 + pipeCheck;
-}
+/* } */
 
-void close_ALL_the_pipes(int n_pipes, int (*piped)[2]) {                
+void close_pipes(int n_pipes, int (*piped)[2]) {                
     for (int i = 0; i < n_pipes; ++i) {                                   
       close(piped[i][0]);                                                 
       close(piped[i][1]);                                                 
@@ -94,26 +87,29 @@ int exec_with_redir(cmd_t* cmd, int pipe_n, int (*piped)[2]) {
     if ((fd = cmd->redir[1]) != -1) {
       dup2(fd, STDOUT_FILENO);
     }
-    close_ALL_the_pipes(pipe_n, piped);
+    close_pipes(pipe_n, piped);
     return execvp(cmd->main_cmd, cmd->args);
 }
 
 pid_t run_with_redir(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
     pid_t ch_pid = fork();
    
-    if (ch_pid) {  /* We are the parent. */                              
-      switch(ch_pid) {                                                   
-        case -1:                                                            
-          fprintf(stderr, "Oh dear.\n");                                    
-          return -1;                                                        
-        default:                                                            
-          return ch_pid;                                                 
-      }                                                                     
-    } else {  // We are the child. */                                       
-      exec_with_redir(cmd_s, pipe_n, piped);                             
-      perror("OH DEAR");                                                    
-      return 0;                                                             
-    }                                                                       
+    if(cmd_s->builtin == 0) {
+        if (ch_pid) {  /* We are the parent. */                              
+          switch(ch_pid) {                                                   
+            case -1:                                                            
+              fprintf(stderr, "Oh dear.\n");                                    
+              return -1;                                                        
+            default:                                                            
+              return ch_pid;                                                 
+          }                                                                     
+        } else {  // We are the child. */                                       
+          exec_with_redir(cmd_s, pipe_n, piped);                             
+          perror("OH DEAR");                                                    
+          return 0;                                                             
+        }                                                                       
+    }
+    return 0;
 }                                                                         
 
 //}}}
@@ -128,8 +124,6 @@ int main () { // int argc, char* argv[]) {
     while (prompt(PROMPT, &in, &in_len) > 0) {
         add_history(in);
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
-        /* if(prompt(in)) */
-        /*     continue; */
 
         int pipe_n = pipe_s->cmd_n - 1;
         print_pipeline(pipe_s);
@@ -146,12 +140,15 @@ int main () { // int argc, char* argv[]) {
             run_with_redir(pipe_s->cmds[i], pipe_n, piped);                       
         }                                                                          
                                                                                        
-        close_ALL_the_pipes(pipe_n, piped);                                       
+        close_pipes(pipe_n, piped);                                       
                                                                                        
         /* Wait for all the children to terminate. Rule 0: not checking status. */ 
         for (int i = 0; i < pipe_s->cmd_n; ++i) {                               
             wait(NULL);                                                              
         }
+    }
+    return EXIT_STATUS;
+}
 
         /* flag = get_exec_flag(inStr, args, piped, cmds, parsedCmds); // 0:builtin, 1:simple, 2:pipe */
         /* if (flag == 1) */
@@ -174,8 +171,5 @@ int main () { // int argc, char* argv[]) {
         /*         if(cmds[i] == NULL) */
         /*             break; */
         /*     } */
-    }
-    return EXIT_STATUS;
-}
 // }}}
 //----------------------------------------------------------------------------------------
