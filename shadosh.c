@@ -20,7 +20,6 @@
 // --- Files --- //
 #include "parsing.h"
 #include "exec.h"
-/* #include "builtins.h" */
 #include "types.h"
 // }}}
 // -- Defines -- {{{
@@ -43,7 +42,7 @@ void init_sh () {
     printf("             \\/      \\/     \\/      \\/                \\/      \\/     \\/            \n");
     printf(" ---------------------------------------------------------------------------------------- \n");
     printf("USER -- %s\n", curr_user);
-    sleep(1);
+    /* sleep(1); */
     // clear();
 }
 // }}}
@@ -55,13 +54,18 @@ void show_dir() {
     printf("\n  %s\n", cwd);
 }
 
-ssize_t prompt(const char* prompt, char** in, size_t *in_len) {
+ssize_t prompt(const char* prompt, char* in){//, size_t *in_len) {
     char* buf;
-
     if (PROMPT_DIR==1) show_dir();
 
-    fputs(prompt, stderr);
-    return getline(in, in_len, stdin);
+    /* fputs(prompt, stderr); */
+    buf = readline(prompt);
+    if(strlen(buf) != 0) {
+        add_history(buf);
+        strcpy(in,buf);
+    }
+
+    return 1; //getline(in, in_len, stdin);
 }
 
 // }}}
@@ -74,40 +78,27 @@ ssize_t prompt(const char* prompt, char** in, size_t *in_len) {
 
 void close_pipes(int n_pipes, int (*piped)[2]) {                
     for (int i = 0; i < n_pipes; ++i) {                                   
-      close(piped[i][0]);                                                 
-      close(piped[i][1]);                                                 
+        close(piped[i][0]);                                                 
+        close(piped[i][1]);                                                 
     }                                                                     
 }                                                                       
 
-int exec_with_redir(cmd_t* cmd, int pipe_n, int (*piped)[2]) {
-    int fd = -1;
-    if ((fd = cmd->redir[0]) != -1) {
-      dup2(fd, STDIN_FILENO);
-    }
-    if ((fd = cmd->redir[1]) != -1) {
-      dup2(fd, STDOUT_FILENO);
-    }
-    close_pipes(pipe_n, piped);
-    return execvp(cmd->main_cmd, cmd->args);
-}
-
-pid_t run_with_redir(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
-    pid_t ch_pid = fork();
-   
+pid_t fork_cmd(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
     if(cmd_s->builtin == 0) {
-        if (ch_pid) {  /* We are the parent. */                              
-          switch(ch_pid) {                                                   
-            case -1:                                                            
-              fprintf(stderr, "Oh dear.\n");                                    
-              return -1;                                                        
-            default:                                                            
-              return ch_pid;                                                 
-          }                                                                     
-        } else {  // We are the child. */                                       
-          exec_with_redir(cmd_s, pipe_n, piped);                             
-          perror("OH DEAR");                                                    
-          return 0;                                                             
-        }                                                                       
+        pid_t ch_pid = fork();
+        if (ch_pid) {  /* We are the parent. */
+            switch(ch_pid) {
+                case -1:
+                    fprintf(stderr, "Oh dear.\n");
+                    return -1;
+                default:
+                    return ch_pid;
+            }
+        } else {  // We are the child. */
+            exec_cmd(cmd_s, pipe_n, piped);
+            perror("Command not found.");
+            return 0;
+        }
     }
     return 0;
 }                                                                         
@@ -116,13 +107,13 @@ pid_t run_with_redir(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
 // -- Main -- {{{
 int main () { // int argc, char* argv[]) {
     char* piped[MAXLIST], *cmds[MAXLIST], *parsedCmds[MAXLIST];
-    char* in = NULL, *args[MAXLIST];
+    /* char* in = NULL, *args[MAXLIST]; */
+    char in[MAXLIST], *args[MAXLIST];
     size_t in_len = 0;
     int flag = 0;
 
     init_sh();
-    while (prompt(PROMPT, &in, &in_len) > 0) {
-        add_history(in);
+    while (prompt(PROMPT,in)){//prompt(PROMPT, &in, &in_len) > 0) {
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
 
         int pipe_n = pipe_s->cmd_n - 1;
@@ -134,18 +125,20 @@ int main () { // int argc, char* argv[]) {
             pipe(piped[i-1]);                                                        
             pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0];               
             pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1];            
-        }                                                                          
-                                                                                       
-        for (int i = 0; i < pipe_s->cmd_n; ++i) {                               
-            run_with_redir(pipe_s->cmds[i], pipe_n, piped);                       
-        }                                                                          
-                                                                                       
-        close_pipes(pipe_n, piped);                                       
-                                                                                       
-        /* Wait for all the children to terminate. Rule 0: not checking status. */ 
-        for (int i = 0; i < pipe_s->cmd_n; ++i) {                               
-            wait(NULL);                                                              
         }
+
+        for (int i = 0; i < pipe_s->cmd_n; ++i) {
+            fork_cmd(pipe_s->cmds[i], pipe_n, piped);
+        }
+
+        close_pipes(pipe_n, piped);
+
+        /* Wait for all the children to terminate. Rule 0: not checking status. */
+        for (int i = 0; i < pipe_s->cmd_n; ++i) {
+            wait(NULL);
+        }
+        /* HIST_ENTRY *entry = history_get(where_history()); */
+        /* printf("%s\n", entry->line); */
     }
     return EXIT_STATUS;
 }
