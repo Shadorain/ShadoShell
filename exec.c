@@ -13,5 +13,6 @@ int exec_cmd(cmd_t* cmd, int pipe_n, int (*piped)[2]) {
         dup2(fd, STDOUT_FILENO);
     }
     close_pipes(pipe_n, piped);
+
     return execvp(cmd->main_cmd, cmd->args);
 }
