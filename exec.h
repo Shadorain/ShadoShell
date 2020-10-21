@@ -4,6 +4,7 @@
 #include "types.h"
 #include "shadosh.h"
 
-int exec_cmd(cmd_t* cmd, int pipe_n, int (*piped)[2]);
+int exec_cmd(cmd_t* cmd);
+int exec_fork(cmd_t* cmd, int pipe_n, int (*piped)[2]);
 
 #endif

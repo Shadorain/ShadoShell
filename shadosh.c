@@ -77,7 +77,7 @@ void close_pipes(int n_pipes, int (*piped)[2]) {
     }                                                                     
 }                                                                       
 
-pid_t fork_cmd(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
+pid_t fork_pipe(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
     if(cmd_s->builtin == 0) {
         pid_t ch_pid = fork();
         if (ch_pid) {  /* We are the parent. */
@@ -89,7 +89,27 @@ pid_t fork_cmd(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
                     return ch_pid;
             }
         } else {  // We are the child. */
-            exec_cmd(cmd_s, pipe_n, piped);
+            exec_fork(cmd_s, pipe_n, piped);
+            perror("Command not found.");
+            return 0;
+        }
+    }
+    return 0;
+}                                                                         
+
+pid_t fork_cmd(cmd_t* cmd_s) {
+    if(cmd_s->builtin == 0) {
+        pid_t ch_pid = fork();
+        if (ch_pid) {  /* We are the parent. */
+            switch(ch_pid) {
+                case -1:
+                    fprintf(stderr, "Oh dear.\n");
+                    return -1;
+                default:
+                    return ch_pid;
+            }
+        } else {  // We are the child. */
+            exec_cmd(cmd_s);
             perror("Command not found.");
             return 0;
         }
@@ -99,17 +119,16 @@ pid_t fork_cmd(cmd_t* cmd_s, int pipe_n, int (*piped)[2]) {
 //}}}
 // -- Main -- {{{
 int main () { // int argc, char* argv[]) {
-    char* piped[MAXLIST], *cmds[MAXLIST], *parsedCmds[MAXLIST];
-    char in[MAXLIST], *args[MAXLIST];
+    char in[MAXLIST];
 
     init_sh();
     while (prompt(PROMPT,in)) {
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
         int pipe_n = pipe_s->cmd_n - 1;
-        int (*piped)[2] = calloc(sizeof(int[2]), pipe_n);
-
+        int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
+        
         print_pipeline(pipe_s);
-
+        
         for (int i = 1; i < pipe_s->cmd_n; ++i) {
             pipe(piped[i-1]);
             pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0];
@@ -117,15 +136,22 @@ int main () { // int argc, char* argv[]) {
         }
 
         for (int i = 0; i < pipe_s->cmd_n; ++i) {
-            fork_cmd(pipe_s->cmds[i], pipe_n, piped);
+            fork_pipe(pipe_s->cmds[i], pipe_n, piped);
+            /* printf("PIPED 0: p:%d\n", piped[i][0]); */
+            /* printf("PIPED 1: p:%d\n", piped[i][1]); */
         }
+
+        /* for (int i = 0; i < pipe_s->multicmd_n; ++i) { */
+        /*     fork_pipe(pipe_s->m_cmds[i], pipe_n, piped); */
+        /* } */
 
         close_pipes(pipe_n, piped);
 
         /* Wait for all the children to terminate. Rule 0: not checking status. */
-        for (int i = 0; i < pipe_s->cmd_n; ++i) {
+        for (int i = 0; i < pipe_s->cmd_n; ++i)
             wait(NULL);
-        }
+        for (int i = 0; i < pipe_s->multicmd_n; ++i)
+            wait(NULL);
         
         free(pipe_s);
     }
