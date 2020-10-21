@@ -13,7 +13,8 @@ typedef struct {
 typedef struct {
   int cmd_n, multicmd_n; // cmd, multi count
   cmd_t** m_cmds;
-  cmd_t* cmds[];
+  cmd_t** cmds;
+  /* cmd_t* cmds[]; */
 } pipes_t;
 
 #endif

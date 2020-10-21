@@ -141,9 +141,9 @@ int main () { // int argc, char* argv[]) {
             /* printf("PIPED 1: p:%d\n", piped[i][1]); */
         }
 
-        /* for (int i = 0; i < pipe_s->multicmd_n; ++i) { */
-        /*     fork_pipe(pipe_s->m_cmds[i], pipe_n, piped); */
-        /* } */
+        for (int i = 0; i < pipe_s->multicmd_n; ++i) {
+            fork_cmd(pipe_s->m_cmds[i]);
+        }
 
         close_pipes(pipe_n, piped);
 

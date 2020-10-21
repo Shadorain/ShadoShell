@@ -16,10 +16,10 @@ pipes_t* init_pipes_t(int cmd_n, int multicmd_n) {
     pipe_s = calloc(sizeof(pipes_t) + multicmd_n + cmd_n * (2*sizeof(cmd_t*)), 1);
     pipe_s->cmd_n = cmd_n;
     pipe_s->multicmd_n = multicmd_n;
-    /* pipe_s->m_cmds = (pipes_t**)malloc(sizeof(pipes_t*) * cmd_n * multicmd_n); */
-    
-    /* pipe_s->m_cmds = //calloc(sizeof(pipes_t) + cmd_n + multicmd_n * sizeof(cmd_t*), 1); // Alloc m_cmds */
-    /* for(int j=0;j<sizeof(pipe_s->m_cmds); j++) */
+    pipe_s->cmds = (cmd_t**)calloc(cmd_n, cmd_n * sizeof(cmd_t*));
+    for(int j=0;j<sizeof(pipe_s->cmds); j++)
+        pipe_s->cmds[j]=(cmd_t*)malloc(sizeof(cmd_t));
+
     pipe_s->m_cmds = (cmd_t**)calloc(multicmd_n, multicmd_n * sizeof(cmd_t*));
     for(int j=0;j<sizeof(pipe_s->m_cmds); j++)
         pipe_s->m_cmds[j]=(cmd_t*)malloc(sizeof(cmd_t));
@@ -67,15 +67,14 @@ pipes_t* parse_pipes(char* in) {
     
     pipes_t* pipe_s = init_pipes_t(cmd_n, multicmd_n); // init struct
 
-    /* if (cmd_n > 1 || multicmd_n > 1) { */
     if (cmd_n >= 1)
         while((cmds = strsep(&dup ,"|"))) // Parses the pipes
             pipe_s->cmds[i++] = parse_args(cmds);
+    printf("MULTI: %d", pipe_s->multicmd_n);
+    i=0;
     if (multicmd_n > 1)
         while((m_cmds = strsep(&dup ,";"))) // Parses the semi
             pipe_s->m_cmds[i++] = parse_args(m_cmds);
-    /* } else */
-    /*     pipe_s->cmds[i] = parse_args(cmds); */
 
     return pipe_s;
 }
