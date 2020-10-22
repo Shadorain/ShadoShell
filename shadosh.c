@@ -124,6 +124,9 @@ int main () { // int argc, char* argv[]) {
     init_sh();
     while (prompt(PROMPT,in)) {
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
+        if (pipe_s->multicmd_n > 1)
+            pipe_s = parse_multi(in, pipe_s);
+
         int pipe_n = pipe_s->cmd_n - 1;
         int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
         

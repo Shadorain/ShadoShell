@@ -57,7 +57,8 @@ cmd_t* parse_args(char* in) {
 
 pipes_t* parse_pipes(char* in) {
     int cmd_n = 0, multicmd_n = 0, i=0;
-    char *cmds;
+    char *cmds, *m_cmds;
+    /* pipes_t* pipe_s; // Struct */
     char* dup = strndup(in, MAXLIST);
     
     for(char* c = dup; *c; c++) // Counts amount of pipes
@@ -68,19 +69,14 @@ pipes_t* parse_pipes(char* in) {
     
     pipes_t* pipe_s = init_pipes_t(cmd_n, multicmd_n); // init struct
 
-    while((cmds = strsep(&dup ,"|"))) // Parses the pipes
-        pipe_s->cmds[i++] = parse_args(cmds);
-
-    return pipe_s;
-}
-
-pipes_t* parse_multi(char* in, pipes_t* pipe_s) {
-    int multicmd_n = 0, i = 0;
-    char *m_cmds;
-    char* dup = strndup(in, MAXLIST);
-    
-    while((m_cmds = strsep(&dup ,";"))) // Parses the semi
-        pipe_s->m_cmds[i++] = parse_args(m_cmds);
+    if (cmd_n >= 1)
+        while((cmds = strsep(&dup ,"|"))) // Parses the pipes
+            pipe_s->cmds[i++] = parse_args(cmds);
+    /* printf("MULTI: %d", pipe_s->multicmd_n); */
+    i=0;
+    if (multicmd_n > 1)
+        while((m_cmds = strsep(&dup ,";"))) // Parses the semi
+            pipe_s->m_cmds[i++] = parse_args(m_cmds);
 
     return pipe_s;
 }
