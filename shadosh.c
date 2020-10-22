@@ -127,7 +127,7 @@ int main () { // int argc, char* argv[]) {
         int pipe_n = pipe_s->cmd_n - 1;
         int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
         
-        print_pipeline(pipe_s);
+        /* print_pipeline(pipe_s); */
         
         for (int i = 1; i < pipe_s->cmd_n; ++i) {
             pipe(piped[i-1]);
@@ -135,15 +135,12 @@ int main () { // int argc, char* argv[]) {
             pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1];
         }
 
-        for (int i = 0; i < pipe_s->cmd_n; ++i) {
+        for (int i = 0; i < pipe_s->cmd_n; ++i)
             fork_pipe(pipe_s->cmds[i], pipe_n, piped);
-            /* printf("PIPED 0: p:%d\n", piped[i][0]); */
-            /* printf("PIPED 1: p:%d\n", piped[i][1]); */
-        }
 
-        for (int i = 0; i < pipe_s->multicmd_n; ++i) {
-            fork_cmd(pipe_s->m_cmds[i]);
-        }
+        if(pipe_s->multicmd_n > 0)
+            for (int i = 0; i < pipe_s->multicmd_n; ++i)
+                fork_cmd(pipe_s->m_cmds[i]);
 
         close_pipes(pipe_n, piped);
 

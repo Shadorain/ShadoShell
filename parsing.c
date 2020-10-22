@@ -50,6 +50,8 @@ cmd_t* parse_args(char* in) {
     if(builtin_handler(cmd_s->args))
         cmd_s->builtin = 1;
 
+    /* printf("ARG: %s\n",cmd_s->main_cmd); */
+
     return cmd_s;
 }
 
@@ -70,11 +72,14 @@ pipes_t* parse_pipes(char* in) {
     if (cmd_n >= 1)
         while((cmds = strsep(&dup ,"|"))) // Parses the pipes
             pipe_s->cmds[i++] = parse_args(cmds);
-    printf("MULTI: %d", pipe_s->multicmd_n);
+    /* printf("MULTI: %d", pipe_s->multicmd_n); */
     i=0;
-    if (multicmd_n > 1)
+    if (multicmd_n > 1) {
+        pipe_s->multichk = 1;
         while((m_cmds = strsep(&dup ,";"))) // Parses the semi
             pipe_s->m_cmds[i++] = parse_args(m_cmds);
+    }
+    if(cmd_n > 1) pipe_s->pipechk = 1;
 
     return pipe_s;
 }
