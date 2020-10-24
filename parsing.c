@@ -13,7 +13,7 @@
 
 pipes_t* init_pipes_t(int cmd_n, int multicmd_n) {
     pipes_t* pipe_s = (pipes_t*)malloc(sizeof(pipe_s));
-    pipe_s = calloc(sizeof(pipes_t) + multicmd_n + cmd_n * (2*sizeof(cmd_t*)), 1);
+    /* pipes_t* pipe_s = calloc(sizeof(pipes_t) + multicmd_n + cmd_n * (2*sizeof(cmd_t*)), 1); */
     pipe_s->cmd_n = cmd_n;
     pipe_s->multicmd_n = multicmd_n;
     pipe_s->cmds = (cmd_t**)calloc(cmd_n, cmd_n * sizeof(cmd_t*));

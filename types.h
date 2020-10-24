@@ -9,7 +9,6 @@ typedef struct {
   char* args[]; 
 } cmd_t;
 
-
 typedef struct {
   int cmd_n, multicmd_n; // cmd, multi count
   cmd_t** m_cmds;
