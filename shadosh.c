@@ -130,7 +130,7 @@ int main () { // int argc, char* argv[]) {
         int pipe_n = pipe_s->cmd_n - 1;
         int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
         
-        /* print_pipeline(pipe_s); */
+        print_pipeline(pipe_s);
         
         for (int i = 1; i < pipe_s->cmd_n; ++i) {
             pipe(piped[i-1]);

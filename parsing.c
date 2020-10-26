@@ -9,7 +9,9 @@
 #include "builtins.h"
 
 #define MAXLIST 1024 // Max cmds
-#define TOK_SEP " \t\n\r"
+#define TOK_SEP " <>\t\n\r"
+// TOK_REDIR "< > <> >| << >> <& &>"
+// TOK_CTRL "& && ( ) ; ;; \n | ||"
 
 pipes_t* init_pipes_t(int cmd_n, int multicmd_n) {
     pipes_t* pipe_s = (pipes_t*)malloc(sizeof(pipe_s));
