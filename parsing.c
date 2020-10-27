@@ -9,41 +9,46 @@
 #include "builtins.h"
 
 #define MAXLIST 1024 // Max cmds
-#define TOK_SEP " <>\t\n\r"
+#define TOK_SEP " \t\n\r"
 // TOK_REDIR "< > <> >| << >> <& &>"
 // TOK_CTRL "& && ( ) ; ;; \n | ||"
+#define TOK_CTRL "&();\n"
 
-pipes_t* init_pipes_t(int cmd_n, int multicmd_n) {
+// -- Initialize Memory -- {{{
+pipes_t* init_pipes_t(int cmd_n) {
     pipes_t* pipe_s = (pipes_t*)malloc(sizeof(pipe_s));
-    /* pipes_t* pipe_s = calloc(sizeof(pipes_t) + multicmd_n + cmd_n * (2*sizeof(cmd_t*)), 1); */
     pipe_s->cmd_n = cmd_n;
-    pipe_s->multicmd_n = multicmd_n;
     pipe_s->cmds = (cmd_t**)calloc(cmd_n, cmd_n * sizeof(cmd_t*));
     for(int j=0;j<sizeof(pipe_s->cmds); j++)
         pipe_s->cmds[j]=(cmd_t*)malloc(sizeof(cmd_t));
 
-    pipe_s->m_cmds = (cmd_t**)calloc(multicmd_n, multicmd_n * sizeof(cmd_t*));
-    for(int j=0;j<sizeof(pipe_s->m_cmds); j++)
-        pipe_s->m_cmds[j]=(cmd_t*)malloc(sizeof(cmd_t));
-
     return pipe_s;
 }
-
-char* check_tok(char** dup) {
+//}}}
+// -- Tokenizing -- {{{
+char* split_space(char** dup) {
     char *tok;
     while ((tok = strsep(dup, TOK_SEP)) && !*tok);
 
     return tok;
 }
 
+char* split_ctrl(char** dup) {
+    char *tok;
+    while ((tok = strsep(dup, TOK_CTRL)) && !*tok);
+    printf("TOK: %s\n", tok);
+
+    return tok;
+}
+//}}}
+// -- Parse Arguments -- {{{
 cmd_t* parse_args(char* in) {
     int i = 0;
-    char* tok;
-    char* dup = strndup(in, MAXLIST);
+    char *tok, *dup = strndup(in, MAXLIST);
 
     cmd_t* cmd_s = calloc(sizeof(cmd_t) + MAXLIST * sizeof(char*), 1);
 
-    while((tok = check_tok(&dup)))
+    while((tok = split_space(&dup)))
         cmd_s->args[i++] = tok;
 
     cmd_s->main_cmd = cmd_s->args[0];
@@ -52,41 +57,39 @@ cmd_t* parse_args(char* in) {
     if(builtin_handler(cmd_s->args))
         cmd_s->builtin = 1;
 
-    /* printf("ARG: %s\n",cmd_s->main_cmd); */
-
     return cmd_s;
 }
-
+//}}}
+// -- Parse Pipes -- {{{
 pipes_t* parse_pipes(char* in) {
-    int cmd_n = 0, multicmd_n = 0, i=0;
+    int cmd_n=0, i=0;
     char *cmds;
     char* dup = strndup(in, MAXLIST);
     
     for(char* c = dup; *c; c++) // Counts amount of pipes
         if (*c == '|') ++cmd_n;
-        else if (*c == ';') ++multicmd_n;
     ++cmd_n;
-    ++multicmd_n;
     
-    pipes_t* pipe_s = init_pipes_t(cmd_n, multicmd_n); // init struct
+    pipes_t* pipe_s = init_pipes_t(cmd_n); // init struct
 
     while((cmds = strsep(&dup ,"|"))) // Parses the pipes
         pipe_s->cmds[i++] = parse_args(cmds);
 
     return pipe_s;
 }
-
+//}}}
+// -- Parse Control -- {{{
 pipes_t* parse_multi(char* in, pipes_t* pipe_s) {
-    int multicmd_n = 0, i = 0;
-    char *m_cmds;
-    char* dup = strndup(in, MAXLIST);
+    /* int multicmd_n = 0, i = 0; */
+    /* char *m_cmds; */
+    /* char* dup = strndup(in, MAXLIST); */
     
-    while((m_cmds = strsep(&dup ,";"))) // Parses the semi
-        pipe_s->m_cmds[i++] = parse_args(m_cmds);
+    /* while((m_cmds = strsep(&dup ,";"))) // Parses the semi */
+    /*     pipe_s->m_cmds[i++] = parse_args(m_cmds); */
 
     return pipe_s;
 }
-
+// }}}
 // -- Print tests -- {{{
 void print_command(cmd_t* cmd_s) {
     char** arg = cmd_s->args;
@@ -110,3 +113,4 @@ void print_pipeline(pipes_t* pipe_s) {
     }
 }
 // }}}
+//----------------------------------------------------------------------------------------

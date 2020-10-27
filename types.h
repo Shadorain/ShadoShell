@@ -6,14 +6,12 @@
 typedef struct {
   char* main_cmd; // First arg
   int redir[2], builtin;
-  char* args[]; 
+  char *args[]; 
 } cmd_t;
 
 typedef struct {
-  int cmd_n, multicmd_n; // cmd, multi count
-  cmd_t** m_cmds;
+  int cmd_n;
   cmd_t** cmds;
-  /* cmd_t* cmds[]; */
 } pipes_t;
 
 #endif

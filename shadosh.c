@@ -124,8 +124,8 @@ int main () { // int argc, char* argv[]) {
     init_sh();
     while (prompt(PROMPT,in)) {
         pipes_t* pipe_s = parse_pipes(in); // Parses by '|' -> bool
-        if (pipe_s->multicmd_n > 1)
-            pipe_s = parse_multi(in, pipe_s);
+        /* if (pipe_s->multicmd_n > 1) */
+            /* pipe_s = parse_multi(in, pipe_s); */
 
         int pipe_n = pipe_s->cmd_n - 1;
         int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
@@ -141,17 +141,17 @@ int main () { // int argc, char* argv[]) {
         for (int i = 0; i < pipe_s->cmd_n; ++i)
             fork_pipe(pipe_s->cmds[i], pipe_n, piped);
 
-        if(pipe_s->multicmd_n > 0)
-            for (int i = 0; i < pipe_s->multicmd_n; ++i)
-                fork_cmd(pipe_s->m_cmds[i]);
+        /* if(pipe_s->multicmd_n > 0) */
+        /*     for (int i = 0; i < pipe_s->multicmd_n; ++i) */
+        /*         fork_cmd(pipe_s->m_cmds[i]); */
 
         close_pipes(pipe_n, piped);
 
         /* Wait for all the children to terminate. Rule 0: not checking status. */
         for (int i = 0; i < pipe_s->cmd_n; ++i)
             wait(NULL);
-        for (int i = 0; i < pipe_s->multicmd_n; ++i)
-            wait(NULL);
+        /* for (int i = 0; i < pipe_s->multicmd_n; ++i) */
+        /*     wait(NULL); */
         
         free(pipe_s);
     }
