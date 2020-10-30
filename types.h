@@ -14,4 +14,9 @@ typedef struct {
   cmd_t** cmds;
 } pipes_t;
 
+typedef struct {
+  int cmd_n;
+  cmd_t **ccmds;//, **acmds, **pocmds, **pccmds;
+} ctrl_t;
+
 #endif

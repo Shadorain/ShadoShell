@@ -2,6 +2,7 @@
 CC=gcc
 CFLAGS=-lreadline #-I. -g
 #DEPS=config.h
+AM_YFLAGS = -d
 OBJ=shadosh.o parsing.o exec.o builtins.o
 BDIR=/usr/local
 

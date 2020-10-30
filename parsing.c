@@ -24,6 +24,16 @@ pipes_t* init_pipes_t(int cmd_n) {
 
     return pipe_s;
 }
+
+ctrl_t* init_ctrl_t(int cmd_n) {
+    ctrl_t* ctrl_s = (ctrl_t*)malloc(sizeof(ctrl_s));
+    ctrl_s->cmd_n = cmd_n;
+    ctrl_s->ccmds = (cmd_t**)calloc(cmd_n, cmd_n * sizeof(cmd_t*));
+    for(int j=0;j<sizeof(ctrl_s->ccmds); j++)
+        ctrl_s->ccmds[j]=(cmd_t*)malloc(sizeof(cmd_t));
+
+    return ctrl_s;
+}
 //}}}
 // -- Tokenizing -- {{{
 char* split_space(char** dup) {
@@ -79,15 +89,20 @@ pipes_t* parse_pipes(char* in) {
 }
 //}}}
 // -- Parse Control -- {{{
-pipes_t* parse_multi(char* in, pipes_t* pipe_s) {
-    /* int multicmd_n = 0, i = 0; */
-    /* char *m_cmds; */
-    /* char* dup = strndup(in, MAXLIST); */
-    
-    /* while((m_cmds = strsep(&dup ,";"))) // Parses the semi */
-    /*     pipe_s->m_cmds[i++] = parse_args(m_cmds); */
+ctrl_t* parse_multi(char* in) {
+    int i=0, cmd_n=0;
+    char *cmds, *dup = strndup(in, MAXLIST);
 
-    return pipe_s;
+    for(char* c = dup; *c; c++) // Counts amount of pipes
+        if (*c == '&' || *c == '(' || *c == ')' || *c == ';') ++cmd_n;
+    ++cmd_n;
+    
+    ctrl_t* ctrl_s = init_ctrl_t(cmd_n);
+
+    while((cmds = strsep(&dup ,";"))) // Parses the semi
+        ctrl_s->ccmds[i++] = parse_args(cmds);
+
+    return ctrl_s;
 }
 // }}}
 // -- Print tests -- {{{
