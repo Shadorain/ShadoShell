@@ -127,90 +127,90 @@ int main () { // int argc, char* argv[]) {
     int ntoken, vtoken; // name token, value token
     char in[MAXLIST];
     
-    /* ntoken = yylex(); */
     init_sh();
-    /* while (ntoken) { */
-    /*     if(yylex() != COLON) { */
-    /*         printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); */
-    /*         return 1; */
-    /*     } */
-        /* vtoken = yylex(); */
-        /* switch (ntoken) { */
-        /*     case BLAH: */
-        /* } */
-    while (prompt(PROMPT,in)) {
-        pipes_t* pipe_s;
-        ctrl_t* ctrl_s;
-        int pipes=0,multi=0;
-        char *cmds;
-        char *dup = strndup(in, MAXLIST), *dup2 = strndup(in, MAXLIST);
-        
-        for(char* c = dup; *c; c++) // Counts amount of pipes
-            if (*c == '|') ++pipes;
-        ++pipes;
-        for(char* d = dup2; *d; d++) // Counts amount of pipes
-            if (*d == '&' || *d == '(' || *d == ')' || *d == ';') ++multi;
-        ++multi;
-
-        printf("PIPES: %d, MULTI: %d\n", pipes, multi);
-
-        pipe_s = parse_pipes(in); // Parses by '|' -> bool
-        if (multi > 1)
-            ctrl_s = parse_multi(in); // Parses by '|' -> bool
-
-        print_pipeline(pipe_s);
-        
-        if (pipes == 1 && multi == 1)
-            for (int i = 0; i < pipe_s->cmd_n; ++i){
-                fork_cmd(pipe_s->cmds[i]);
-                /* fork_pipe(pipe_s->cmds[i], pipe_n, piped); */
-                wait(NULL);
-            }
-
-        if (pipes > 1) {
-            int pipe_n = pipe_s->cmd_n - 1;
-            int (*piped)[2] = calloc(2*sizeof(int), pipe_n);
-            for (int i = 1; i < pipe_s->cmd_n; ++i) {
-                pipe(piped[i-1]);
-                pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0];
-                pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1];
-            }
-
-            for (int i = 0; i < pipe_s->cmd_n; ++i)
-                fork_pipe(pipe_s->cmds[i], pipe_n, piped);
-
-            close_pipes(pipe_n, piped);
-            /* Wait for all the children to terminate. Rule 0: not checking status. */
-            for (int i = 0; i < pipe_s->cmd_n; ++i)
-                wait(NULL);
-
-            free(pipe_s);
+    ntoken = yylex();
+    while (ntoken) {
+        if(yylex() != COLON) {
+            printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext);
+            return 1;
         }
-
-        if (multi > 1) {
-            int cmd_n = ctrl_s->cmd_n - 1;
-            int (*ctrl)[2] = calloc(2*sizeof(int), cmd_n);
-            for (int i = 1; i < ctrl_s->cmd_n; ++i) {
-                pipe(ctrl[i-1]);
-                ctrl_s->ccmds[i]->redir[STDIN_FILENO] = ctrl[i-1][0];
-                ctrl_s->ccmds[i-1]->redir[STDOUT_FILENO] = ctrl[i-1][1];
-            }
-
-            printf("Cmd_n ctrl_t: %d\n", ctrl_s->cmd_n);
-            for (int i = 0; i < ctrl_s->cmd_n; ++i)
-                /* printf("CCMD: %s\n",ctrl_s->ccmds[i]->main_cmd); */
-                fork_pipe(ctrl_s->ccmds[i], cmd_n, ctrl);
-
-            close_pipes(cmd_n, ctrl);
-            
-            for (int i = 0; i < ctrl_s->cmd_n; ++i)
-                wait(NULL);
-
-            free(ctrl_s);
+        vtoken = yylex();
+        switch (ntoken) {
+            /* case BLAH: */
         }
     }
 
     return EXIT_STATUS;
 }
+    /* while (prompt(PROMPT,in)) { */
+        /* pipes_t* pipe_s; */
+        /* ctrl_t* ctrl_s; */
+        /* int pipes=0,multi=0; */
+        /* char *cmds; */
+        /* char *dup = strndup(in, MAXLIST), *dup2 = strndup(in, MAXLIST); */
+        
+        /* for(char* c = dup; *c; c++) // Counts amount of pipes */
+        /*     if (*c == '|') ++pipes; */
+        /* ++pipes; */
+        /* for(char* d = dup2; *d; d++) // Counts amount of pipes */
+        /*     if (*d == '&' || *d == '(' || *d == ')' || *d == ';') ++multi; */
+        /* ++multi; */
+
+        /* printf("PIPES: %d, MULTI: %d\n", pipes, multi); */
+
+        /* pipe_s = parse_pipes(in); // Parses by '|' -> bool */
+        /* if (multi > 1) */
+        /*     ctrl_s = parse_multi(in); // Parses by '|' -> bool */
+
+        /* print_pipeline(pipe_s); */
+        
+        /* if (pipes == 1 && multi == 1) */
+        /*     for (int i = 0; i < pipe_s->cmd_n; ++i){ */
+        /*         fork_cmd(pipe_s->cmds[i]); */
+        /*         /1* fork_pipe(pipe_s->cmds[i], pipe_n, piped); *1/ */
+        /*         wait(NULL); */
+        /*     } */
+
+        /* if (pipes > 1) { */
+        /*     int pipe_n = pipe_s->cmd_n - 1; */
+        /*     int (*piped)[2] = calloc(2*sizeof(int), pipe_n); */
+        /*     for (int i = 1; i < pipe_s->cmd_n; ++i) { */
+        /*         pipe(piped[i-1]); */
+        /*         pipe_s->cmds[i]->redir[STDIN_FILENO] = piped[i-1][0]; */
+        /*         pipe_s->cmds[i-1]->redir[STDOUT_FILENO] = piped[i-1][1]; */
+        /*     } */
+
+        /*     for (int i = 0; i < pipe_s->cmd_n; ++i) */
+        /*         fork_pipe(pipe_s->cmds[i], pipe_n, piped); */
+
+        /*     close_pipes(pipe_n, piped); */
+        /*     /1* Wait for all the children to terminate. Rule 0: not checking status. *1/ */
+        /*     for (int i = 0; i < pipe_s->cmd_n; ++i) */
+        /*         wait(NULL); */
+
+        /*     free(pipe_s); */
+        /* } */
+
+        /* if (multi > 1) { */
+        /*     int cmd_n = ctrl_s->cmd_n - 1; */
+        /*     int (*ctrl)[2] = calloc(2*sizeof(int), cmd_n); */
+        /*     for (int i = 1; i < ctrl_s->cmd_n; ++i) { */
+        /*         pipe(ctrl[i-1]); */
+        /*         ctrl_s->ccmds[i]->redir[STDIN_FILENO] = ctrl[i-1][0]; */
+        /*         ctrl_s->ccmds[i-1]->redir[STDOUT_FILENO] = ctrl[i-1][1]; */
+        /*     } */
+
+        /*     printf("Cmd_n ctrl_t: %d\n", ctrl_s->cmd_n); */
+        /*     for (int i = 0; i < ctrl_s->cmd_n; ++i) */
+        /*         /1* printf("CCMD: %s\n",ctrl_s->ccmds[i]->main_cmd); *1/ */
+        /*         fork_pipe(ctrl_s->ccmds[i], cmd_n, ctrl); */
+
+        /*     close_pipes(cmd_n, ctrl); */
+            
+        /*     for (int i = 0; i < ctrl_s->cmd_n; ++i) */
+        /*         wait(NULL); */
+
+        /*     free(ctrl_s); */
+        /* } */
 // }}}
 //----------------------------------------------------------------------------------------
