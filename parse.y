@@ -61,7 +61,6 @@ cmd        : /* empty */    %prec ELSE      { $$ = NULL; }
            | cmd PIPE nlop cmd      { $$ = new_node(ndPipe,$2->l,$2->r,$1,$4); }
            | cmd OR nlop cmd        { $$ = new_node(ndOR,$1,$4); }
            | cmd AND nlop cmd       { $$ = new_node(ndAND,$1,$4); }
-           | EXIT_CMD               { exit(0); }
            ;
 
 iftail     : cmd else               { $$ = $2 != NULL ? new_node(ndElse, $1, $2) : $1;};

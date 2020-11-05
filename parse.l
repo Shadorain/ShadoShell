@@ -4,7 +4,7 @@ void yyerror (char *s);
 int yylex();
 %}
 %%
-"exit"				   {return EXIT_CMD;}
+"exit"				   { exit(0); }
 [ \t\n]                ;
 [-+=;]           	   { printf("TEST\n"); return yytext[0]; }
 

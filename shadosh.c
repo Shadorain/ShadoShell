@@ -18,6 +18,7 @@
 #include <readline/history.h>
 
 // --- Files --- //
+#include "y.tab.h"
 /* #include "parse.h" */
 /* #include "parsing.h" */
 /* #include "exec.h" */
@@ -88,7 +89,10 @@ int main () { // int argc, char* argv[]) {
         /* } */
         vtoken = yylex();
         switch (ntoken) {
-            /* case BLAH: */
+            case EXIT_CMD:
+                // free(...);
+                exit(0);
+                return 0;
         }
     }
 
