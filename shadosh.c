@@ -18,6 +18,7 @@
 #include <readline/history.h>
 
 // --- Files --- //
+#include "parse.h"
 #include "parsing.h"
 #include "exec.h"
 #include "types.h"
@@ -29,6 +30,10 @@
 #define PROMPT "❱ " // Prompt string
 #define PROMPT_DIR 1 // Show directory on prompt or not
 #define clear() printf("\033[H\033[J") // Clear shell via esc codes
+
+extern int yylex();
+extern int yylineno;
+extern char* yytext;
 // }}}
 // -- Init Shell -- {{{
 void init_sh () {
@@ -119,9 +124,20 @@ pid_t fork_cmd(cmd_t* cmd_s) {
 //}}}
 // -- Main -- {{{
 int main () { // int argc, char* argv[]) {
+    int ntoken, vtoken; // name token, value token
     char in[MAXLIST];
-
+    
+    /* ntoken = yylex(); */
     init_sh();
+    /* while (ntoken) { */
+    /*     if(yylex() != COLON) { */
+    /*         printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); */
+    /*         return 1; */
+    /*     } */
+        /* vtoken = yylex(); */
+        /* switch (ntoken) { */
+        /*     case BLAH: */
+        /* } */
     while (prompt(PROMPT,in)) {
         pipes_t* pipe_s;
         ctrl_t* ctrl_s;
