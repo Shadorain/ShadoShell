@@ -11,9 +11,8 @@ int yylex();
 // Declarations
 Node *tree;
 %}
-%token AND ELSE END IF
+%token AND ELSE END IF EXIT_CMD
 %token OR //PIPE
-%token EXIT_CMD
 
 %left AND OR '\n'
 %left PIPE
@@ -22,7 +21,8 @@ Node *tree;
 %union {
     struct Node *node;
     struct Pipe *pipe;
-    char *keyword;
+    char *keyword, *c;
+    int n;
 }
 
 %token <pipe> PIPE

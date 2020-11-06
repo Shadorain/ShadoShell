@@ -88,7 +88,7 @@ int main () { // int argc, char* argv[]) {
         /*     return 1; */
         /* } */
         vtoken = yylex();
-        switch (ntoken) {
+        switch (vtoken) {
             case EXIT_CMD:
                 // free(...);
                 exit(0);

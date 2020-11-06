@@ -58,8 +58,8 @@ extern int yydebug;
     ELSE = 259,                    /* ELSE  */
     END = 260,                     /* END  */
     IF = 261,                      /* IF  */
-    OR = 262,                      /* OR  */
-    EXIT_CMD = 263,                /* EXIT_CMD  */
+    EXIT_CMD = 262,                /* EXIT_CMD  */
+    OR = 263,                      /* OR  */
     PIPE = 264                     /* PIPE  */
   };
   typedef enum yytokentype yytoken_kind_t;
@@ -72,21 +72,22 @@ extern int yydebug;
 #define ELSE 259
 #define END 260
 #define IF 261
-#define OR 262
-#define EXIT_CMD 263
+#define EXIT_CMD 262
+#define OR 263
 #define PIPE 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 22 "parse.y"
+#line 21 "parse.y"
 
     struct Node *node;
     struct Pipe *pipe;
-    char *keyword;
+    char *keyword, *c;
+    int n;
 
-#line 90 "y.tab.h"
+#line 91 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

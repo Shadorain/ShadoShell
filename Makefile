@@ -12,6 +12,12 @@ BDIR=/usr/local
 shadosh: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
+lex.yy.c: y.tab.c parse.l
+	lex parse.l
+
+y.tab.c: parse.y
+	yacc -d parse.y
+
 install:
 	mkdir -p $(BDIR)/bin
 	cp -f shadosh $(BDIR)/bin

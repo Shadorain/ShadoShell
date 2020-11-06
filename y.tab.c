@@ -129,8 +129,8 @@ extern int yydebug;
     ELSE = 259,                    /* ELSE  */
     END = 260,                     /* END  */
     IF = 261,                      /* IF  */
-    OR = 262,                      /* OR  */
-    EXIT_CMD = 263,                /* EXIT_CMD  */
+    EXIT_CMD = 262,                /* EXIT_CMD  */
+    OR = 263,                      /* OR  */
     PIPE = 264                     /* PIPE  */
   };
   typedef enum yytokentype yytoken_kind_t;
@@ -143,21 +143,22 @@ extern int yydebug;
 #define ELSE 259
 #define END 260
 #define IF 261
-#define OR 262
-#define EXIT_CMD 263
+#define EXIT_CMD 262
+#define OR 263
 #define PIPE 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 22 "parse.y"
+#line 21 "parse.y"
 
     struct Node *node;
     struct Pipe *pipe;
-    char *keyword;
+    char *keyword, *c;
+    int n;
 
-#line 161 "y.tab.c"
+#line 162 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -182,8 +183,8 @@ enum yysymbol_kind_t
   YYSYMBOL_ELSE = 4,                       /* ELSE  */
   YYSYMBOL_END = 5,                        /* END  */
   YYSYMBOL_IF = 6,                         /* IF  */
-  YYSYMBOL_OR = 7,                         /* OR  */
-  YYSYMBOL_EXIT_CMD = 8,                   /* EXIT_CMD  */
+  YYSYMBOL_EXIT_CMD = 7,                   /* EXIT_CMD  */
+  YYSYMBOL_OR = 8,                         /* OR  */
   YYSYMBOL_9_n_ = 9,                       /* '\n'  */
   YYSYMBOL_PIPE = 10,                      /* PIPE  */
   YYSYMBOL_11_ = 11,                       /* '&'  */
@@ -589,7 +590,7 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "AND", "ELSE", "END",
-  "IF", "OR", "EXIT_CMD", "'\\n'", "PIPE", "'&'", "';'", "'('", "')'",
+  "IF", "EXIT_CMD", "OR", "'\\n'", "PIPE", "'&'", "';'", "'('", "')'",
   "$accept", "shadosh", "end", "sa_cmd", "san_cmd", "line", "body",
   "paren", "cmd", "iftail", "else", "nlop", YY_NULLPTR
 };
@@ -625,10 +626,10 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       2,     1,     3,    17,   -18,    20,     1,    12,   -18,   -18,
-     -18,    20,   -18,   -18,    20,   -18,    12,   -18,   -18,   -18,
-     -18,   -18,   -18,   -18,     4,    26,   -18,    26,    26,    26,
-     -18,   -18,    27,   -18,    23,    23,   -18,   -18,   -18,    26,
+       2,    10,     5,    22,   -18,    18,    10,    23,   -18,   -18,
+     -18,    18,   -18,   -18,    18,   -18,    23,   -18,   -18,   -18,
+     -18,   -18,   -18,   -18,    16,    31,   -18,    31,    31,    31,
+     -18,   -18,    13,   -18,    28,    28,   -18,   -18,   -18,    31,
       33
 };
 
@@ -647,7 +648,7 @@ static const yytype_int8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -18,   -18,    32,   -18,    42,   -18,    30,   -18,     0,   -18,
+     -18,   -18,    36,   -18,    44,   -18,    -5,   -18,     0,   -18,
      -18,   -17
 };
 
@@ -663,20 +664,20 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       7,    27,    28,     1,    29,   -15,     8,   -15,     2,   -15,
-       9,   -15,   -15,   -15,   -15,    18,    11,    13,    30,    19,
-      39,    20,    21,    22,    23,    32,     2,    34,    35,    36,
-      18,    37,     2,    21,    19,    31,    18,    21,    17,    40,
-      19,    24,     5,    21,    26
+       7,    27,    28,     1,    29,   -15,    24,   -15,     2,    26,
+     -15,   -15,   -15,   -15,   -15,     8,    18,    37,    11,     9,
+      39,    19,    13,    21,     2,    32,    18,    34,    35,    36,
+      30,    19,    20,    21,    22,    23,    18,     2,    21,    40,
+      31,    19,    17,    21,     5
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,    18,    19,     1,    21,     3,     5,     5,     6,     7,
-       9,     9,    10,    11,    12,     3,    13,     0,    14,     7,
-      37,     9,    10,    11,    12,    25,     6,    27,    28,    29,
-       3,     4,     6,    10,     7,     9,     3,    10,     6,    39,
-       7,    11,     0,    10,    14
+       0,    18,    19,     1,    21,     3,    11,     5,     6,    14,
+       8,     9,    10,    11,    12,     5,     3,     4,    13,     9,
+      37,     8,     0,    10,     6,    25,     3,    27,    28,    29,
+      14,     8,     9,    10,    11,    12,     3,     6,    10,    39,
+       9,     8,     6,    10,     0
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -684,7 +685,7 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     1,     6,    16,    18,    19,    20,    23,     5,     9,
-      17,    13,    22,     0,    19,    21,    23,    17,     3,     7,
+      17,    13,    22,     0,    19,    21,    23,    17,     3,     8,
        9,    10,    11,    12,    21,    26,    21,    26,    26,    26,
       14,     9,    23,    24,    23,    23,    23,     4,    25,    26,
       23
@@ -1173,107 +1174,107 @@ yyreduce:
   case 2: /* shadosh: line end  */
 #line 35 "parse.y"
                             { tree = (yyvsp[-1].node); YYACCEPT; }
-#line 1177 "y.tab.c"
+#line 1178 "y.tab.c"
     break;
 
   case 3: /* shadosh: error end  */
 #line 36 "parse.y"
                             { yyerrok; tree = NULL; YYABORT; }
-#line 1183 "y.tab.c"
+#line 1184 "y.tab.c"
     break;
 
   case 4: /* end: END  */
 #line 38 "parse.y"
                             { YYABORT; }
-#line 1189 "y.tab.c"
+#line 1190 "y.tab.c"
     break;
 
   case 5: /* end: '\n'  */
 #line 39 "parse.y"
                             { YYABORT; }
-#line 1195 "y.tab.c"
+#line 1196 "y.tab.c"
     break;
 
   case 7: /* sa_cmd: cmd ';'  */
 #line 43 "parse.y"
            { (yyval.node) = ((yyvsp[-1].node) != NULL ? new_node(ndCompound,(yyvsp[-1].node)): (yyvsp[-1].node)); }
-#line 1201 "y.tab.c"
+#line 1202 "y.tab.c"
     break;
 
   case 9: /* san_cmd: cmd '\n'  */
 #line 47 "parse.y"
            { (yyval.node) = (yyvsp[-1].node); YYABORT; }
-#line 1207 "y.tab.c"
+#line 1208 "y.tab.c"
     break;
 
   case 11: /* line: san_cmd body  */
 #line 51 "parse.y"
            { (yyval.node) = ((yyvsp[-1].node) != NULL ? new_node(ndBody,(yyvsp[-1].node),(yyvsp[0].node)) : (yyvsp[0].node)); }
-#line 1213 "y.tab.c"
+#line 1214 "y.tab.c"
     break;
 
   case 13: /* body: san_cmd body  */
 #line 55 "parse.y"
            { (yyval.node) = ((yyvsp[-1].node) == NULL ? (yyvsp[0].node) : (yyvsp[0].node) == NULL ? (yyvsp[-1].node) : new_node(ndBody,(yyvsp[-1].node),(yyvsp[0].node))); }
-#line 1219 "y.tab.c"
+#line 1220 "y.tab.c"
     break;
 
   case 14: /* paren: '(' body ')'  */
 #line 57 "parse.y"
                             { (yyval.node) = (yyvsp[-1].node); }
-#line 1225 "y.tab.c"
+#line 1226 "y.tab.c"
     break;
 
   case 15: /* cmd: %empty  */
 #line 59 "parse.y"
                                             { (yyval.node) = NULL; }
-#line 1231 "y.tab.c"
+#line 1232 "y.tab.c"
     break;
 
   case 16: /* cmd: IF paren nlop iftail  */
 #line 60 "parse.y"
                                     { (yyval.node) = new_node(ndIf,(yyvsp[-2].node),(yyvsp[0].node)); }
-#line 1237 "y.tab.c"
+#line 1238 "y.tab.c"
     break;
 
   case 17: /* cmd: cmd PIPE nlop cmd  */
 #line 61 "parse.y"
                                     { (yyval.node) = new_node(ndPipe,(yyvsp[-2].pipe)->l,(yyvsp[-2].pipe)->r,(yyvsp[-3].node),(yyvsp[0].node)); }
-#line 1243 "y.tab.c"
+#line 1244 "y.tab.c"
     break;
 
   case 18: /* cmd: cmd OR nlop cmd  */
 #line 62 "parse.y"
                                     { (yyval.node) = new_node(ndOR,(yyvsp[-3].node),(yyvsp[0].node)); }
-#line 1249 "y.tab.c"
+#line 1250 "y.tab.c"
     break;
 
   case 19: /* cmd: cmd AND nlop cmd  */
 #line 63 "parse.y"
                                     { (yyval.node) = new_node(ndAND,(yyvsp[-3].node),(yyvsp[0].node)); }
-#line 1255 "y.tab.c"
+#line 1256 "y.tab.c"
     break;
 
   case 20: /* iftail: cmd else  */
 #line 66 "parse.y"
                                     { (yyval.node) = (yyvsp[0].node) != NULL ? new_node(ndElse, (yyvsp[-1].node), (yyvsp[0].node)) : (yyvsp[-1].node);}
-#line 1261 "y.tab.c"
+#line 1262 "y.tab.c"
     break;
 
   case 21: /* else: %empty  */
 #line 68 "parse.y"
                                     { (yyval.node) = NULL; }
-#line 1267 "y.tab.c"
+#line 1268 "y.tab.c"
     break;
 
   case 22: /* else: ELSE nlop cmd  */
 #line 69 "parse.y"
                                     { (yyval.node) = (yyvsp[0].node); }
-#line 1273 "y.tab.c"
+#line 1274 "y.tab.c"
     break;
 
 
-#line 1277 "y.tab.c"
+#line 1278 "y.tab.c"
 
       default: break;
     }
