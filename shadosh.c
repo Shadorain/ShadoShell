@@ -19,6 +19,7 @@
 
 // --- Files --- //
 #include "y.tab.h"
+#include "exec.h"
 /* #include "parse.h" */
 /* #include "parsing.h" */
 /* #include "exec.h" */
@@ -79,22 +80,27 @@ ssize_t prompt(const char* prompt, char* in){//, size_t *in_len) {
 int main () { // int argc, char* argv[]) {
     int ntoken, vtoken; // name token, value token
     char in[MAXLIST];
+    Node *nd;
     
     init_sh();
-    ntoken = yylex();
-    /* while (ntoken) { */
-        /* if(yylex() != COLON) { */
-        /*     printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); */
-        /*     return 1; */
-        /* } */
-        switch (ntoken) {
-            case EXIT_CMD:
-                //shadofree();
-                exit(0);
-            case ARGS:
-                printf("ARGS\n");
-        }
-    /* } */
+    /* ntoken = yylex(); */
+    /* /1* while (ntoken) { *1/ */
+    /*     /1* if(yylex() != COLON) { *1/ */
+    /*     /1*     printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); *1/ */
+    /*     /1*     return 1; *1/ */
+    /*     /1* } *1/ */
+    /*     switch (ntoken) { */
+    /*         case EXIT_CMD: */
+    /*             //shadofree(); */
+    /*             exit(0); */
+    /*         /1* case ARGS: *1/ */
+    /*         /1*     printf("ARGS\n"); *1/ */
+    /*         /1*     exec_cmd(nd); *1/ */
+    /*     } */
+    /* /1* } *1/ */
+    while(1) {
+        yyparse();
+    }
 
     return EXIT_STATUS;
 }

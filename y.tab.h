@@ -61,7 +61,7 @@ extern int yydebug;
     WHILE = 262,                   /* WHILE  */
     OR = 263,                      /* OR  */
     EXIT_CMD = 264,                /* EXIT_CMD  */
-    ARGS = 265,                    /* ARGS  */
+    CR = 265,                      /* CR  */
     PIPE = 266                     /* PIPE  */
   };
   typedef enum yytokentype yytoken_kind_t;
@@ -77,7 +77,7 @@ extern int yydebug;
 #define WHILE 262
 #define OR 263
 #define EXIT_CMD 264
-#define ARGS 265
+#define CR 265
 #define PIPE 266
 
 /* Value type.  */

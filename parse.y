@@ -13,7 +13,7 @@ Node *tree;
 %}
 %token AND ELSE END IF WHILE
 %token OR //PIPE
-%token EXIT_CMD ARGS
+%token EXIT_CMD CR
 
 %left AND OR '\n'
 %left PIPE
@@ -27,7 +27,7 @@ Node *tree;
 }
 
 %token <pipe> PIPE
-%type <node> line paren sa_cmd san_cmd body end cmd iftail else
+%type <node> line paren sa_cmd san_cmd body end cmd iftail else exit
 
 %start shadosh
 %%
@@ -37,7 +37,7 @@ shadosh    : line end       { tree = $1; YYACCEPT; }
            | error end      { yyerrok; tree = NULL; YYABORT; } ;
 
 end        : END            { YYABORT; }
-           | '\n'           { YYABORT; } ;
+           | CR             { YYABORT; };
 
 sa_cmd     : cmd '&'
            | cmd ';' //if NULL then  mk new node     else 
@@ -59,17 +59,19 @@ paren      : '(' body ')'   { $$ = $2; };
 
 
 cmd        : /* empty */    %prec WHILE      { $$ = NULL; }
-           | ARGS
            | IF paren nlop iftail   { $$ = new_node(ndIf,$2,$4); }
            | cmd PIPE nlop cmd      { $$ = new_node(ndPipe,$2->l,$2->r,$1,$4); }
            | cmd OR nlop cmd        { $$ = new_node(ndOR,$1,$4); }
            | cmd AND nlop cmd       { $$ = new_node(ndAND,$1,$4); }
+           | exit
            ;
 
 iftail     : cmd else               { $$ = $2 != NULL ? new_node(ndElse, $1, $2) : $1;};
 
 else       :            %prec ELSE  { $$ = NULL; }
            | ELSE nlop cmd          { $$ = $3; };
+
+exit       : EXIT_CMD CR            {printf("TEST\n"); exit(0); }
 
 nlop       :        
            | nlop '\n';
