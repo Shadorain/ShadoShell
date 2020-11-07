@@ -3,6 +3,9 @@
 // Includes
 #include <sys/stat.h>
 #include <assert.h>
+#ifdef CONFIG_H
+#include "config.h"
+#endif
 
 // Typedefs
 typedef struct Node Node;

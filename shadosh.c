@@ -82,19 +82,19 @@ int main () { // int argc, char* argv[]) {
     
     init_sh();
     ntoken = yylex();
-    while (ntoken) {
+    /* while (ntoken) { */
         /* if(yylex() != COLON) { */
         /*     printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); */
         /*     return 1; */
         /* } */
-        vtoken = yylex();
-        switch (vtoken) {
+        switch (ntoken) {
             case EXIT_CMD:
-                // free(...);
+                //shadofree();
                 exit(0);
-                return 0;
+            case ARGS:
+                break;
         }
-    }
+    /* } */
 
     return EXIT_STATUS;
 }

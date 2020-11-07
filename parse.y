@@ -11,8 +11,9 @@ int yylex();
 // Declarations
 Node *tree;
 %}
-%token AND ELSE END IF EXIT_CMD
+%token AND ELSE END IF WHILE
 %token OR //PIPE
+%token EXIT_CMD ARGS
 
 %left AND OR '\n'
 %left PIPE
@@ -52,11 +53,13 @@ line       : cmd
 
 body       : cmd 
            | san_cmd body
-           { $$ = ($1 == NULL ? $2 : $2 == NULL ? $1 : new_node(ndBody,$1,$2)); } ;
+           { $$ = ($1 == NULL ? $2 : $2 == NULL ? $1 : new_node(ndBody,$1,$2)); };
 
 paren      : '(' body ')'   { $$ = $2; };
 
-cmd        : /* empty */    %prec ELSE      { $$ = NULL; }
+
+cmd        : /* empty */    %prec WHILE      { $$ = NULL; }
+           | ARGS
            | IF paren nlop iftail   { $$ = new_node(ndIf,$2,$4); }
            | cmd PIPE nlop cmd      { $$ = new_node(ndPipe,$2->l,$2->r,$1,$4); }
            | cmd OR nlop cmd        { $$ = new_node(ndOR,$1,$4); }
