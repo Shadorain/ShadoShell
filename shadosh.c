@@ -92,7 +92,7 @@ int main () { // int argc, char* argv[]) {
                 //shadofree();
                 exit(0);
             case ARGS:
-                break;
+                printf("ARGS\n");
         }
     /* } */
 
