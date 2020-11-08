@@ -19,11 +19,22 @@ extern Node* new_node(enum node_e nt, ...) {
             nd = malloc(sizeof(Node));
             nd->un[0].p = va_arg(ap, Node *);
             nd->un[1].p = va_arg(ap, Node *);
-            printf("ARGS: %s\n", nd->un[0].p->un[0].cmds);
+            /* printf("ARGS: %s\n", nd->un[0].p->un[0].cmds); */
         case ndPipe:
             break;
     }
     va_end(ap);
 
     return nd;
+}
+
+extern Wordlist *add_wd(char *w, char *m) {
+	Wordlist *wl = NULL;
+	if (w != NULL) {
+		wl = malnew(Wordlist);
+		wl->w = w;
+		wl->m = m;
+		wl->wl = NULL;
+	}
+	return wl;
 }

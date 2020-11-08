@@ -12,7 +12,7 @@ int exec_cmd(Node *nd) {
     /* if ((fd = nd->redir[1]) != -1) { */
     /*     dup2(fd, STDOUT_FILENO); */
     /* } */
-    return execvp(nd->un[0].cmds, &nd->un->cmds);
+    return 0;//execvp(nd->un[0].cmds, &nd->un->cmds);
 }
 
 /* int exec_fork(cmd_t* cmd, int pipe_n, int (*piped)[2]) { */
