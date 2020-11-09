@@ -462,8 +462,9 @@ char *yytext;
 #include "y.tab.h"
 void yyerror (char *s);
 int yylex();
-#line 465 "lex.yy.c"
+YYSTYPE *y = &yylval;
 #line 466 "lex.yy.c"
+#line 467 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -680,10 +681,10 @@ YY_DECL
 		}
 
 	{
-#line 6 "parse.l"
+#line 7 "parse.l"
 
 
-#line 686 "lex.yy.c"
+#line 687 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -742,66 +743,66 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "parse.l"
+#line 9 "parse.l"
 return EXIT_CMD;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "parse.l"
+#line 10 "parse.l"
 yylval.n = atoi(yytext);printf("YYVAL.n: %d\n",yylval.n);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 10 "parse.l"
+#line 11 "parse.l"
 return yytext[0];
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 11 "parse.l"
+#line 12 "parse.l"
 return PIPE;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 12 "parse.l"
-yylval.c = strdup(yytext);printf("YYTEXT: %s\n",yytext);return WORD;
+#line 13 "parse.l"
+y->word.w = malloc(sizeof(yytext)); y->word.w = strdup(yytext);printf("YYTEXT: %s\n",y->word.w);return WORD;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "parse.l"
+#line 14 "parse.l"
 ; // POSIX style comments
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 14 "parse.l"
+#line 15 "parse.l"
 ; // C style comments
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 15 "parse.l"
+#line 16 "parse.l"
 ; // Haskell style comments
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "parse.l"
+#line 17 "parse.l"
 ; // ignore all whitespace
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 17 "parse.l"
+#line 18 "parse.l"
 return CR; // ignore newline
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "parse.l"
+#line 19 "parse.l"
 printf("unexpected character\n"); // All else
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 20 "parse.l"
+#line 21 "parse.l"
 ECHO;
 	YY_BREAK
-#line 804 "lex.yy.c"
+#line 805 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1806,7 +1807,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 20 "parse.l"
+#line 21 "parse.l"
 
 
 int yywrap (void) {return 1;}

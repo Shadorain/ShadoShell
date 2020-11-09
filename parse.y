@@ -13,7 +13,7 @@ Node *tree;
 %}
 %token AND ELSE END IF WHILE
 %token OR //PIPE
-%token EXIT_CMD CR
+%token EXIT_CMD CR WORD
 
 %left AND OR '\n'
 %left PIPE
@@ -22,12 +22,12 @@ Node *tree;
 %union {
     struct Node *node_s;
     struct Pipe *pipe_s;
-    struct Word *word;
+    struct Word word;
     char *keyword, *c;
     int n;
 }
 
-%token <word> WORD
+%type <word> WORD
 %token <pipe_s> PIPE
 %type <node_s> line sa_cmd san_cmd body end cmd exit basic basic_elem
 
@@ -57,10 +57,10 @@ body       : cmd
            | san_cmd body
            { $$ = ($1 == NULL ? $2 : $2 == NULL ? $1 : new_node(ndBody,$1,$2)); };
 
-basic_elem : WORD                   { $$ = new_node(ndWord, $1->w, $1->m, $1->q); };
+basic_elem : WORD                   { $$ = new_node(ndWord, $1.w, $1.m, $1.q); };
 
-basic      : basic_elem             { $$ = new_node(ndBasic, $1, NULL); }
-           | basic basic_elem       { $$ = new_node(ndBasic, $2, $1); }
+basic      : basic_elem             //{ $$ = new_node(ndBasic, $1, NULL); }
+           | basic basic_elem       //{ $$ = new_node(ndBasic, $2, $1); }
 
 cmd        : /* empty */    %prec WHILE      { $$ = NULL; }
            | basic

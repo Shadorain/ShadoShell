@@ -35,6 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
+#include "shadosh.h"
+
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -90,7 +92,7 @@ union YYSTYPE
 
     struct Node *node_s;
     struct Pipe *pipe_s;
-    struct Word *word;
+    struct Word word;
     char *keyword, *c;
     int n;
 
