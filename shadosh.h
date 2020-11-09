@@ -9,10 +9,12 @@
 #endif
 
 // Typedefs
+typedef long align_t;
 typedef struct Node Node;
 typedef struct Pipe Pipe;
 typedef struct Word Word;
 typedef struct Wordlist Wordlist;
+typedef struct Block Block;
 
 typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, ndWord } node_e;
 
@@ -49,10 +51,17 @@ struct Wordlist {
 #ifndef NULL
 #define NULL 0
 #endif
-#define malnew(x) ((x *) malloc(sizeof(x)))
+#define nalnew(x) ((x *) nalloc(sizeof(x)))
+#define offsetof(t, m) ((size_t) (((char *) &((t *) 0)->m) - (char *)0))
 
 
 /* ------------------------------------------------------------------------ */ 
+// nalloc.c
+extern Block *newblock(void);
+extern void *nalloc(size_t);
+extern void nfree(void);
+extern void restoreblock(Block *);
+
 // parse.y
 extern Node *tree;
 extern int yyparse(void);

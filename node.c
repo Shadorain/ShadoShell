@@ -11,14 +11,21 @@ extern Node* new_node(enum node_e nt, ...) {
     Node* nd;
 
     va_start(ap, nt); //Requires the last fixed parameter (to get the address)
+    printf("%d\n", nt);
     switch (nt) {
         default:
             printf("Welp this shouldn't be happening, please put in a report for this!\n");
             exit(1);
-        case ndArgs: case ndBody:
-            nd = malloc(sizeof(Node));
-            nd->un[0].p = va_arg(ap, Node *);
-            nd->un[1].p = va_arg(ap, Node *);
+        case ndWord:
+            nd = malloc(sizeof(Node)); //nalloc(offsetof(Node, un[3])); 
+            nd->un[0].w = va_arg(ap, char *);
+            nd->un[1].w = va_arg(ap, char *);
+            nd->un[1].i = va_arg(ap, int);
+            break;
+        /* case ndArgs: case ndBody: */
+        /*     nd = nalloc(sizeof(Node)); */
+        /*     nd->un[0].p = va_arg(ap, Node *); */
+        /*     nd->un[1].p = va_arg(ap, Node *); */
             /* printf("ARGS: %s\n", nd->un[0].p->un[0].cmds); */
         case ndPipe:
             break;
@@ -31,7 +38,7 @@ extern Node* new_node(enum node_e nt, ...) {
 extern Wordlist *add_wd(char *w, char *m) {
 	Wordlist *wl = NULL;
 	if (w != NULL) {
-		wl = malnew(Wordlist);
+		wl = nalnew(Wordlist);
 		wl->w = w;
 		wl->m = m;
 		wl->wl = NULL;

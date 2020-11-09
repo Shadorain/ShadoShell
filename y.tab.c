@@ -1207,7 +1207,7 @@ yyreduce:
 
   case 11: /* line: san_cmd body  */
 #line 54 "parse.y"
-           { (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[0].node_s)); }
+           { printf("TESTES\n"); (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[0].node_s)); }
 #line 1212 "y.tab.c"
     break;
 

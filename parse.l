@@ -7,7 +7,8 @@ int yylex();
 
 "exit"				   return EXIT_CMD;
 [0-9]+                 yylval.n = atoi(yytext);printf("YYVAL.n: %d\n",yylval.n);
-[-+=;|]           	   return yytext[0];
+[-+=;]           	   return yytext[0];
+"|"                    return PIPE;
 [-a-zA-Z0-9]+          yylval.c = strdup(yytext);printf("YYTEXT: %s\n",yytext);return WORD;
 "#"[ -~]+              ; // POSIX style comments
 "//"[ -~]+             ; // C style comments

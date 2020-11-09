@@ -51,7 +51,7 @@ san_cmd    : sa_cmd
 
 line       : cmd 
            | san_cmd body
-           { $$ = ($1 != NULL ? new_node(ndBody,$1,$2) : $2); };
+           { printf("TESTES\n"); $$ = ($1 != NULL ? new_node(ndBody,$1,$2) : $2); };
 
 body       : cmd 
            | san_cmd body
