@@ -69,11 +69,11 @@
 /* First part of user prologue.  */
 #line 1 "parse.y"
 
+#include "shadosh.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-
-#include "shadosh.h"
 
 void yyerror(char *s);
 int yylex();
@@ -157,10 +157,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 22 "parse.y"
+#line 23 "parse.y"
 
     struct Node *node_s;
-    struct Pipe *pipe_s;
+    struct Pipe pipe;
     struct Word word;
     char *keyword, *c;
     int n;
@@ -206,7 +206,7 @@ enum yysymbol_kind_t
   YYSYMBOL_san_cmd = 20,                   /* san_cmd  */
   YYSYMBOL_line = 21,                      /* line  */
   YYSYMBOL_body = 22,                      /* body  */
-  YYSYMBOL_basic_elem = 23,                /* basic_elem  */
+  YYSYMBOL_word = 23,                      /* word  */
   YYSYMBOL_basic = 24,                     /* basic  */
   YYSYMBOL_cmd = 25,                       /* cmd  */
   YYSYMBOL_exit = 26,                      /* exit  */
@@ -579,9 +579,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    38,    38,    39,    41,    42,    44,    45,    48,    49,
-      52,    53,    56,    57,    60,    62,    63,    65,    66,    67,
-      68,    71,    73,    74
+       0,    39,    39,    40,    42,    43,    45,    46,    49,    50,
+      53,    54,    57,    58,    61,    63,    64,    66,    67,    68,
+      69,    72,    74,    75
 };
 #endif
 
@@ -600,7 +600,7 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "AND", "ELSE", "END",
   "IF", "WHILE", "OR", "EXIT_CMD", "CR", "WORD", "'\\n'", "PIPE", "'&'",
   "';'", "$accept", "shadosh", "end", "sa_cmd", "san_cmd", "line", "body",
-  "basic_elem", "basic", "cmd", "exit", "nlop", YY_NULLPTR
+  "word", "basic", "cmd", "exit", "nlop", YY_NULLPTR
 };
 
 static const char *
@@ -1170,79 +1170,91 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* shadosh: line end  */
-#line 38 "parse.y"
+#line 39 "parse.y"
                             { tree = (yyvsp[-1].node_s); YYACCEPT; }
 #line 1176 "y.tab.c"
     break;
 
   case 3: /* shadosh: error end  */
-#line 39 "parse.y"
+#line 40 "parse.y"
                             { yyerrok; tree = NULL; YYABORT; }
 #line 1182 "y.tab.c"
     break;
 
   case 4: /* end: END  */
-#line 41 "parse.y"
+#line 42 "parse.y"
                             { YYABORT; }
 #line 1188 "y.tab.c"
     break;
 
   case 5: /* end: CR  */
-#line 42 "parse.y"
+#line 43 "parse.y"
                             { YYABORT; }
 #line 1194 "y.tab.c"
     break;
 
   case 7: /* sa_cmd: cmd ';'  */
-#line 46 "parse.y"
+#line 47 "parse.y"
            { (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndCompound,(yyvsp[-1].node_s)): (yyvsp[-1].node_s)); }
 #line 1200 "y.tab.c"
     break;
 
   case 9: /* san_cmd: cmd '\n'  */
-#line 50 "parse.y"
+#line 51 "parse.y"
            { (yyval.node_s) = (yyvsp[-1].node_s); YYABORT; }
 #line 1206 "y.tab.c"
     break;
 
   case 11: /* line: san_cmd body  */
-#line 54 "parse.y"
+#line 55 "parse.y"
            { printf("TESTES\n"); (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[0].node_s)); }
 #line 1212 "y.tab.c"
     break;
 
   case 13: /* body: san_cmd body  */
-#line 58 "parse.y"
+#line 59 "parse.y"
            { (yyval.node_s) = ((yyvsp[-1].node_s) == NULL ? (yyvsp[0].node_s) : (yyvsp[0].node_s) == NULL ? (yyvsp[-1].node_s) : new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s))); }
 #line 1218 "y.tab.c"
     break;
 
-  case 14: /* basic_elem: WORD  */
-#line 60 "parse.y"
-                                    { (yyval.node_s) = new_node(ndWord, (yyvsp[0].word).w, (yyvsp[0].word).m, (yyvsp[0].word).q); }
+  case 14: /* word: WORD  */
+#line 61 "parse.y"
+                                    { (yyval.node_s) = new_node(ndWord, (yyvsp[0].word).w); }
 #line 1224 "y.tab.c"
     break;
 
-  case 17: /* cmd: %empty  */
-#line 65 "parse.y"
-                                             { (yyval.node_s) = NULL; }
+  case 15: /* basic: word  */
+#line 63 "parse.y"
+                                    { (yyval.node_s) = NULL; }
 #line 1230 "y.tab.c"
     break;
 
-  case 19: /* cmd: cmd PIPE nlop cmd  */
-#line 67 "parse.y"
-                                    { (yyval.node_s) = new_node(ndPipe,(yyvsp[-2].pipe_s)->l,(yyvsp[-2].pipe_s)->r,(yyvsp[-3].node_s),(yyvsp[0].node_s)); }
+  case 16: /* basic: basic word  */
+#line 64 "parse.y"
+                                    { (yyval.node_s) = ((yyvsp[0].node_s) != NULL ? new_node(ndBasic,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[-1].node_s)); }
 #line 1236 "y.tab.c"
     break;
 
-  case 21: /* exit: EXIT_CMD CR  */
-#line 71 "parse.y"
-                                    {printf("TEST\n"); exit(0); }
+  case 17: /* cmd: %empty  */
+#line 66 "parse.y"
+                                             { (yyval.node_s) = NULL; }
 #line 1242 "y.tab.c"
     break;
 
+  case 19: /* cmd: cmd PIPE nlop cmd  */
+#line 68 "parse.y"
+                                    { (yyval.node_s) = new_node(ndPipe,(yyvsp[-2].pipe).l,(yyvsp[-2].pipe).r,(yyvsp[-3].node_s),(yyvsp[0].node_s)); }
+#line 1248 "y.tab.c"
+    break;
 
-#line 1246 "y.tab.c"
+  case 21: /* exit: EXIT_CMD CR  */
+#line 72 "parse.y"
+                                    {printf("TEST\n"); exit(0); }
+#line 1254 "y.tab.c"
+    break;
+
+
+#line 1258 "y.tab.c"
 
       default: break;
     }
@@ -1436,7 +1448,10 @@ yyreturn:
   return yyresult;
 }
 
-#line 94 "parse.y"
+#line 95 "parse.y"
 
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
+/* basic      : basic_elem             { $$ = new_node(ndBasic, $1, NULL); } */
+/*            | basic basic_elem       { $$ = new_node(ndBasic, $2, $1); printf("NODE->un[0].w: %s\n", $$->un[0].w); printf("NODE->un[1].w: %s\n", $$->un[1].w);} */
+

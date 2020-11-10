@@ -37,12 +37,11 @@ struct Pipe {
 };
 
 struct Word {
-    char *w, *m;
-    bool q;
+    char *w;
 };
 
 struct Wordlist {
-    char *w, *m;
+    char *w;
     Wordlist *wl;
 };
 
@@ -52,6 +51,7 @@ struct Wordlist {
 #define NULL 0
 #endif
 #define nalnew(x) ((x *) nalloc(sizeof(x)))
+#define mmem(x) ((x *) malloc(sizeof(x)))
 #define offsetof(t, m) ((size_t) (((char *) &((t *) 0)->m) - (char *)0))
 
 

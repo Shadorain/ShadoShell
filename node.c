@@ -20,19 +20,15 @@ extern Node* new_node(enum node_e nt, ...) {
         case ndWord:
             nd = malloc(sizeof(Node)); //nalloc(offsetof(Node, un[3])); 
             nd->un = calloc(4, sizeof(Node));
-            /* nd->un->w = malloc(sizeof(Node)); */
             nd->un[0].w = va_arg(ap, char *);
-            nd->un[1].w = va_arg(ap, char *);
-            nd->un[2].i = va_arg(ap, int);
-            /* printf("Nd->un[0].w : %s\n", nd->un[0].w); */
-            /* printf("Nd->un[1].i : %d\n", nd->un[1].i); */
+            /* nd->un[2].i = va_arg(ap, int); */
             break;
         case ndBasic:
             nd = malloc(sizeof(Node)); //nalloc(offsetof(Node, un[3])); 
             nd->un = malloc(sizeof(Node));
             nd->un[0].w = va_arg(ap, char *);
             nd->un[1].w = va_arg(ap, char *);
-            nd->un[1].i = va_arg(ap, int);
+            /* nd->un[2].i = va_arg(ap, int); */
             break;
         /* case ndArgs: case ndBody: */
         /*     nd = nalloc(sizeof(Node)); */
@@ -47,12 +43,11 @@ extern Node* new_node(enum node_e nt, ...) {
     return nd;
 }
 
-extern Wordlist *add_wd(char *w, char *m) {
+extern Wordlist *add_wd(char *w) {
 	Wordlist *wl = NULL;
 	if (w != NULL) {
-		wl = nalnew(Wordlist);
+		wl = mmem(Wordlist);
 		wl->w = w;
-		wl->m = m;
 		wl->wl = NULL;
 	}
 	return wl;

@@ -1,3 +1,4 @@
+#import "shadosh.h"
 /* A Bison parser, made by GNU Bison 3.7.2.  */
 
 /* Bison interface for Yacc-like parsers in C
@@ -34,8 +35,6 @@
 /* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
-
-#include "shadosh.h"
 
 #ifndef YY_YY_Y_TAB_H_INCLUDED
 # define YY_YY_Y_TAB_H_INCLUDED
@@ -88,10 +87,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 22 "parse.y"
+#line 23 "parse.y"
 
     struct Node *node_s;
-    struct Pipe *pipe_s;
+    struct Pipe pipe;
     struct Word word;
     char *keyword, *c;
     int n;

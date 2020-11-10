@@ -1,6 +1,6 @@
 # Shado Shell Makefile
 CC=gcc
-CFLAGS=-lreadline -g #-I. -g
+CFLAGS=-lreadline -g -Wno-deprecated
 #DEPS=config.h
 AM_YFLAGS = -d
 OBJ=shadosh.o node.c nalloc.c exec.c y.tab.c lex.yy.c
@@ -16,7 +16,7 @@ lex.yy.c: y.tab.c parse.l
 	lex parse.l
 
 y.tab.c: parse.y
-	yacc -d parse.y
+	yacc -d parse.y ; sed -i '1s/^/#import "shadosh.h"\n/' y.tab.h
 
 install:
 	mkdir -p $(BDIR)/bin

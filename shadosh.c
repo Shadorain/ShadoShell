@@ -18,7 +18,7 @@
 #include <readline/history.h>
 
 // --- Files --- //
-#include "y.tab.h"
+/* #include "y.tab.h" */
 #include "exec.h"
 /* #include "parse.h" */
 /* #include "parsing.h" */

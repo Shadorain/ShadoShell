@@ -764,7 +764,7 @@ return PIPE;
 case 5:
 YY_RULE_SETUP
 #line 13 "parse.l"
-y->word.w = malloc(sizeof(yytext)); y->word.w = strdup(yytext);printf("YYTEXT: %s\n",y->word.w);return WORD;
+y->word.w = malloc(sizeof(yytext)); y->word.w = strdup(yytext);printf("YYTEXT: %s\n",yytext);return WORD;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
