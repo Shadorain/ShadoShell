@@ -91,7 +91,7 @@ union YYSTYPE
 
     struct Node *node_s;
     struct Pipe pipe;
-    struct Word word;
+    struct Wordlist word;
     char *keyword, *c;
     int n;
 

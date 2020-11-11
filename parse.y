@@ -23,7 +23,7 @@ Node *tree;
 %union {
     struct Node *node_s;
     struct Pipe pipe;
-    struct Word word;
+    struct Wordlist word;
     char *keyword, *c;
     int n;
 }
@@ -58,10 +58,10 @@ body       : cmd
            | san_cmd body
            { $$ = ($1 == NULL ? $2 : $2 == NULL ? $1 : new_node(ndBody,$1,$2)); };
 
-word       : WORD                   { $$ = new_node(ndWord, $1.w); }
+word       : WORD                   { $$ = new_node(ndWord, $1.w); };
 
-basic      : word                   { $$ = NULL; }
-           | basic word             { $$ = ($2 != NULL ? new_node(ndBasic,$1,$2) : $1); } ;
+basic      : word
+           | basic word             { $$ = new_node(ndBasic,$1,$2); };
 
 cmd        : /* empty */    %prec WHILE      { $$ = NULL; }
            | basic
@@ -95,6 +95,6 @@ nlop       : /* empty */
 %%
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
-/* basic      : basic_elem             { $$ = new_node(ndBasic, $1, NULL); } */
-/*            | basic basic_elem       { $$ = new_node(ndBasic, $2, $1); printf("NODE->un[0].w: %s\n", $$->un[0].w); printf("NODE->un[1].w: %s\n", $$->un[1].w);} */
-
+//                    { $$ = new_node(ndBasic,$1,NULL); printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); }
+//printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); printf("NODE->un[1].n->un[0].w: %s\n", $$->un[1].n->un[0].w);} ;
+//printf("NODE->un[0].w: %s\n", $$->un[0].w);}

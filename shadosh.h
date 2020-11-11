@@ -25,10 +25,11 @@ typedef enum bool {
 // Structs
 struct Node {
     node_e nt;
+    Wordlist *wl;
     union {
         char *w;
         int i;
-        Node *p;
+        Node *n;
     } *un;
 };
 
@@ -36,13 +37,13 @@ struct Pipe {
     int l, r; // Left sect ; Right sect
 };
 
-struct Word {
-    char *w;
-};
+/* struct Word { */
+/*     char *w; */
+/* }; */
 
 struct Wordlist {
     char *w;
-    Wordlist *wl;
+    Wordlist *next;
 };
 
 // Defines
@@ -68,4 +69,6 @@ extern int yyparse(void);
 
 // node.c
 extern Node* new_node(enum node_e, ...);
+extern Wordlist *last_w(Wordlist *word);
+/* extern Wordlist *add_wd(char *w); */
 

@@ -161,7 +161,7 @@ union YYSTYPE
 
     struct Node *node_s;
     struct Pipe pipe;
-    struct Word word;
+    struct Wordlist word;
     char *keyword, *c;
     int n;
 
@@ -1223,38 +1223,32 @@ yyreduce:
 #line 1224 "y.tab.c"
     break;
 
-  case 15: /* basic: word  */
-#line 63 "parse.y"
-                                    { (yyval.node_s) = NULL; }
-#line 1230 "y.tab.c"
-    break;
-
   case 16: /* basic: basic word  */
 #line 64 "parse.y"
-                                    { (yyval.node_s) = ((yyvsp[0].node_s) != NULL ? new_node(ndBasic,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[-1].node_s)); }
-#line 1236 "y.tab.c"
+                                    { (yyval.node_s) = new_node(ndBasic,(yyvsp[-1].node_s),(yyvsp[0].node_s)); }
+#line 1230 "y.tab.c"
     break;
 
   case 17: /* cmd: %empty  */
 #line 66 "parse.y"
                                              { (yyval.node_s) = NULL; }
-#line 1242 "y.tab.c"
+#line 1236 "y.tab.c"
     break;
 
   case 19: /* cmd: cmd PIPE nlop cmd  */
 #line 68 "parse.y"
                                     { (yyval.node_s) = new_node(ndPipe,(yyvsp[-2].pipe).l,(yyvsp[-2].pipe).r,(yyvsp[-3].node_s),(yyvsp[0].node_s)); }
-#line 1248 "y.tab.c"
+#line 1242 "y.tab.c"
     break;
 
   case 21: /* exit: EXIT_CMD CR  */
 #line 72 "parse.y"
                                     {printf("TEST\n"); exit(0); }
-#line 1254 "y.tab.c"
+#line 1248 "y.tab.c"
     break;
 
 
-#line 1258 "y.tab.c"
+#line 1252 "y.tab.c"
 
       default: break;
     }
@@ -1452,6 +1446,6 @@ yyreturn:
 
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
-/* basic      : basic_elem             { $$ = new_node(ndBasic, $1, NULL); } */
-/*            | basic basic_elem       { $$ = new_node(ndBasic, $2, $1); printf("NODE->un[0].w: %s\n", $$->un[0].w); printf("NODE->un[1].w: %s\n", $$->un[1].w);} */
-
+//                    { $$ = new_node(ndBasic,$1,NULL); printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); }
+//printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); printf("NODE->un[1].n->un[0].w: %s\n", $$->un[1].n->un[0].w);} ;
+//printf("NODE->un[0].w: %s\n", $$->un[0].w);}
