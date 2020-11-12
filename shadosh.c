@@ -77,32 +77,32 @@ ssize_t prompt(const char* prompt, char* in){//, size_t *in_len) {
 
 // }}}
 // -- Main -- {{{
-int main () { // int argc, char* argv[]) {
-    int ntoken, vtoken; // name token, value token
-    char in[MAXLIST];
-    Node *nd;
+/* int main () { // int argc, char* argv[]) { */
+/*     int ntoken, vtoken; // name token, value token */
+/*     char in[MAXLIST]; */
+/*     Node *nd; */
     
-    init_sh();
-    /* ntoken = yylex(); */
-    /* /1* while (ntoken) { *1/ */
-    /*     /1* if(yylex() != COLON) { *1/ */
-    /*     /1*     printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); *1/ */
-    /*     /1*     return 1; *1/ */
-    /*     /1* } *1/ */
-    /*     switch (ntoken) { */
-    /*         case EXIT_CMD: */
-    /*             //shadofree(); */
-    /*             exit(0); */
-    /*         /1* case ARGS: *1/ */
-    /*         /1*     printf("ARGS\n"); *1/ */
-    /*         /1*     exec_cmd(nd); *1/ */
-    /*     } */
-    /* /1* } *1/ */
-    while(1) {
-        yyparse();
-    }
+/*     init_sh(); */
+/*     /1* ntoken = yylex(); *1/ */
+/*     /1* /2* while (ntoken) { *2/ *1/ */
+/*     /1*     /2* if(yylex() != COLON) { *2/ *1/ */
+/*     /1*     /2*     printf("Syntax error in line %d, Expected a ':' but found %s\n",yylineno,yytext); *2/ *1/ */
+/*     /1*     /2*     return 1; *2/ *1/ */
+/*     /1*     /2* } *2/ *1/ */
+/*     /1*     switch (ntoken) { *1/ */
+/*     /1*         case EXIT_CMD: *1/ */
+/*     /1*             //shadofree(); *1/ */
+/*     /1*             exit(0); *1/ */
+/*     /1*         /2* case ARGS: *2/ *1/ */
+/*     /1*         /2*     printf("ARGS\n"); *2/ *1/ */
+/*     /1*         /2*     exec_cmd(nd); *2/ *1/ */
+/*     /1*     } *1/ */
+/*     /1* /2* } *2/ *1/ */
+/*     while(1) { */
+/*         yyparse(); */
+/*     } */
 
-    return EXIT_STATUS;
-}
+/*     return EXIT_STATUS; */
+/* } */
 // }}}
 //----------------------------------------------------------------------------------------

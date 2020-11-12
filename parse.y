@@ -2,6 +2,7 @@
 #include "shadosh.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
@@ -14,7 +15,7 @@ Node *tree;
 
 %token AND ELSE END IF WHILE
 %token OR //PIPE
-%token EXIT_CMD CR WORD
+%token EXIT_CMD CR
 
 %left AND OR '\n'
 %left PIPE
@@ -23,12 +24,13 @@ Node *tree;
 %union {
     struct Node *node_s;
     struct Pipe pipe;
+    struct Args args;
     struct Wordlist word;
     char *keyword, *c;
     int n;
 }
 
-%type <word> WORD
+%token <word> WORD
 %token <pipe> PIPE
 %type <node_s> line sa_cmd san_cmd body end cmd exit basic word
 
@@ -93,6 +95,16 @@ nlop       : /* empty */
            /* | cmd OR nlop cmd        { $$ = new_node(ndOR,$1,$4); } */
            /* | cmd AND nlop cmd       { $$ = new_node(ndAND,$1,$4); } */
 %%
+
+int main () { // int argc, char* argv[]) {
+    init_sh();
+    while(1) {
+        yyparse();
+        
+    }
+
+    return EXIT_STATUS;
+}
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
 //                    { $$ = new_node(ndBasic,$1,NULL); printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); }

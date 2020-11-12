@@ -2,9 +2,9 @@
 // --- Header: exec.h
 #include <unistd.h>
 
-#include "exec.h"
+#include "shadosh.h"
 
-int exec_cmd(Node *nd) {
+extern int exec_cmd(Args args) {
     /* int fd = -1; */
     /* if ((fd = nd->redir[0]) != -1) { */
     /*     dup2(fd, STDIN_FILENO); */
@@ -12,7 +12,7 @@ int exec_cmd(Node *nd) {
     /* if ((fd = nd->redir[1]) != -1) { */
     /*     dup2(fd, STDOUT_FILENO); */
     /* } */
-    return 0;//execvp(nd->un[0].cmds, &nd->un->cmds);
+    return execvp(args.main, args.args);
 }
 
 /* int exec_fork(cmd_t* cmd, int pipe_n, int (*piped)[2]) { */

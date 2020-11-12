@@ -13,6 +13,7 @@ typedef long align_t;
 typedef struct Node Node;
 typedef struct Pipe Pipe;
 typedef struct Word Word;
+typedef struct Args Args;
 typedef struct Wordlist Wordlist;
 typedef struct Block Block;
 
@@ -25,7 +26,6 @@ typedef enum bool {
 // Structs
 struct Node {
     node_e nt;
-    Wordlist *wl;
     union {
         char *w;
         int i;
@@ -34,7 +34,11 @@ struct Node {
 };
 
 struct Pipe {
-    int l, r; // Left sect ; Right sect
+    int l, r;
+};
+
+struct Args {
+    char *main, **args;
 };
 
 /* struct Word { */
@@ -48,6 +52,8 @@ struct Wordlist {
 
 // Defines
 #define EOF (-1)
+#define MAXLEN 1024
+#define EXIT_STATUS 0
 #ifndef NULL
 #define NULL 0
 #endif
@@ -66,9 +72,16 @@ extern void restoreblock(Block *);
 // parse.y
 extern Node *tree;
 extern int yyparse(void);
+extern void init_sh();
 
 // node.c
 extern Node* new_node(enum node_e, ...);
 extern Wordlist *last_w(Wordlist *word);
 /* extern Wordlist *add_wd(char *w); */
 
+// args.c
+extern Args add_word(Args a, char *w);
+extern Args init_args(Args args);
+
+// exec.c
+extern int exec_cmd(Args args);

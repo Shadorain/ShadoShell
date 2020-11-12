@@ -87,15 +87,16 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "parse.y"
+#line 24 "parse.y"
 
     struct Node *node_s;
     struct Pipe pipe;
+    struct Args args;
     struct Wordlist word;
     char *keyword, *c;
     int n;
 
-#line 98 "y.tab.h"
+#line 99 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -9,7 +9,6 @@
 extern Node* new_node(enum node_e nt, ...) {
     va_list ap;
     Node* nd;
-    Wordlist *last, *prev;
     char *w;
 
     va_start(ap, nt); //Requires the last fixed parameter (to get the address)
@@ -21,18 +20,13 @@ extern Node* new_node(enum node_e nt, ...) {
         case ndWord:
             nd = malloc(sizeof(Node)); //nalloc(offsetof(Node, un[3])); 
             nd->un = calloc(4, sizeof(Node));
-            last = malloc(sizeof(Wordlist));
             nd->un[0].w = va_arg(ap, char *);
-            last = last_w(last);
-            prev->w = nd->un[0].w;
-            last->w = nd->un[0].w;
             break;
         case ndBasic:
             nd = malloc(sizeof(Node)); //nalloc(offsetof(Node, un[3])); 
             nd->un = malloc(2*sizeof(Node));
             nd->un[0].n = va_arg(ap, Node *);
             nd->un[1].n = va_arg(ap, Node *);
-            printf("WL: %s, %s\n", prev->w, last->w);
             break;
         /* case ndArgs: case ndBody: */
         /*     nd = nalloc(sizeof(Node)); */
