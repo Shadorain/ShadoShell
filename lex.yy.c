@@ -162,8 +162,27 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
     
-    #define YY_LESS_LINENO(n)
-    #define YY_LINENO_REWIND_TO(ptr)
+    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
+     *       access to the local variable yy_act. Since yyless() is a macro, it would break
+     *       existing scanners that call yyless() from OUTSIDE yylex.
+     *       One obvious solution it to make yy_act a global. I tried that, and saw
+     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
+     *       normally declared as a register variable-- so it is not worth it.
+     */
+    #define  YY_LESS_LINENO(n) \
+            do { \
+                int yyl;\
+                for ( yyl = n; yyl < yyleng; ++yyl )\
+                    if ( yytext[yyl] == '\n' )\
+                        --yylineno;\
+            }while(0)
+    #define YY_LINENO_REWIND_TO(dst) \
+            do {\
+                const char *p;\
+                for ( p = yy_cp-1; p >= (dst); --p)\
+                    if ( *p == '\n' )\
+                        --yylineno;\
+            }while(0)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -485,6 +504,11 @@ static const flex_int16_t yy_chk[146] =
        50,   50,   50,   50,   50
     } ;
 
+/* Table of booleans, true if rule could match eol. */
+static const flex_int32_t yy_rule_can_match_eol[14] =
+    {   0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,     };
+
 extern int yy_flex_debug;
 int yy_flex_debug = 0;
 
@@ -511,8 +535,9 @@ int yylex();
 
 YYSTYPE *y = &yylval;
 int cp_line = 0;
-#line 514 "lex.yy.c"
-#line 515 "lex.yy.c"
+Args args;
+#line 539 "lex.yy.c"
+#line 540 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -738,10 +763,10 @@ YY_DECL
 		}
 
 	{
-#line 9 "parse.l"
+#line 11 "parse.l"
 
 
-#line 744 "lex.yy.c"
+#line 769 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -800,77 +825,87 @@ find_rule: /* we branch to this label when backing up */
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					
+    yylineno++;
+;
+			}
+
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 11 "parse.l"
-{ if ( !cp_line ) { y->args.main = malloc(sizeof(yytext)); y->args.main = strdup(yytext); cp_line = 1; y->args = init_args(y->args);} REJECT;}
+#line 13 "parse.l"
+{ if ( !cp_line ) { args.main = malloc(sizeof(yytext)); args.main = strdup(yytext); cp_line = 1; args = init_args(args); } REJECT;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 12 "parse.l"
+#line 14 "parse.l"
 return EXIT_CMD;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 13 "parse.l"
+#line 15 "parse.l"
 yylval.n = atoi(yytext);printf("YYVAL.n: %d\n",yylval.n);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 14 "parse.l"
+#line 16 "parse.l"
 return yytext[0];
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 15 "parse.l"
+#line 17 "parse.l"
 return PIPE;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 16 "parse.l"
+#line 18 "parse.l"
 y->word.w = malloc(sizeof(yytext));y->word.w = strdup(yytext);return WORD;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 17 "parse.l"
+#line 19 "parse.l"
 ; // POSIX style comments
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 18 "parse.l"
+#line 20 "parse.l"
 ; // C style comments
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 19 "parse.l"
+#line 21 "parse.l"
 ; // Haskell style comments
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 20 "parse.l"
+#line 22 "parse.l"
 ; // ignore all whitespace
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 21 "parse.l"
+#line 23 "parse.l"
 cp_line = 0; return CR; // ignore newline
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 22 "parse.l"
+#line 24 "parse.l"
 printf("unexpected character\n"); // All else
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 24 "parse.l"
+#line 26 "parse.l"
 ECHO;
 	YY_BREAK
-#line 873 "lex.yy.c"
+#line 908 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1204,6 +1239,10 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
+    if ( c == '\n' ){
+        --yylineno;
+    }
+
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1282,6 +1321,10 @@ static int yy_get_next_buffer (void)
 	(yy_hold_char) = *++(yy_c_buf_p);
 
 	YY_CURRENT_BUFFER_LVALUE->yy_at_bol = (c == '\n');
+	if ( YY_CURRENT_BUFFER_LVALUE->yy_at_bol )
+		
+    yylineno++;
+;
 
 	return c;
 }
@@ -1749,6 +1792,9 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
+    /* We do not touch yylineno unless the option is enabled. */
+    yylineno =  1;
+    
     (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -1851,9 +1897,9 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 24 "parse.l"
+#line 26 "parse.l"
 
 
-int yywrap (void) {return 1;}
+int yywrap (void) { return 1; }
 /* .                      { ECHO; yyerror ("unexpected character"); } */
 

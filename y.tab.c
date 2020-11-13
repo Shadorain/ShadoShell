@@ -162,12 +162,11 @@ union YYSTYPE
 
     struct Node *node_s;
     struct Pipe pipe;
-    struct Args args;
     struct Wordlist word;
     char *keyword, *c;
     int n;
 
-#line 171 "y.tab.c"
+#line 170 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -581,9 +580,9 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    41,    41,    42,    44,    45,    47,    48,    51,    52,
-      55,    56,    59,    60,    63,    65,    66,    68,    69,    70,
-      71,    74,    76,    77
+       0,    40,    40,    41,    43,    44,    46,    47,    50,    51,
+      54,    55,    58,    59,    62,    64,    65,    67,    68,    69,
+      70,    73,    75,    76
 };
 #endif
 
@@ -1172,85 +1171,85 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* shadosh: line end  */
-#line 41 "parse.y"
+#line 40 "parse.y"
                             { tree = (yyvsp[-1].node_s); YYACCEPT; }
-#line 1178 "y.tab.c"
+#line 1177 "y.tab.c"
     break;
 
   case 3: /* shadosh: error end  */
-#line 42 "parse.y"
+#line 41 "parse.y"
                             { yyerrok; tree = NULL; YYABORT; }
-#line 1184 "y.tab.c"
+#line 1183 "y.tab.c"
     break;
 
   case 4: /* end: END  */
-#line 44 "parse.y"
+#line 43 "parse.y"
                             { YYABORT; }
-#line 1190 "y.tab.c"
+#line 1189 "y.tab.c"
     break;
 
   case 5: /* end: CR  */
-#line 45 "parse.y"
+#line 44 "parse.y"
                             { YYABORT; }
-#line 1196 "y.tab.c"
+#line 1195 "y.tab.c"
     break;
 
   case 7: /* sa_cmd: cmd ';'  */
-#line 49 "parse.y"
+#line 48 "parse.y"
            { (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndCompound,(yyvsp[-1].node_s)): (yyvsp[-1].node_s)); }
-#line 1202 "y.tab.c"
+#line 1201 "y.tab.c"
     break;
 
   case 9: /* san_cmd: cmd '\n'  */
-#line 53 "parse.y"
+#line 52 "parse.y"
            { (yyval.node_s) = (yyvsp[-1].node_s); YYABORT; }
-#line 1208 "y.tab.c"
+#line 1207 "y.tab.c"
     break;
 
   case 11: /* line: san_cmd body  */
-#line 57 "parse.y"
+#line 56 "parse.y"
            { printf("TESTES\n"); (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[0].node_s)); }
-#line 1214 "y.tab.c"
+#line 1213 "y.tab.c"
     break;
 
   case 13: /* body: san_cmd body  */
-#line 61 "parse.y"
+#line 60 "parse.y"
            { (yyval.node_s) = ((yyvsp[-1].node_s) == NULL ? (yyvsp[0].node_s) : (yyvsp[0].node_s) == NULL ? (yyvsp[-1].node_s) : new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s))); }
-#line 1220 "y.tab.c"
+#line 1219 "y.tab.c"
     break;
 
   case 14: /* word: WORD  */
-#line 63 "parse.y"
+#line 62 "parse.y"
                                     { (yyval.node_s) = new_node(ndWord, (yyvsp[0].word).w); }
-#line 1226 "y.tab.c"
+#line 1225 "y.tab.c"
     break;
 
   case 16: /* basic: basic word  */
-#line 66 "parse.y"
+#line 65 "parse.y"
                                     { (yyval.node_s) = new_node(ndBasic,(yyvsp[-1].node_s),(yyvsp[0].node_s)); }
-#line 1232 "y.tab.c"
+#line 1231 "y.tab.c"
     break;
 
   case 17: /* cmd: %empty  */
-#line 68 "parse.y"
+#line 67 "parse.y"
                                              { (yyval.node_s) = NULL; }
-#line 1238 "y.tab.c"
+#line 1237 "y.tab.c"
     break;
 
   case 19: /* cmd: cmd PIPE nlop cmd  */
-#line 70 "parse.y"
+#line 69 "parse.y"
                                     { (yyval.node_s) = new_node(ndPipe,(yyvsp[-2].pipe).l,(yyvsp[-2].pipe).r,(yyvsp[-3].node_s),(yyvsp[0].node_s)); }
-#line 1244 "y.tab.c"
+#line 1243 "y.tab.c"
     break;
 
   case 21: /* exit: EXIT_CMD CR  */
-#line 74 "parse.y"
+#line 73 "parse.y"
                                     {printf("TEST\n"); exit(0); }
-#line 1250 "y.tab.c"
+#line 1249 "y.tab.c"
     break;
 
 
-#line 1254 "y.tab.c"
+#line 1253 "y.tab.c"
 
       default: break;
     }
@@ -1444,16 +1443,14 @@ yyreturn:
   return yyresult;
 }
 
-#line 97 "parse.y"
+#line 96 "parse.y"
 
 
 int main () { // int argc, char* argv[]) {
     init_sh();
     while(1) {
         yyparse();
-        
     }
-
     return EXIT_STATUS;
 }
 

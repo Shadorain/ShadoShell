@@ -38,6 +38,7 @@ EXIT_CMD	y.tab.c	/^    EXIT_CMD = 264,                \/* EXIT_CMD  *\/$/;"	e	en
 EXIT_CMD	y.tab.c	/^#define EXIT_CMD /;"	d	file:
 EXIT_CMD	y.tab.h	/^#define EXIT_CMD 264$/;"	M
 EXIT_STATUS	shadosh.c	/^#define EXIT_STATUS /;"	d	file:
+EXIT_STATUS	shadosh.h	/^#define EXIT_STATUS /;"	d
 EXIT_SUCCESS	y.tab.c	/^#      define EXIT_SUCCESS /;"	d	file:
 EXIT_SUCCESS	y.tab.c	/^#    define EXIT_SUCCESS /;"	d	file:
 FALSE	shadosh.h	/^	FALSE, TRUE$/;"	e	enum:__anon5cf01dc50103
@@ -61,7 +62,7 @@ MAXMEM	nalloc.c	/^#define MAXMEM /;"	d	file:
 NULL	shadosh.h	/^#define NULL /;"	d
 Node	shadosh.h	/^struct Node {$/;"	s
 Node	shadosh.h	/^typedef struct Node Node;$/;"	t	typeref:struct:Node
-OBJ	Makefile	/^OBJ=shadosh.o node.c args.c nalloc.c exec.c y.tab.c lex.yy.c$/;"	m
+OBJ	Makefile	/^OBJ=shadosh.o exec.c node.c args.c nalloc.c exec.c y.tab.c lex.yy.c$/;"	m
 OR	y.tab.c	/^    OR = 263,                      \/* OR  *\/$/;"	e	enum:yytokentype	file:
 OR	y.tab.c	/^#define OR /;"	d	file:
 OR	y.tab.h	/^#define OR 263$/;"	M
@@ -265,6 +266,7 @@ add_word	args.c	/^extern Args add_word(Args a, char *w) {$/;"	f	typeref:typename
 align_t	shadosh.h	/^typedef long align_t;$/;"	t	typeref:typename:long
 alignto	nalloc.c	/^#define alignto(/;"	d	file:
 alloca	y.tab.c	/^#    define alloca /;"	d	file:
+args	lex.yy.c	/^Args args;$/;"	v	typeref:typename:Args
 args	shadosh.h	/^    char *main, **args;$/;"	m	struct:Args	typeref:typename:char ***
 args	y.tab.c	/^    struct Args args;$/;"	m	union:YYSTYPE	typeref:struct:Args	file:
 basic	parse.y	/^basic      : word$/;"	l
@@ -273,11 +275,11 @@ c	y.tab.c	/^    char *keyword, *c;$/;"	m	union:YYSTYPE	typeref:typename:char **	
 clean	Makefile	/^clean:$/;"	t
 clear	shadosh.c	/^#define clear(/;"	d	file:
 cmd	parse.y	/^cmd        : \/* empty *\/    %prec WHILE      { $$ = NULL; }$/;"	l
-cp_line	lex.yy.c	/^cp_line = 1; return CR; \/\/ ignore newline$/;"	v	typeref:typename:YY_RULE_SETUP
-cp_line	lex.yy.c	/^int cp_line;$/;"	v	typeref:typename:int
+cp_line	lex.yy.c	/^cp_line = 0; return CR; \/\/ ignore newline$/;"	v	typeref:typename:YY_RULE_SETUP
+cp_line	lex.yy.c	/^int cp_line = 0;$/;"	v	typeref:typename:int
 delobj	Makefile	/^delobj:$/;"	t
 end	parse.y	/^end        : END            { YYABORT; }$/;"	l
-exec_cmd	exec.c	/^int exec_cmd(Node *nd) {$/;"	f	typeref:typename:int
+exec_cmd	exec.c	/^extern int exec_cmd(Args args) {$/;"	f	typeref:typename:int
 exit	parse.y	/^exit       : EXIT_CMD CR            {printf("TEST\\n"); exit(0); }$/;"	l
 fl	nalloc.c	/^} *fl, *ul;$/;"	v	typeref:struct:Block *
 flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	typeref:typename:int16_t	file:
@@ -302,8 +304,8 @@ l	shadosh.h	/^    int l, r;$/;"	m	struct:Pipe	typeref:typename:int
 last_w	node.c	/^extern Wordlist *last_w(Wordlist *word) {$/;"	f	typeref:typename:Wordlist *
 lex.yy.c	Makefile	/^lex.yy.c: y.tab.c parse.l$/;"	t
 line	parse.y	/^line       : cmd $/;"	l
-main	shadosh.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
 main	shadosh.h	/^    char *main, **args;$/;"	m	struct:Args	typeref:typename:char *
+main	y.tab.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
 mem	nalloc.c	/^	char *mem;$/;"	m	struct:Block	typeref:typename:char *	file:
 mmem	shadosh.h	/^#define mmem(/;"	d
 n	nalloc.c	/^	Block *n;$/;"	m	struct:Block	typeref:typename:Block *	file:
@@ -506,4 +508,4 @@ yytype_uint8	y.tab.c	/^typedef uint_least8_t yytype_uint8;$/;"	t	typeref:typenam
 yytype_uint8	y.tab.c	/^typedef unsigned char yytype_uint8;$/;"	t	typeref:typename:unsigned char	file:
 yyunput	lex.yy.c	/^    static void yyunput (int c, char * yy_bp )$/;"	f	typeref:typename:void	file:
 yyvs_alloc	y.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	typeref:typename:YYSTYPE	file:
-yywrap	lex.yy.c	/^int yywrap (void) {return 1;}$/;"	f	typeref:typename:int
+yywrap	lex.yy.c	/^int yywrap (void) { return 1; }$/;"	f	typeref:typename:int

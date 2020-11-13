@@ -24,7 +24,6 @@ Node *tree;
 %union {
     struct Node *node_s;
     struct Pipe pipe;
-    struct Args args;
     struct Wordlist word;
     char *keyword, *c;
     int n;
@@ -100,9 +99,7 @@ int main () { // int argc, char* argv[]) {
     init_sh();
     while(1) {
         yyparse();
-        
     }
-
     return EXIT_STATUS;
 }
 

@@ -5,10 +5,12 @@ int yylex();
 
 YYSTYPE *y = &yylval;
 int cp_line = 0;
+Args args;
 %}
+%option yylineno
 %%
 
-^.+                    { if ( !cp_line ) { y->args.main = malloc(sizeof(yytext)); y->args.main = strdup(yytext); cp_line = 1; y->args = init_args(y->args);} REJECT;}
+^.+                    { if ( !cp_line ) { args.main = malloc(sizeof(yytext)); args.main = strdup(yytext); cp_line = 1; args = init_args(args); } REJECT;}
 "exit"				   return EXIT_CMD;
 [0-9]+                 yylval.n = atoi(yytext);printf("YYVAL.n: %d\n",yylval.n);
 [-+=;]           	   return yytext[0];
@@ -23,5 +25,5 @@ int cp_line = 0;
 
 %%
 
-int yywrap (void) {return 1;}
+int yywrap (void) { return 1; }
 /* .                      { ECHO; yyerror ("unexpected character"); } */

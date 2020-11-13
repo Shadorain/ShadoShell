@@ -91,12 +91,11 @@ union YYSTYPE
 
     struct Node *node_s;
     struct Pipe pipe;
-    struct Args args;
     struct Wordlist word;
     char *keyword, *c;
     int n;
 
-#line 99 "y.tab.h"
+#line 98 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

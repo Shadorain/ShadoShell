@@ -26,5 +26,6 @@ Args init_args(Args args) {
                 break;
             printf("Args [%d]: %s\n", i, args.args[i]);
         }
+        exec_cmd(args);
     return args;
 }
