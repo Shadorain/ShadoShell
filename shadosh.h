@@ -61,7 +61,6 @@ struct Wordlist {
 #define mmem(x) ((x *) malloc(sizeof(x)))
 #define offsetof(t, m) ((size_t) (((char *) &((t *) 0)->m) - (char *)0))
 
-
 /* ------------------------------------------------------------------------ */ 
 // nalloc.c
 extern Block *newblock(void);

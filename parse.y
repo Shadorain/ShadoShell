@@ -10,89 +10,39 @@ void yyerror(char *s);
 int yylex();
 
 // Declarations
-Node *tree;
+Wordlist *head;
 %}
 
-%token AND ELSE END IF WHILE
-%token OR //PIPE
-%token EXIT_CMD CR
-
-%left AND OR '\n'
-%left PIPE
+%token EXIT_CMD CR END
 
 // YACC: Definitions
 %union {
-    struct Node *node_s;
-    struct Pipe pipe;
-    struct Wordlist word;
-    char *keyword, *c;
-    int n;
+    Wordlist *wl;
+    char *w;
 }
 
-%token <word> WORD
-%token <pipe> PIPE
-%type <node_s> line sa_cmd san_cmd body end cmd exit basic word
+%token <w> WORD
+%type <wl> line end cmd exit word
 
 %start shadosh
 %%
 
 // Describes expected inputs
-shadosh    : line end       { tree = $1; YYACCEPT; }
-           | error end      { yyerrok; tree = NULL; YYABORT; } ;
+shadosh    : line end       { head = $1; YYACCEPT; }
+           | error end      { yyerrok; head = NULL; YYABORT; } ;
 
 end        : END            { YYABORT; }
            | CR             { YYABORT; };
 
-sa_cmd     : cmd '&'
-           | cmd ';' //if NULL then  mk new node     else 
-           { $$ = ($1 != NULL ? new_node(ndCompound,$1): $1); };
+line       : cmd ;
 
-san_cmd    : sa_cmd
-           | cmd '\n'
-           { $$ = $1; YYABORT; };
+word       : WORD                   { $$ = new_node(ndWord, $1); };
 
-line       : cmd 
-           | san_cmd body
-           { printf("TESTES\n"); $$ = ($1 != NULL ? new_node(ndBody,$1,$2) : $2); };
-
-body       : cmd 
-           | san_cmd body
-           { $$ = ($1 == NULL ? $2 : $2 == NULL ? $1 : new_node(ndBody,$1,$2)); };
-
-word       : WORD                   { $$ = new_node(ndWord, $1.w); };
-
-basic      : word
-           | basic word             { $$ = new_node(ndBasic,$1,$2); };
-
-cmd        : /* empty */    %prec WHILE      { $$ = NULL; }
-           | basic
-           | cmd PIPE nlop cmd      { $$ = new_node(ndPipe,$2.l,$2.r,$1,$4); }
+cmd        : /* empty */
            | exit
            ;
 
 exit       : EXIT_CMD CR            {printf("TEST\n"); exit(0); }
-
-nlop       : /* empty */
-           | nlop CR;
-
-/* paren      : '(' body ')'   { $$ = $2; }; */
-
-/* iftail     : cmd else               { $$ = $2 != NULL ? new_node(ndElse, $1, $2) : $1;}; */
-
-/* else       :            %prec ELSE  { $$ = NULL; } */
-/*            | ELSE nlop cmd          { $$ = $3; }; */
-
-/* keyword    : IF         { $$ = "if"; } */
-/*            | WHILE      { $$ = "while"; } */
-/*            | NOT        { $$ = "not"; } */
-/*            | ELSE       { $$ = "else"; } */
-/*            | BANG       { $$ = "!"; } */
-/*            | '='        { $$ = "="; } */
-/*            ; */
-
-           /* | IF paren nlop iftail   { $$ = new_node(ndIf,$2,$4); } */
-           /* | cmd OR nlop cmd        { $$ = new_node(ndOR,$1,$4); } */
-           /* | cmd AND nlop cmd       { $$ = new_node(ndAND,$1,$4); } */
 %%
 
 int main () { // int argc, char* argv[]) {
@@ -104,6 +54,4 @@ int main () { // int argc, char* argv[]) {
 }
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
-//                    { $$ = new_node(ndBasic,$1,NULL); printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); }
-//printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); printf("NODE->un[1].n->un[0].w: %s\n", $$->un[1].n->un[0].w);} ;
-//printf("NODE->un[0].w: %s\n", $$->un[0].w);}
+

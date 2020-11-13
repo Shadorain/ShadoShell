@@ -55,16 +55,10 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    AND = 258,                     /* AND  */
-    ELSE = 259,                    /* ELSE  */
+    EXIT_CMD = 258,                /* EXIT_CMD  */
+    CR = 259,                      /* CR  */
     END = 260,                     /* END  */
-    IF = 261,                      /* IF  */
-    WHILE = 262,                   /* WHILE  */
-    OR = 263,                      /* OR  */
-    EXIT_CMD = 264,                /* EXIT_CMD  */
-    CR = 265,                      /* CR  */
-    WORD = 266,                    /* WORD  */
-    PIPE = 267                     /* PIPE  */
+    WORD = 261                     /* WORD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -72,30 +66,21 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define AND 258
-#define ELSE 259
+#define EXIT_CMD 258
+#define CR 259
 #define END 260
-#define IF 261
-#define WHILE 262
-#define OR 263
-#define EXIT_CMD 264
-#define CR 265
-#define WORD 266
-#define PIPE 267
+#define WORD 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 24 "parse.y"
+#line 19 "parse.y"
 
-    struct Node *node_s;
-    struct Pipe pipe;
-    struct Wordlist word;
-    char *keyword, *c;
-    int n;
+    Wordlist *wl;
+    char *w;
 
-#line 98 "y.tab.h"
+#line 83 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

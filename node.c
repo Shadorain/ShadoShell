@@ -41,13 +41,13 @@ extern Node* new_node(enum node_e nt, ...) {
     return nd;
 }
 
-extern Wordlist *last_w(Wordlist *word) {
-    while (word->next) {
-      word = mmem(Wordlist);
-      word = word->next;
-    }
-    return word;
-}
+/* extern Wordlist *last_w(Wordlist *word) { */
+/*     while (word->next) { */
+/*       word = mmem(Wordlist); */
+/*       word = word->next; */
+/*     } */
+/*     return word; */
+/* } */
 
 /* extern Wordlist *add_wd(char *w) { */
 /*     int i = 0; */

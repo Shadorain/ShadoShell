@@ -3,27 +3,29 @@
 void yyerror (char *s);
 int yylex();
 
-YYSTYPE *y = &yylval;
-int cp_line = 0;
-Args args;
+/* YYSTYPE *y = &yylval; */
 %}
 %option yylineno
 %%
 
-^.+                    { if ( !cp_line ) { args.main = malloc(sizeof(yytext)); args.main = strdup(yytext); cp_line = 1; args = init_args(args); } REJECT;}
 "exit"				   return EXIT_CMD;
-[0-9]+                 yylval.n = atoi(yytext);printf("YYVAL.n: %d\n",yylval.n);
-[-+=;]           	   return yytext[0];
-"|"                    return PIPE;
-[-a-zA-Z0-9]+          y->word.w = malloc(sizeof(yytext));y->word.w = strdup(yytext);return WORD;
 "#"[ -~]+              ; // POSIX style comments
 "//"[ -~]+             ; // C style comments
 "--"[ -~]+             ; // Haskell style comments
+[!@#$%^&*()_+-={}[]|:;'`~<>,.?\/]*    { yylval.w = (char*)calloc(strlen(yytext)-1, sizeof(char*))
+                                      ; yylval.w = strndup(yytext, sizeof(yytext))
+                                      ; printf("Word: %s\n",yylval.w)
+                                      /* ; y->w = strndup(yytext, sizeof(yylex)) */
+                                      ; return WORD; }
+[^ \t\r\n\v\f]+       { char* text = strdup(yytext)
+                      ; printf("Text: %s\n",text)
+                      ;  }
+
 [ \t]+                 ; // ignore all whitespace
-\n                     cp_line = 0; return CR; // ignore newline
+\n                     return CR; // ignore newline
 .                      printf("unexpected character\n"); // All else
 
 %%
 
 int yywrap (void) { return 1; }
-/* .                      { ECHO; yyerror ("unexpected character"); } */
+//strings -> ^"([^"\\]*(?:\\.[^"\\]*)*)"$

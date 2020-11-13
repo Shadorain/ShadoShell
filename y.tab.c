@@ -80,7 +80,7 @@ void yyerror(char *s);
 int yylex();
 
 // Declarations
-Node *tree;
+Wordlist *head;
 
 #line 86 "y.tab.c"
 
@@ -126,16 +126,10 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    AND = 258,                     /* AND  */
-    ELSE = 259,                    /* ELSE  */
+    EXIT_CMD = 258,                /* EXIT_CMD  */
+    CR = 259,                      /* CR  */
     END = 260,                     /* END  */
-    IF = 261,                      /* IF  */
-    WHILE = 262,                   /* WHILE  */
-    OR = 263,                      /* OR  */
-    EXIT_CMD = 264,                /* EXIT_CMD  */
-    CR = 265,                      /* CR  */
-    WORD = 266,                    /* WORD  */
-    PIPE = 267                     /* PIPE  */
+    WORD = 261                     /* WORD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -143,30 +137,21 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define AND 258
-#define ELSE 259
+#define EXIT_CMD 258
+#define CR 259
 #define END 260
-#define IF 261
-#define WHILE 262
-#define OR 263
-#define EXIT_CMD 264
-#define CR 265
-#define WORD 266
-#define PIPE 267
+#define WORD 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 24 "parse.y"
+#line 19 "parse.y"
 
-    struct Node *node_s;
-    struct Pipe pipe;
-    struct Wordlist word;
-    char *keyword, *c;
-    int n;
+    Wordlist *wl;
+    char *w;
 
-#line 170 "y.tab.c"
+#line 155 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -187,31 +172,16 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_AND = 3,                        /* AND  */
-  YYSYMBOL_ELSE = 4,                       /* ELSE  */
+  YYSYMBOL_EXIT_CMD = 3,                   /* EXIT_CMD  */
+  YYSYMBOL_CR = 4,                         /* CR  */
   YYSYMBOL_END = 5,                        /* END  */
-  YYSYMBOL_IF = 6,                         /* IF  */
-  YYSYMBOL_WHILE = 7,                      /* WHILE  */
-  YYSYMBOL_OR = 8,                         /* OR  */
-  YYSYMBOL_EXIT_CMD = 9,                   /* EXIT_CMD  */
-  YYSYMBOL_CR = 10,                        /* CR  */
-  YYSYMBOL_11_n_ = 11,                     /* '\n'  */
-  YYSYMBOL_WORD = 12,                      /* WORD  */
-  YYSYMBOL_PIPE = 13,                      /* PIPE  */
-  YYSYMBOL_14_ = 14,                       /* '&'  */
-  YYSYMBOL_15_ = 15,                       /* ';'  */
-  YYSYMBOL_YYACCEPT = 16,                  /* $accept  */
-  YYSYMBOL_shadosh = 17,                   /* shadosh  */
-  YYSYMBOL_end = 18,                       /* end  */
-  YYSYMBOL_sa_cmd = 19,                    /* sa_cmd  */
-  YYSYMBOL_san_cmd = 20,                   /* san_cmd  */
-  YYSYMBOL_line = 21,                      /* line  */
-  YYSYMBOL_body = 22,                      /* body  */
-  YYSYMBOL_word = 23,                      /* word  */
-  YYSYMBOL_basic = 24,                     /* basic  */
-  YYSYMBOL_cmd = 25,                       /* cmd  */
-  YYSYMBOL_exit = 26,                      /* exit  */
-  YYSYMBOL_nlop = 27                       /* nlop  */
+  YYSYMBOL_WORD = 6,                       /* WORD  */
+  YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
+  YYSYMBOL_shadosh = 8,                    /* shadosh  */
+  YYSYMBOL_end = 9,                        /* end  */
+  YYSYMBOL_line = 10,                      /* line  */
+  YYSYMBOL_cmd = 11,                       /* cmd  */
+  YYSYMBOL_exit = 12                       /* exit  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -519,21 +489,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  16
+#define YYFINAL  11
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   29
+#define YYLAST   8
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  16
+#define YYNTOKENS  7
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  12
+#define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  23
+#define YYNRULES  9
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  30
+#define YYNSTATES  13
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   267
+#define YYMAXUTOK   261
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -548,11 +518,11 @@ union yyalloc
 static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      11,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    14,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    15,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -573,16 +543,14 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    12,    13
+       5,     6
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    40,    40,    41,    43,    44,    46,    47,    50,    51,
-      54,    55,    58,    59,    62,    64,    65,    67,    68,    69,
-      70,    73,    75,    76
+       0,    31,    31,    32,    34,    35,    37,    41,    42,    45
 };
 #endif
 
@@ -598,10 +566,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "AND", "ELSE", "END",
-  "IF", "WHILE", "OR", "EXIT_CMD", "CR", "'\\n'", "WORD", "PIPE", "'&'",
-  "';'", "$accept", "shadosh", "end", "sa_cmd", "san_cmd", "line", "body",
-  "word", "basic", "cmd", "exit", "nlop", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "EXIT_CMD", "CR",
+  "END", "WORD", "$accept", "shadosh", "end", "line", "cmd", "exit", YY_NULLPTR
 };
 
 static const char *
@@ -616,17 +582,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,    10,   266,   267,    38,    59
+       0,   256,   257,   258,   259,   260,   261
 };
 #endif
 
-#define YYPACT_NINF (-10)
+#define YYPACT_NINF (-4)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-18)
+#define YYTABLE_NINF (-8)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -635,9 +600,8 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       1,    -2,    -9,   -10,     9,   -10,    13,    -2,   -10,    11,
-       6,   -10,   -10,   -10,   -10,   -10,   -10,    13,   -10,     6,
-     -10,   -10,   -10,   -10,   -10,   -10,   -10,    -5,   -10,   -10
+      -1,     1,    -3,     7,     1,    -4,    -4,    -4,    -4,    -4,
+      -4,    -4,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -645,23 +609,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,    14,     0,     8,    17,     0,    15,    18,
-      10,    20,     4,     5,     3,    21,     1,    17,    11,    12,
-       2,    16,     9,    22,     6,     7,    13,    17,    23,    19
+       0,     0,     0,     0,     0,     6,     8,     5,     4,     3,
+       9,     1,     2
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,    17,   -10,    18,   -10,    12,    19,   -10,     0,
-     -10,   -10
+      -4,    -4,     4,    -4,    -4,    -4
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     4,    14,     5,    17,     7,    18,     8,     9,    19,
-      11,    27
+      -1,     3,     9,     4,     5,     6
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -669,41 +630,32 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      10,    15,     1,    12,     2,    28,   -17,     3,    13,    16,
-       2,   -17,   -17,     3,   -17,   -17,   -17,    22,     6,    23,
-      24,    25,     2,     3,    20,     3,     0,    29,    21,    26
+       1,    10,     2,    -7,    -7,     7,     8,    11,    12
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,    10,     1,     5,     9,    10,     5,    12,    10,     0,
-       9,    10,    11,    12,    13,    14,    15,    11,     0,    13,
-      14,    15,     9,    12,     7,    12,    -1,    27,     9,    17
+       1,     4,     3,     4,     5,     4,     5,     0,     4
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     1,     9,    12,    17,    19,    20,    21,    23,    24,
-      25,    26,     5,    10,    18,    10,     0,    20,    22,    25,
-      18,    23,    11,    13,    14,    15,    22,    27,    10,    25
+       0,     1,     3,     8,    10,    11,    12,     4,     5,     9,
+       4,     0,     9
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    16,    17,    17,    18,    18,    19,    19,    20,    20,
-      21,    21,    22,    22,    23,    24,    24,    25,    25,    25,
-      25,    26,    27,    27
+       0,     7,     8,     8,     9,     9,    10,    11,    11,    12
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     2,     2,     1,     1,     2,     2,     1,     2,
-       1,     2,     1,     2,     1,     1,     2,     0,     1,     4,
-       1,     2,     0,     2
+       0,     2,     2,     2,     1,     1,     1,     0,     1,     2
 };
 
 
@@ -1171,85 +1123,37 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* shadosh: line end  */
-#line 40 "parse.y"
-                            { tree = (yyvsp[-1].node_s); YYACCEPT; }
-#line 1177 "y.tab.c"
+#line 31 "parse.y"
+                            { head = (yyvsp[-1].wl); YYACCEPT; }
+#line 1129 "y.tab.c"
     break;
 
   case 3: /* shadosh: error end  */
-#line 41 "parse.y"
-                            { yyerrok; tree = NULL; YYABORT; }
-#line 1183 "y.tab.c"
+#line 32 "parse.y"
+                            { yyerrok; head = NULL; YYABORT; }
+#line 1135 "y.tab.c"
     break;
 
   case 4: /* end: END  */
-#line 43 "parse.y"
+#line 34 "parse.y"
                             { YYABORT; }
-#line 1189 "y.tab.c"
+#line 1141 "y.tab.c"
     break;
 
   case 5: /* end: CR  */
-#line 44 "parse.y"
+#line 35 "parse.y"
                             { YYABORT; }
-#line 1195 "y.tab.c"
+#line 1147 "y.tab.c"
     break;
 
-  case 7: /* sa_cmd: cmd ';'  */
-#line 48 "parse.y"
-           { (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndCompound,(yyvsp[-1].node_s)): (yyvsp[-1].node_s)); }
-#line 1201 "y.tab.c"
-    break;
-
-  case 9: /* san_cmd: cmd '\n'  */
-#line 52 "parse.y"
-           { (yyval.node_s) = (yyvsp[-1].node_s); YYABORT; }
-#line 1207 "y.tab.c"
-    break;
-
-  case 11: /* line: san_cmd body  */
-#line 56 "parse.y"
-           { printf("TESTES\n"); (yyval.node_s) = ((yyvsp[-1].node_s) != NULL ? new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s)) : (yyvsp[0].node_s)); }
-#line 1213 "y.tab.c"
-    break;
-
-  case 13: /* body: san_cmd body  */
-#line 60 "parse.y"
-           { (yyval.node_s) = ((yyvsp[-1].node_s) == NULL ? (yyvsp[0].node_s) : (yyvsp[0].node_s) == NULL ? (yyvsp[-1].node_s) : new_node(ndBody,(yyvsp[-1].node_s),(yyvsp[0].node_s))); }
-#line 1219 "y.tab.c"
-    break;
-
-  case 14: /* word: WORD  */
-#line 62 "parse.y"
-                                    { (yyval.node_s) = new_node(ndWord, (yyvsp[0].word).w); }
-#line 1225 "y.tab.c"
-    break;
-
-  case 16: /* basic: basic word  */
-#line 65 "parse.y"
-                                    { (yyval.node_s) = new_node(ndBasic,(yyvsp[-1].node_s),(yyvsp[0].node_s)); }
-#line 1231 "y.tab.c"
-    break;
-
-  case 17: /* cmd: %empty  */
-#line 67 "parse.y"
-                                             { (yyval.node_s) = NULL; }
-#line 1237 "y.tab.c"
-    break;
-
-  case 19: /* cmd: cmd PIPE nlop cmd  */
-#line 69 "parse.y"
-                                    { (yyval.node_s) = new_node(ndPipe,(yyvsp[-2].pipe).l,(yyvsp[-2].pipe).r,(yyvsp[-3].node_s),(yyvsp[0].node_s)); }
-#line 1243 "y.tab.c"
-    break;
-
-  case 21: /* exit: EXIT_CMD CR  */
-#line 73 "parse.y"
+  case 9: /* exit: EXIT_CMD CR  */
+#line 45 "parse.y"
                                     {printf("TEST\n"); exit(0); }
-#line 1249 "y.tab.c"
+#line 1153 "y.tab.c"
     break;
 
 
-#line 1253 "y.tab.c"
+#line 1157 "y.tab.c"
 
       default: break;
     }
@@ -1443,7 +1347,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 96 "parse.y"
+#line 46 "parse.y"
 
 
 int main () { // int argc, char* argv[]) {
@@ -1455,6 +1359,4 @@ int main () { // int argc, char* argv[]) {
 }
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
-//                    { $$ = new_node(ndBasic,$1,NULL); printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); }
-//printf("NODE->un[0].n->un[0].w: %s\n", $$->un[0].n->un[0].w); printf("NODE->un[1].n->un[0].w: %s\n", $$->un[1].n->un[0].w);} ;
-//printf("NODE->un[0].w: %s\n", $$->un[0].w);}
+
