@@ -44,6 +44,19 @@ void print(Wordlist **head_ref) {
     printf("\n");
 }
 
+void clean_list(Wordlist **head_ref) {
+    Wordlist *current = *head_ref;
+    Wordlist *next; 
+    
+    while (current != NULL)  { 
+        next = current->next; 
+        free(current); 
+        current = next; 
+    } 
+     
+    *head_ref = NULL; /* deref head_ref to affect the real head back in the caller. */
+}
+
 // Declarations
 Wordlist *head;
 %}
@@ -57,35 +70,35 @@ Wordlist *head;
 }
 
 %token <w> WORD
-%type <wl> line end cmd exit word
+%type <wl> end cmd word
 
 %start shadosh
 %%
 
 // Describes expected inputs
-shadosh    : line end       { head = $1; YYACCEPT; }
-           | error end      { yyerrok; head = NULL; YYABORT; } ;
+shadosh    : cmd end        { head = NULL; YYACCEPT; }
+           | error end      { yyerrok; head = NULL; YYABORT; }
+           ;
 
 end        : END            { YYABORT; }
-           | '\n'           { YYABORT; };
+           | '\n'           { YYABORT; }
+           ;
 
-line       : cmd ;
-
-word       : WORD                   { $$ = append(&head, $1); print(&head); printf("WHAT\n"); }
-           | word WORD              { $$ = append(&head, $2); print(&head); printf("WHAT\n"); };
+word       : WORD                   { $$ = append(&head, $1); print(&head); }
+           | word WORD              { $$ = append(&head, $2); print(&head); }
+           ;
 
 cmd        : /* empty */ { $$ = NULL; }
            | word
-           | exit
+           | EXIT_CMD               { printf("TEST\n"); exit(0); }
            ;
-
-exit       : EXIT_CMD               { printf("TEST\n"); exit(0); }
 %%
 
 int main () { // int argc, char* argv[]) {
     init_sh();
     while(1) {
         yyparse();
+        clean_list(&head);
     }
     return EXIT_STATUS;
 }
