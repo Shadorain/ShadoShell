@@ -6,14 +6,14 @@
 
 #include "shadosh.h"
 
-extern int exec_cmd(Args args) {
+extern int exec_cmd(char **args) {
     pid_t pid = fork();  
   
     if (pid == -1) { 
         printf("\nFailed forking child.."); 
         return -1; 
     } else if (pid == 0) { 
-        if (execvp(args.args[0], args.args) < 0) { 
+        if (execvp(args[0], args) < 0) { 
             printf("\nCould not execute command.."); 
         } 
         exit(0); 

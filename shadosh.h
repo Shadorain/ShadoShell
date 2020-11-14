@@ -83,4 +83,4 @@ extern Args add_word(Args a, char *w);
 extern Args init_args(Args args);
 
 // exec.c
-extern int exec_cmd(Args args);
+extern int exec_cmd(char **args);

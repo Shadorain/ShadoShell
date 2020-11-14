@@ -57,6 +57,18 @@ void clean_list(Wordlist **head_ref) {
     *head_ref = NULL; /* deref head_ref to affect the real head back in the caller. */
 }
 
+char **arrayify(Wordlist **head_ref) {
+    int i = 0;
+    char **arr = calloc(MAXLEN, sizeof(char*));
+    Wordlist *temp = *head_ref;
+    while(temp != NULL) {
+        arr[i++] = temp->word;
+        temp = temp->next;
+    }
+
+    return arr;
+}
+
 // Declarations
 Wordlist *head;
 %}
@@ -95,13 +107,16 @@ cmd        : /* empty */ { $$ = NULL; }
 %%
 
 int main () { // int argc, char* argv[]) {
+    char **line;
+
     init_sh();
     while(1) {
         yyparse();
+        line = arrayify(&head);
         clean_list(&head);
+        exec_cmd(line);
     }
     return EXIT_STATUS;
 }
 
 void yyerror (char *s) { fprintf (stderr, "%s\n", s); }
-
