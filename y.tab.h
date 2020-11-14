@@ -56,9 +56,8 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     EXIT_CMD = 258,                /* EXIT_CMD  */
-    CR = 259,                      /* CR  */
-    END = 260,                     /* END  */
-    WORD = 261                     /* WORD  */
+    END = 259,                     /* END  */
+    WORD = 260                     /* WORD  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -67,20 +66,19 @@ extern int yydebug;
 #define YYerror 256
 #define YYUNDEF 257
 #define EXIT_CMD 258
-#define CR 259
-#define END 260
-#define WORD 261
+#define END 259
+#define WORD 260
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parse.y"
+#line 54 "parse.y"
 
     Wordlist *wl;
-    char *w;
+    char *w, c;
 
-#line 83 "y.tab.h"
+#line 81 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

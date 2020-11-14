@@ -46,7 +46,7 @@ struct Args {
 /* }; */
 
 struct Wordlist {
-    char *w;
+    char *word;
     Wordlist *next;
 };
 
