@@ -37,20 +37,14 @@ struct Pipe {
     int l, r;
 };
 
-struct Args {
-    char *main, **args;
-};
-
-/* struct Word { */
-/*     char *w; */
-/* }; */
-
 struct Wordlist {
     char *word;
     Wordlist *next;
 };
 
 // Defines
+#define home getenv("HOME")
+#define hist_file "/.shado_hist"
 #define EOF (-1)
 #define MAXLEN 1024
 #define EXIT_STATUS 0
@@ -62,25 +56,21 @@ struct Wordlist {
 #define offsetof(t, m) ((size_t) (((char *) &((t *) 0)->m) - (char *)0))
 
 /* ------------------------------------------------------------------------ */ 
-// nalloc.c
-extern Block *newblock(void);
-extern void *nalloc(size_t);
-extern void nfree(void);
-extern void restoreblock(Block *);
-
 // parse.y
-extern Node *tree;
 extern int yyparse(void);
 extern void init_sh();
 
 // node.c
-extern Node* new_node(enum node_e, ...);
-extern Wordlist *last_w(Wordlist *word);
+/* extern Node* new_node(enum node_e, ...); */
+/* extern Wordlist *last_w(Wordlist *word); */
 /* extern Wordlist *add_wd(char *w); */
 
-// args.c
-extern Args add_word(Args a, char *w);
-extern Args init_args(Args args);
+// list.c
+Wordlist *append(Wordlist** head_ref, char *w);
+void print(Wordlist **head_ref);
+void clean_list(Wordlist **head_ref);
+char **arrayify(Wordlist **head_ref);
+char *stringify(char **arr, int len);
 
 // exec.c
 extern int exec_cmd(char **args);

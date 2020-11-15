@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS=-lreadline -g -Wno-deprecated
 #DEPS=config.h
 AM_YFLAGS = -d
-OBJ=shadosh.o exec.c nalloc.c exec.c y.tab.c lex.yy.c
+OBJ=shadosh.o exec.c list.c exec.c y.tab.c lex.yy.c
 BDIR=/usr/local
 
 #%.o: %.c $(DEPS)

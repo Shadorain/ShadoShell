@@ -7,7 +7,6 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/a3c87ab5/
 AM_YFLAGS	Makefile	/^AM_YFLAGS = -d$/;"	m
-Args	shadosh.h	/^struct Args {$/;"	s
 Args	shadosh.h	/^typedef struct Args Args;$/;"	t	typeref:struct:Args
 BDIR	Makefile	/^BDIR=\/usr\/local$/;"	m
 BEGIN	lex.yy.c	/^#define BEGIN /;"	d	file:
@@ -50,7 +49,7 @@ MAXMEM	nalloc.c	/^#define MAXMEM /;"	d	file:
 NULL	shadosh.h	/^#define NULL /;"	d
 Node	shadosh.h	/^struct Node {$/;"	s
 Node	shadosh.h	/^typedef struct Node Node;$/;"	t	typeref:struct:Node
-OBJ	Makefile	/^OBJ=shadosh.o exec.c node.c args.c nalloc.c exec.c y.tab.c lex.yy.c$/;"	m
+OBJ	Makefile	/^OBJ=shadosh.o exec.c list.c exec.c y.tab.c lex.yy.c$/;"	m
 PROMPT	shadosh.c	/^#define PROMPT /;"	d	file:
 PROMPT_DIR	shadosh.c	/^#define PROMPT_DIR /;"	d	file:
 Pipe	shadosh.h	/^struct Pipe {$/;"	s
@@ -229,17 +228,16 @@ add_word	args.c	/^extern Args add_word(Args a, char *w) {$/;"	f	typeref:typename
 align_t	shadosh.h	/^typedef long align_t;$/;"	t	typeref:typename:long
 alignto	nalloc.c	/^#define alignto(/;"	d	file:
 alloca	y.tab.c	/^#    define alloca /;"	d	file:
-append	y.tab.c	/^Wordlist *append(Wordlist** head_ref, char *w) {$/;"	f	typeref:typename:Wordlist *
-args	shadosh.h	/^    char *main, **args;$/;"	m	struct:Args	typeref:typename:char ***
-arrayify	y.tab.c	/^char **arrayify(Wordlist **head_ref) {$/;"	f	typeref:typename:char **
+append	list.c	/^Wordlist *append(Wordlist** head_ref, char *w) {$/;"	f	typeref:typename:Wordlist *
+arrayify	list.c	/^char **arrayify(Wordlist **head_ref) {$/;"	f	typeref:typename:char **
 c	y.tab.c	/^    char *w, c;$/;"	m	union:YYSTYPE	typeref:typename:char *	file:
 clean	Makefile	/^clean:$/;"	t
-clean_list	y.tab.c	/^void clean_list(Wordlist **head_ref) {$/;"	f	typeref:typename:void
+clean_list	list.c	/^void clean_list(Wordlist **head_ref) {$/;"	f	typeref:typename:void
 clear	shadosh.c	/^#define clear(/;"	d	file:
 cmd	parse.y	/^cmd        : \/* empty *\/ { $$ = NULL; }$/;"	l
 delobj	Makefile	/^delobj:$/;"	t
 end	parse.y	/^end        : END            { YYABORT; }$/;"	l
-exec_cmd	exec.c	/^extern int exec_cmd(Args args) {$/;"	f	typeref:typename:int
+exec_cmd	exec.c	/^extern int exec_cmd(char **args) {$/;"	f	typeref:typename:int
 fl	nalloc.c	/^} *fl, *ul;$/;"	v	typeref:struct:Block *
 flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	typeref:typename:int16_t	file:
 flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	typeref:typename:short int	file:
@@ -255,13 +253,13 @@ flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	typeref:typename:uin
 flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	typeref:typename:unsigned char	file:
 getblock	nalloc.c	/^static void getblock(size_t n) {$/;"	f	typeref:typename:void	file:
 head	y.tab.c	/^Wordlist *head;$/;"	v	typeref:typename:Wordlist *
+hist_file	shadosh.h	/^#define hist_file /;"	d
 i	shadosh.h	/^        int i;$/;"	m	union:Node::__anon5cf01dc5020a	typeref:typename:int
 init_args	args.c	/^Args init_args(Args args) {$/;"	f	typeref:typename:Args
 init_sh	shadosh.c	/^void init_sh () {$/;"	f	typeref:typename:void
 install	Makefile	/^install:$/;"	t
 l	shadosh.h	/^    int l, r;$/;"	m	struct:Pipe	typeref:typename:int
 lex.yy.c	Makefile	/^lex.yy.c: y.tab.c parse.l$/;"	t
-main	shadosh.h	/^    char *main, **args;$/;"	m	struct:Args	typeref:typename:char *
 main	y.tab.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
 mem	nalloc.c	/^	char *mem;$/;"	m	struct:Block	typeref:typename:char *	file:
 mmem	shadosh.h	/^#define mmem(/;"	d
@@ -287,7 +285,7 @@ node_e	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, n
 node_e	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	t	typeref:enum:node_e
 nt	shadosh.h	/^    node_e nt;$/;"	m	struct:Node	typeref:typename:node_e
 offsetof	shadosh.h	/^#define offsetof(/;"	d
-print	y.tab.c	/^void print(Wordlist **head_ref) {$/;"	f	typeref:typename:void
+print	list.c	/^void print(Wordlist **head_ref) {$/;"	f	typeref:typename:void
 prompt	shadosh.c	/^ssize_t prompt(const char* prompt, char* in){\/\/, size_t *in_len) {$/;"	f	typeref:typename:ssize_t
 r	shadosh.h	/^    int l, r;$/;"	m	struct:Pipe	typeref:typename:int
 restoreblock	nalloc.c	/^extern void restoreblock(Block *old) {$/;"	f	typeref:typename:void
@@ -295,6 +293,7 @@ shadosh	Makefile	/^shadosh: $(OBJ)$/;"	t
 shadosh	parse.y	/^shadosh    : cmd end        { head = NULL; YYACCEPT; }$/;"	l
 show_dir	shadosh.c	/^void show_dir() {$/;"	f	typeref:typename:void
 size	nalloc.c	/^	size_t used, size;$/;"	m	struct:Block	typeref:typename:size_t	file:
+stringify	list.c	/^char *stringify(char **arr, int len) {$/;"	f	typeref:typename:char *
 ul	nalloc.c	/^} *fl, *ul;$/;"	v	typeref:struct:Block **
 un	shadosh.h	/^    } *un;$/;"	m	struct:Node	typeref:union:Node::__anon5cf01dc5020a *
 uninstall	Makefile	/^uninstall:$/;"	t
