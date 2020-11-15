@@ -65,7 +65,6 @@ char *stringify(char **arr, int len) {
         strcat(str, " ");
     }
     strcat(str, "\n\0");
-    printf("STR: %s\n",str);
 
     return str;
 }

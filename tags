@@ -10,16 +10,17 @@ AM_YFLAGS	Makefile	/^AM_YFLAGS = -d$/;"	m
 Args	shadosh.h	/^typedef struct Args Args;$/;"	t	typeref:struct:Args
 BDIR	Makefile	/^BDIR=\/usr\/local$/;"	m
 BEGIN	lex.yy.c	/^#define BEGIN /;"	d	file:
-BLOCKSIZE	nalloc.c	/^#define BLOCKSIZE /;"	d	file:
-Block	nalloc.c	/^static struct Block {$/;"	s	file:
 Block	shadosh.h	/^typedef struct Block Block;$/;"	t	typeref:struct:Block
 CC	Makefile	/^CC=gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS=-lreadline -g -Wno-deprecated$/;"	m
+DEL_HIST	y.tab.c	/^    DEL_HIST = 259,                \/* DEL_HIST  *\/$/;"	e	enum:yytokentype	file:
+DEL_HIST	y.tab.c	/^#define DEL_HIST /;"	d	file:
+DEL_HIST	y.tab.h	/^#define DEL_HIST 259$/;"	M
 ECHO	lex.yy.c	/^#define ECHO /;"	d	file:
 ECHO	lex.yy.c	/^ECHO;$/;"	v	typeref:typename:YY_RULE_SETUP
-END	y.tab.c	/^    END = 259,                     \/* END  *\/$/;"	e	enum:yytokentype	file:
+END	y.tab.c	/^    END = 260,                     \/* END  *\/$/;"	e	enum:yytokentype	file:
 END	y.tab.c	/^#define END /;"	d	file:
-END	y.tab.h	/^#define END 259$/;"	M
+END	y.tab.h	/^#define END 260$/;"	M
 EOB_ACT_CONTINUE_SCAN	lex.yy.c	/^#define EOB_ACT_CONTINUE_SCAN /;"	d	file:
 EOB_ACT_END_OF_FILE	lex.yy.c	/^#define EOB_ACT_END_OF_FILE /;"	d	file:
 EOB_ACT_LAST_MATCH	lex.yy.c	/^#define EOB_ACT_LAST_MATCH /;"	d	file:
@@ -45,11 +46,10 @@ INT8_MIN	lex.yy.c	/^#define INT8_MIN /;"	d	file:
 MAXCHAR	shadosh.c	/^#define MAXCHAR /;"	d	file:
 MAXLEN	shadosh.h	/^#define MAXLEN /;"	d
 MAXLIST	shadosh.c	/^#define MAXLIST /;"	d	file:
-MAXMEM	nalloc.c	/^#define MAXMEM /;"	d	file:
 NULL	shadosh.h	/^#define NULL /;"	d
 Node	shadosh.h	/^struct Node {$/;"	s
 Node	shadosh.h	/^typedef struct Node Node;$/;"	t	typeref:struct:Node
-OBJ	Makefile	/^OBJ=shadosh.o exec.c list.c exec.c y.tab.c lex.yy.c$/;"	m
+OBJ	Makefile	/^OBJ=shadosh.o list.c exec.c history.c y.tab.c lex.yy.c$/;"	m
 PROMPT	shadosh.c	/^#define PROMPT /;"	d	file:
 PROMPT_DIR	shadosh.c	/^#define PROMPT_DIR /;"	d	file:
 Pipe	shadosh.h	/^struct Pipe {$/;"	s
@@ -61,9 +61,9 @@ TRUE	shadosh.h	/^	FALSE, TRUE$/;"	e	enum:__anon5cf01dc50103
 UINT16_MAX	lex.yy.c	/^#define UINT16_MAX /;"	d	file:
 UINT32_MAX	lex.yy.c	/^#define UINT32_MAX /;"	d	file:
 UINT8_MAX	lex.yy.c	/^#define UINT8_MAX /;"	d	file:
-WORD	y.tab.c	/^    WORD = 260                     \/* WORD  *\/$/;"	e	enum:yytokentype	file:
+WORD	y.tab.c	/^    WORD = 261                     \/* WORD  *\/$/;"	e	enum:yytokentype	file:
 WORD	y.tab.c	/^#define WORD /;"	d	file:
-WORD	y.tab.h	/^#define WORD 260$/;"	M
+WORD	y.tab.h	/^#define WORD 261$/;"	M
 Word	shadosh.h	/^typedef struct Word Word;$/;"	t	typeref:struct:Word
 Wordlist	shadosh.h	/^struct Wordlist {$/;"	s
 Wordlist	shadosh.h	/^typedef struct Wordlist Wordlist;$/;"	t	typeref:struct:Wordlist
@@ -124,19 +124,20 @@ YYSTYPE_IS_DECLARED	y.tab.c	/^# define YYSTYPE_IS_DECLARED /;"	d	file:
 YYSTYPE_IS_DECLARED	y.tab.h	/^# define YYSTYPE_IS_DECLARED 1$/;"	M
 YYSTYPE_IS_TRIVIAL	y.tab.c	/^# define YYSTYPE_IS_TRIVIAL /;"	d	file:
 YYSTYPE_IS_TRIVIAL	y.tab.h	/^# define YYSTYPE_IS_TRIVIAL 1$/;"	M
-YYSYMBOL_6_n_	y.tab.c	/^  YYSYMBOL_6_n_ = 6,                       \/* '\\n'  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_END	y.tab.c	/^  YYSYMBOL_END = 4,                        \/* END  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_7_n_	y.tab.c	/^  YYSYMBOL_7_n_ = 7,                       \/* '\\n'  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_DEL_HIST	y.tab.c	/^  YYSYMBOL_DEL_HIST = 4,                   \/* DEL_HIST  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_END	y.tab.c	/^  YYSYMBOL_END = 5,                        \/* END  *\/$/;"	e	enum:yysymbol_kind_t	file:
 YYSYMBOL_EXIT_CMD	y.tab.c	/^  YYSYMBOL_EXIT_CMD = 3,                   \/* EXIT_CMD  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_WORD	y.tab.c	/^  YYSYMBOL_WORD = 5,                       \/* WORD  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_YYACCEPT	y.tab.c	/^  YYSYMBOL_YYACCEPT = 7,                   \/* $accept  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_WORD	y.tab.c	/^  YYSYMBOL_WORD = 6,                       \/* WORD  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_YYACCEPT	y.tab.c	/^  YYSYMBOL_YYACCEPT = 8,                   \/* $accept  *\/$/;"	e	enum:yysymbol_kind_t	file:
 YYSYMBOL_YYEMPTY	y.tab.c	/^  YYSYMBOL_YYEMPTY = -2,$/;"	e	enum:yysymbol_kind_t	file:
 YYSYMBOL_YYEOF	y.tab.c	/^  YYSYMBOL_YYEOF = 0,                      \/* "end of file"  *\/$/;"	e	enum:yysymbol_kind_t	file:
 YYSYMBOL_YYUNDEF	y.tab.c	/^  YYSYMBOL_YYUNDEF = 2,                    \/* "invalid token"  *\/$/;"	e	enum:yysymbol_kind_t	file:
 YYSYMBOL_YYerror	y.tab.c	/^  YYSYMBOL_YYerror = 1,                    \/* error  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_cmd	y.tab.c	/^  YYSYMBOL_cmd = 11                        \/* cmd  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_end	y.tab.c	/^  YYSYMBOL_end = 9,                        \/* end  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_shadosh	y.tab.c	/^  YYSYMBOL_shadosh = 8,                    \/* shadosh  *\/$/;"	e	enum:yysymbol_kind_t	file:
-YYSYMBOL_word	y.tab.c	/^  YYSYMBOL_word = 10,                      \/* word  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_cmd	y.tab.c	/^  YYSYMBOL_cmd = 12                        \/* cmd  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_end	y.tab.c	/^  YYSYMBOL_end = 10,                       \/* end  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_shadosh	y.tab.c	/^  YYSYMBOL_shadosh = 9,                    \/* shadosh  *\/$/;"	e	enum:yysymbol_kind_t	file:
+YYSYMBOL_word	y.tab.c	/^  YYSYMBOL_word = 11,                      \/* word  *\/$/;"	e	enum:yysymbol_kind_t	file:
 YYTABLES_NAME	lex.yy.c	/^#define YYTABLES_NAME /;"	d	file:
 YYTABLE_NINF	y.tab.c	/^#define YYTABLE_NINF /;"	d	file:
 YYTOKENTYPE	y.tab.c	/^# define YYTOKENTYPE$/;"	d	file:
@@ -224,9 +225,7 @@ __anon5cf01dc50103	shadosh.h	/^typedef enum bool {$/;"	g
 __anon5cf01dc50103	shadosh.h	/^} bool;$/;"	t	typeref:enum:bool
 __anon5cf01dc5020a	shadosh.h	/^    union {$/;"	u	struct:Node
 __anond9bd93f40103	y.tab.c	/^enum { YYENOMEM = -2 };$/;"	g	file:
-add_word	args.c	/^extern Args add_word(Args a, char *w) {$/;"	f	typeref:typename:Args
 align_t	shadosh.h	/^typedef long align_t;$/;"	t	typeref:typename:long
-alignto	nalloc.c	/^#define alignto(/;"	d	file:
 alloca	y.tab.c	/^#    define alloca /;"	d	file:
 append	list.c	/^Wordlist *append(Wordlist** head_ref, char *w) {$/;"	f	typeref:typename:Wordlist *
 arrayify	list.c	/^char **arrayify(Wordlist **head_ref) {$/;"	f	typeref:typename:char **
@@ -235,10 +234,10 @@ clean	Makefile	/^clean:$/;"	t
 clean_list	list.c	/^void clean_list(Wordlist **head_ref) {$/;"	f	typeref:typename:void
 clear	shadosh.c	/^#define clear(/;"	d	file:
 cmd	parse.y	/^cmd        : \/* empty *\/ { $$ = NULL; }$/;"	l
+del_hist	history.c	/^int del_hist() {$/;"	f	typeref:typename:int
 delobj	Makefile	/^delobj:$/;"	t
 end	parse.y	/^end        : END            { YYABORT; }$/;"	l
 exec_cmd	exec.c	/^extern int exec_cmd(char **args) {$/;"	f	typeref:typename:int
-fl	nalloc.c	/^} *fl, *ul;$/;"	v	typeref:struct:Block *
 flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	typeref:typename:int16_t	file:
 flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	typeref:typename:short int	file:
 flex_int32_t	lex.yy.c	/^typedef int flex_int32_t;$/;"	t	typeref:typename:int	file:
@@ -251,21 +250,19 @@ flex_uint32_t	lex.yy.c	/^typedef uint32_t flex_uint32_t;$/;"	t	typeref:typename:
 flex_uint32_t	lex.yy.c	/^typedef unsigned int flex_uint32_t;$/;"	t	typeref:typename:unsigned int	file:
 flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	typeref:typename:uint8_t	file:
 flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	typeref:typename:unsigned char	file:
-getblock	nalloc.c	/^static void getblock(size_t n) {$/;"	f	typeref:typename:void	file:
 head	y.tab.c	/^Wordlist *head;$/;"	v	typeref:typename:Wordlist *
+hf	shadosh.h	/^#define hf /;"	d
 hist_file	shadosh.h	/^#define hist_file /;"	d
+hist_write	history.c	/^int hist_write(char **line, char *hf) {$/;"	f	typeref:typename:int
+home	shadosh.h	/^#define home /;"	d
 i	shadosh.h	/^        int i;$/;"	m	union:Node::__anon5cf01dc5020a	typeref:typename:int
-init_args	args.c	/^Args init_args(Args args) {$/;"	f	typeref:typename:Args
 init_sh	shadosh.c	/^void init_sh () {$/;"	f	typeref:typename:void
 install	Makefile	/^install:$/;"	t
 l	shadosh.h	/^    int l, r;$/;"	m	struct:Pipe	typeref:typename:int
 lex.yy.c	Makefile	/^lex.yy.c: y.tab.c parse.l$/;"	t
 main	y.tab.c	/^int main () { \/\/ int argc, char* argv[]) {$/;"	f	typeref:typename:int
-mem	nalloc.c	/^	char *mem;$/;"	m	struct:Block	typeref:typename:char *	file:
 mmem	shadosh.h	/^#define mmem(/;"	d
-n	nalloc.c	/^	Block *n;$/;"	m	struct:Block	typeref:typename:Block *	file:
 n	shadosh.h	/^        Node *n;$/;"	m	union:Node::__anon5cf01dc5020a	typeref:typename:Node *
-nalloc	nalloc.c	/^extern void *nalloc(size_t n) {$/;"	f	typeref:typename:void *
 nalnew	shadosh.h	/^#define nalnew(/;"	d
 ndAND	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	e	enum:node_e
 ndArgs	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	e	enum:node_e
@@ -278,9 +275,7 @@ ndOR	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndC
 ndPipe	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	e	enum:node_e
 ndWord	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	e	enum:node_e
 new_node	node.c	/^extern Node* new_node(enum node_e nt, ...) {$/;"	f	typeref:typename:Node *
-newblock	nalloc.c	/^extern Block *newblock() {$/;"	f	typeref:typename:Block *
 next	shadosh.h	/^    Wordlist *next;$/;"	m	struct:Wordlist	typeref:typename:Wordlist *
-nfree	nalloc.c	/^extern void nfree() {$/;"	f	typeref:typename:void
 node_e	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	g
 node_e	shadosh.h	/^typedef enum node_e { ndPipe, ndArgs, ndBody, ndIf, ndElse, ndCompound, ndBasic, ndOR, ndAND, nd/;"	t	typeref:enum:node_e
 nt	shadosh.h	/^    node_e nt;$/;"	m	struct:Node	typeref:typename:node_e
@@ -288,28 +283,24 @@ offsetof	shadosh.h	/^#define offsetof(/;"	d
 print	list.c	/^void print(Wordlist **head_ref) {$/;"	f	typeref:typename:void
 prompt	shadosh.c	/^ssize_t prompt(const char* prompt, char* in){\/\/, size_t *in_len) {$/;"	f	typeref:typename:ssize_t
 r	shadosh.h	/^    int l, r;$/;"	m	struct:Pipe	typeref:typename:int
-restoreblock	nalloc.c	/^extern void restoreblock(Block *old) {$/;"	f	typeref:typename:void
 shadosh	Makefile	/^shadosh: $(OBJ)$/;"	t
 shadosh	parse.y	/^shadosh    : cmd end        { head = NULL; YYACCEPT; }$/;"	l
 show_dir	shadosh.c	/^void show_dir() {$/;"	f	typeref:typename:void
-size	nalloc.c	/^	size_t used, size;$/;"	m	struct:Block	typeref:typename:size_t	file:
 stringify	list.c	/^char *stringify(char **arr, int len) {$/;"	f	typeref:typename:char *
-ul	nalloc.c	/^} *fl, *ul;$/;"	v	typeref:struct:Block **
 un	shadosh.h	/^    } *un;$/;"	m	struct:Node	typeref:union:Node::__anon5cf01dc5020a *
 uninstall	Makefile	/^uninstall:$/;"	t
 unput	lex.yy.c	/^#define unput(/;"	d	file:
-used	nalloc.c	/^	size_t used, size;$/;"	m	struct:Block	typeref:typename:size_t	file:
 w	shadosh.h	/^        char *w;$/;"	m	union:Node::__anon5cf01dc5020a	typeref:typename:char *
 w	y.tab.c	/^    char *w, c;$/;"	m	union:YYSTYPE	typeref:typename:char *	file:
 wl	y.tab.c	/^    Wordlist *wl;$/;"	m	union:YYSTYPE	typeref:typename:Wordlist *	file:
 word	parse.y	/^word       : WORD                   { $$ = append(&head, $1); print(&head); }$/;"	l
 word	shadosh.h	/^    char *word;$/;"	m	struct:Wordlist	typeref:typename:char *
 y.tab.c	Makefile	/^y.tab.c: parse.y$/;"	t
-yy_accept	lex.yy.c	/^static const flex_int16_t yy_accept[41] =$/;"	v	typeref:typename:const flex_int16_t[41]	file:
+yy_accept	lex.yy.c	/^static const flex_int16_t yy_accept[51] =$/;"	v	typeref:typename:const flex_int16_t[51]	file:
 yy_act	lex.yy.c	/^	int yy_act;$/;"	v	typeref:typename:int
 yy_amount_of_matched_text	lex.yy.c	/^		int yy_amount_of_matched_text = (int) (yy_cp - (yytext_ptr)) - 1;$/;"	v	typeref:typename:int
 yy_at_bol	lex.yy.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	typeref:typename:int	file:
-yy_base	lex.yy.c	/^static const flex_int16_t yy_base[49] =$/;"	v	typeref:typename:const flex_int16_t[49]	file:
+yy_base	lex.yy.c	/^static const flex_int16_t yy_base[59] =$/;"	v	typeref:typename:const flex_int16_t[59]	file:
 yy_bp	lex.yy.c	/^	char *yy_cp, *yy_bp;$/;"	v	typeref:typename:char **
 yy_bs_column	lex.yy.c	/^    int yy_bs_column; \/**< The column count. *\/$/;"	m	struct:yy_buffer_state	typeref:typename:int	file:
 yy_bs_lineno	lex.yy.c	/^    int yy_bs_lineno; \/**< The line count. *\/$/;"	m	struct:yy_buffer_state	typeref:typename:int	file:
@@ -323,11 +314,11 @@ yy_buffer_status	lex.yy.c	/^	int yy_buffer_status;$/;"	m	struct:yy_buffer_state	
 yy_c	lex.yy.c	/^			YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;$/;"	v	typeref:typename:YY_CHAR
 yy_c_buf_p	lex.yy.c	/^static char *yy_c_buf_p = NULL;$/;"	v	typeref:typename:char *	file:
 yy_ch_buf	lex.yy.c	/^	char *yy_ch_buf;		\/* input buffer *\/$/;"	m	struct:yy_buffer_state	typeref:typename:char *	file:
-yy_chk	lex.yy.c	/^static const flex_int16_t yy_chk[107] =$/;"	v	typeref:typename:const flex_int16_t[107]	file:
+yy_chk	lex.yy.c	/^static const flex_int16_t yy_chk[126] =$/;"	v	typeref:typename:const flex_int16_t[126]	file:
 yy_cp	lex.yy.c	/^	char *yy_cp, *yy_bp;$/;"	v	typeref:typename:char *
 yy_create_buffer	lex.yy.c	/^    YY_BUFFER_STATE yy_create_buffer  (FILE * file, int  size )$/;"	f	typeref:typename:YY_BUFFER_STATE
 yy_current_state	lex.yy.c	/^	yy_state_type yy_current_state;$/;"	v	typeref:typename:yy_state_type
-yy_def	lex.yy.c	/^static const flex_int16_t yy_def[49] =$/;"	v	typeref:typename:const flex_int16_t[49]	file:
+yy_def	lex.yy.c	/^static const flex_int16_t yy_def[59] =$/;"	v	typeref:typename:const flex_int16_t[59]	file:
 yy_delete_buffer	lex.yy.c	/^    void yy_delete_buffer (YY_BUFFER_STATE  b )$/;"	f	typeref:typename:void
 yy_did_buffer_switch_on_eof	lex.yy.c	/^static int yy_did_buffer_switch_on_eof;$/;"	v	typeref:typename:int	file:
 yy_ec	lex.yy.c	/^static const YY_CHAR yy_ec[256] =$/;"	v	typeref:typename:const YY_CHAR[256]	file:
@@ -349,15 +340,15 @@ yy_is_our_buffer	lex.yy.c	/^	int yy_is_our_buffer;$/;"	m	struct:yy_buffer_state	
 yy_last_accepting_cpos	lex.yy.c	/^static char *yy_last_accepting_cpos;$/;"	v	typeref:typename:char *	file:
 yy_last_accepting_state	lex.yy.c	/^static yy_state_type yy_last_accepting_state;$/;"	v	typeref:typename:yy_state_type	file:
 yy_load_buffer_state	lex.yy.c	/^static void yy_load_buffer_state  (void)$/;"	f	typeref:typename:void	file:
-yy_meta	lex.yy.c	/^static const YY_CHAR yy_meta[23] =$/;"	v	typeref:typename:const YY_CHAR[23]	file:
+yy_meta	lex.yy.c	/^static const YY_CHAR yy_meta[28] =$/;"	v	typeref:typename:const YY_CHAR[28]	file:
 yy_n_chars	lex.yy.c	/^	int yy_n_chars;$/;"	m	struct:yy_buffer_state	typeref:typename:int	file:
 yy_n_chars	lex.yy.c	/^static int yy_n_chars;		\/* number of characters read into yy_ch_buf *\/$/;"	v	typeref:typename:int	file:
 yy_new_buffer	lex.yy.c	/^#define yy_new_buffer /;"	d	file:
 yy_next_state	lex.yy.c	/^			yy_state_type yy_next_state;$/;"	v	typeref:typename:yy_state_type
 yy_nxt	lex.yy.c	/^	flex_int32_t yy_nxt;$/;"	m	struct:yy_trans_info	typeref:typename:flex_int32_t	file:
-yy_nxt	lex.yy.c	/^static const flex_int16_t yy_nxt[107] =$/;"	v	typeref:typename:const flex_int16_t[107]	file:
+yy_nxt	lex.yy.c	/^static const flex_int16_t yy_nxt[126] =$/;"	v	typeref:typename:const flex_int16_t[126]	file:
 yy_reduce_print	y.tab.c	/^yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp,$/;"	f	typeref:typename:void	file:
-yy_rule_can_match_eol	lex.yy.c	/^static const flex_int32_t yy_rule_can_match_eol[11] =$/;"	v	typeref:typename:const flex_int32_t[11]	file:
+yy_rule_can_match_eol	lex.yy.c	/^static const flex_int32_t yy_rule_can_match_eol[13] =$/;"	v	typeref:typename:const flex_int32_t[13]	file:
 yy_scan_buffer	lex.yy.c	/^YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )$/;"	f	typeref:typename:YY_BUFFER_STATE
 yy_scan_bytes	lex.yy.c	/^YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )$/;"	f	typeref:typename:YY_BUFFER_STATE
 yy_scan_string	lex.yy.c	/^YY_BUFFER_STATE yy_scan_string (const char * yystr )$/;"	f	typeref:typename:YY_BUFFER_STATE

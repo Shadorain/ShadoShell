@@ -44,7 +44,7 @@ struct Wordlist {
 
 // Defines
 #define home getenv("HOME")
-#define hist_file "/.shado_hist"
+#define hist_file "/home/shadow/.shado_hist"
 #define EOF (-1)
 #define MAXLEN 1024
 #define EXIT_STATUS 0
@@ -74,3 +74,7 @@ char *stringify(char **arr, int len);
 
 // exec.c
 extern int exec_cmd(char **args);
+
+// history.c
+int hist_write(char **line);
+int del_hist();

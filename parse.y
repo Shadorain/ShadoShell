@@ -13,7 +13,7 @@ int yylex();
 Wordlist *head;
 %}
 
-%token EXIT_CMD END
+%token EXIT_CMD DEL_HIST END
 
 // YACC: Definitions
 %union {
@@ -36,20 +36,18 @@ end        : END            { YYABORT; }
            | '\n'           { YYABORT; }
            ;
 
-word       : WORD                   { $$ = append(&head, $1); print(&head); }
-           | word WORD              { $$ = append(&head, $2); print(&head); }
+word       : WORD                   { $$ = append(&head, $1); }//print(&head); }
+           | word WORD              { $$ = append(&head, $2); }//print(&head); }
            ;
 
 cmd        : /* empty */ { $$ = NULL; }
            | word
-           | EXIT_CMD               { printf("TEST\n"); exit(0); }
+           | DEL_HIST               { if(del_hist()==0) printf("Successfully cleared history!\n"); }
+           | EXIT_CMD               { exit(0); }
            ;
 %%
-
 int main () { // int argc, char* argv[]) {
-    FILE *hist = NULL;
-    char **line, *str, *hf = strcat(home, hist_file);
-    int len = 0;
+    char **line;
 
     init_sh();
     while(1) {
@@ -57,19 +55,10 @@ int main () { // int argc, char* argv[]) {
         line = arrayify(&head);
         clean_list(&head);
 
-        while (line[++len] != NULL);
-        printf("LEN: %d\n",len);
-        str = stringify(line, len);
-
-        hist = fopen(hf,"a");
-        if(hist == NULL)
-            printf("Failed to write to history file: %s\n", hf);
-        else {
-            fputs(str,hist);
-            fclose(hist);
-        }
-
-        exec_cmd(line);
+        int status = exec_cmd(line);
+        if(status == 0)
+            hist_write(line);
+        free(line);
     }
     return EXIT_STATUS;
 }
