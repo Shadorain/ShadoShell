@@ -11,9 +11,11 @@ int yylex();
 
 // Declarations
 Wordlist *head;
+int symbol = 0;
 %}
 
 %token EXIT_CMD DEL_HIST END
+%left ';' '&'
 
 // YACC: Definitions
 %union {
@@ -22,7 +24,7 @@ Wordlist *head;
 }
 
 %token <w> WORD
-%type <wl> end cmd word
+%type <wl> end cmd word sa_cmd
 
 %start shadosh
 %%
@@ -36,12 +38,18 @@ end        : END            { YYABORT; }
            | '\n'           { YYABORT; }
            ;
 
+sa_cmd     : WORD '&' { symbol = 1; }
+           | WORD ';' { symbol = 1; }
+           | sa_cmd WORD
+           ;
+
 word       : WORD                   { $$ = append(&head, $1); }//print(&head); }
            | word WORD              { $$ = append(&head, $2); }//print(&head); }
            ;
 
-cmd        : /* empty */ { $$ = NULL; }
+cmd        : /* empty */            { $$ = NULL; }
            | word
+           | sa_cmd
            | DEL_HIST               { if(del_hist()==0) printf("Successfully cleared history!\n"); }
            | EXIT_CMD               { exit(0); }
            ;

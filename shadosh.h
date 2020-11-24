@@ -39,6 +39,7 @@ struct Pipe {
 
 struct Wordlist {
     char *word;
+    char op[2];
     Wordlist *next;
 };
 
