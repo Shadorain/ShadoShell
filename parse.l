@@ -14,8 +14,8 @@ int yylex();
 "//"[ -~]+            { ; }
 "--"[ -~]+            { ; }
 [!@#$%^&*()_+-={}[]|:;`~<>,.?\/]*    { //yylval.c = yytext[0]
-                                     ; printf("SYMBOL\n")
-                                     ; return yytext[0]; }
+                                     /* ; printf("SYMBOL\n") */
+                                     return yytext[0]; }
 [^ \t\r\n\v\f]+       { yylval.w = strdup(yytext)
                       ; return WORD; }
 [ \t]*                { ; }

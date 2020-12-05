@@ -10,7 +10,7 @@ void yyerror(char *s);
 int yylex();
 
 // Declarations
-Wordlist *head;
+Wordlist *head,*buf;
 int symbol = 0;
 %}
 
@@ -38,9 +38,9 @@ end        : END            { YYABORT; }
            | '\n'           { YYABORT; }
            ;
 
-sa_cmd     : WORD '&' { symbol = 1; }
-           | WORD ';' { symbol = 1; }
-           | sa_cmd WORD
+sa_cmd     : word '&' { char **line = arrayify(&head); exec_cmd(line); buf = head; head = NULL; }
+           | word ';' { char **line = arrayify(&head); exec_cmd(line); buf = head; head = NULL; }
+           | sa_cmd word
            ;
 
 word       : WORD                   { $$ = append(&head, $1); }//print(&head); }
